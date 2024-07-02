@@ -41,6 +41,7 @@ esami falliti e segnalate al comitato etico di facoltà.
 
 Specifiche
 Feature comuni
+
 Minimo
 - Implementare Bulbasaur, Charmander, Squirtle
 - Implementare statistiche base dei pokémon
@@ -48,10 +49,12 @@ Minimo
 per Bulbasaur, growl e scratch per Charmander, tail whip e tackle per Squirtle)
 - Implementare le schermate “start”, battaglia, cambio pokémon, “you win”, e “game over”
 - Adottare Java Swing o JavaFX per la GUI
+
 Tipico
 - Implementare tutte le mosse dei Pokémon scelti (si legga la sezione “risorse”), rispettando le
 loro meccaniche di funzionamento dipendenti dai loro tipi, ma ignorando i cambiamenti di
 stato come avvelenamento, stordimento, etc.
+
 Extra
 - Set crescita:
 - Implementare punti individuali e punti allenamento che migliorino le capacità dei
@@ -68,6 +71,7 @@ apprendere la nuova dimenticandone una delle precedenti a scelta)
 - Implementare unit test del backend
 - Creare un Jar eseguibile
 Feature - sviluppatore singolo
+
 Single player mode
 
 Minimo
@@ -77,6 +81,7 @@ Tipico
 riceve 10 PS di danno nella prima lotta, partirà con 10 PS in meno nella seguente, etc.)
 - Implementare una schermata leaderboard che mantenga i 10 record migliori (numero di
 lotte vinte in serie)
+
 Extra
 - Set botness:
 - Implementare strategie per un comportamento “intelligente” degli avversari NPC, per
@@ -87,18 +92,22 @@ supportare un’esperienza di gioco appagante
 alternativa alla GUI con un’opzione al lancio dell’applicazione
 
 Feature - due sviluppatori
+
 Two-player mode
+
 Minimo
 - Permettere la lotta tra due giocatori umani, al meglio delle 3 lotte; lo stato dei Pokémon deve
 venire ripristinato alla partita successiva (e.g., se un Pokémon riceve 10 PS di danno nella
 prima lotta, partirà con 10 PS in meno nella seguente, etc.)
 - Sviluppare usando un repository git privato su github, bitbucket, o altra piattaforma
 analoga
+
 Tipico
 - Implementare la gestione di profili utente, nickname, conteggio delle partite giocate, vinte, e
 perse
 - Implementare il salvataggio su file dei profili utente, ed il loro caricamento nella
 schermata “start”
+
 Extra
 - Implementare il set crescita di feature comuni; aggiungere una modalità di gioco nella quale i
 giocatori possono selezionare fino a 6 Pokémon, da allenare in lotte future, salvabili e
