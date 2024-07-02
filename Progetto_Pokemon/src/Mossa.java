@@ -7,7 +7,7 @@ public class Mossa{
 	String tipo; // fisico, speciale, stato
 	int PP; // numero massimo di volte che quella mossa può essere usata, non si resetta dopo una lotta
 	int precisioneMossa;
-	boolean offesa; 
+	boolean offesa; // serve per indicare se la mossa è di tipo offensivo (true) o di tipo stato (false), così posso fare un controllo nel main e chiamare la sottoclasse attacco o quella di stato a seconda dell'evenienza
 		
 	public boolean noPP(Mossa m1) {
 		boolean b1 = false;
