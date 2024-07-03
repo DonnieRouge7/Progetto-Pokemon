@@ -7,7 +7,7 @@ public class Pokemon {
 	private String nome;
 	private int xp;
 	private int livello; 
-	private int hp; 
+	private double hp; 
 	private int attaccoPokemon;
 	private int difesaPokemon; 
 	private int attaccoSpecialePokemon;
@@ -46,10 +46,10 @@ public class Pokemon {
 	public void setLivello(int livello) {
 		this.livello = livello;
 	}
-	public int getHp() {
+	public double getHp() {
 		return hp;
 	}
-	public void setHp(int hp) {
+	public void setHp(double hp) {
 		this.hp = hp;
 	}
 	public int getAttaccoPokemon() {

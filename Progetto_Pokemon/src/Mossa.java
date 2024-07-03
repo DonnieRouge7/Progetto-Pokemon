@@ -12,21 +12,21 @@ public class Mossa{
 	public boolean noPP(Mossa m1) {
 		boolean b1 = false;
 		while(m1.PP == 0) {
-			System.out.println("hai finito i PP");
+			System.out.println("hai finito i PP"); 
 			b1 = false;
 			}
 		b1 = true; 
 	return b1; 
 	}
 	
-	public int generaNumeroCasuale(int a, int b) {
-		Random numeroCasuale = new Random(); 
-		return numeroCasuale.nextInt((b - a) + 1) + a;
+	public int generaInteroCasuale(int a, int b) {
+		Random interoCasuale = new Random(); 
+		return interoCasuale.nextInt((b - a) + 1) + a;
 	}
 	
-	public double generaNumeroCasuale(double a, double b) {
-		Random numeroCasuale = new Random();
-		return numeroCasuale.nextDouble((b - a) + 1) + a;
+	public double generaDoubleCasuale(double a, double b) {
+		Random doubleCasuale = new Random();
+		return doubleCasuale.nextDouble((b - a) + 1) + a;
 	}
 }
 
