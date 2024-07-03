@@ -127,7 +127,7 @@ public class Pokemon {
 	}
 	
 	public void subisciAttacco(Mossa[] mosse) {
-	mamma come subisco
+
 	}
 	
 }

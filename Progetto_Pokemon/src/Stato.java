@@ -50,8 +50,8 @@ public class Stato extends Mossa{
 	public void colpoASegno(Pokemon p1, Pokemon p2, Stato s1) {
 		int precisione = precisioneMossa;
 		double elusione = p2.getElusione();
-		int a = generaNumeroCasuale(0, 100);
-		double b = generaNumeroCasuale(0, 100);
+		int a = generaInteroCasuale(0, 100);
+		double b = generaDoubleCasuale(0, 100);
 		if(b >= elusione) {
 			if(a >= precisione) {
 				System.out.println("l'attacco fallisce");
