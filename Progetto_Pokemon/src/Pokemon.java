@@ -16,6 +16,21 @@ public class Pokemon {
 	private double elusione = 30; 
 	private Mossa[] mosse = new Mossa[4];
 	
+	public Pokemon(String codice, int elemento1, int elemento2, String nome, int xp, int livello, double hp, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon) {
+		this.codice = codice;
+		this.elemento1 = elemento1;
+		this.elemento2 = elemento2;
+		this.nome = nome;
+		this.xp = xp;
+		this.livello = livello;
+		this.hp = hp;
+		this.attaccoPokemon = attaccoPokemon;
+		this.difesaPokemon = difesaPokemon;
+		this.attaccoSpecialePokemon = attaccoSpecialePokemon;
+		this.difesaSpecialePokemon = difesaSpecialePokemon;
+		this.velocitàPokemon = velocitàPokemon;
+	}
+	
 	public String getCodice() {
 		return codice;
 	}
@@ -113,16 +128,16 @@ public class Pokemon {
 		
 		// aggiungere ricerca mosse da imparare 
 	}
-	public void esausto(Pokemon p1, Pokemon p2) {
+	public void esausto(Pokemon p1) {
 		if(p1.hp <= 0) {
 			System.out.println(p1.nome + " è esausto");
+		}else {
+			System.out.println(p1.nome + " è ancora vivo");
 		}
-		if(p2.hp <= 0) {
-			System.out.println(p2.nome + " è esausto");
-		}
+		
 	}
 	
-	public void attacca(Mossa[] mosse) {
+	public void attacca() {
 		
 	}
 	
