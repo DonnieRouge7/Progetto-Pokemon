@@ -2,8 +2,8 @@
 public class Pokemon {
 
 	private String codice;
-	private int elemento1;
-	private int elemento2; 
+	private int tipo1; // ogni tipo ha un codice di riferimento nel file "Modificatore_Mosse"
+	private int tipo2; // se è -1 significa che non ha un secondo tipo 
 	private String nome;
 	private int xp;
 	private int livello; 
@@ -13,13 +13,13 @@ public class Pokemon {
 	private int attaccoSpecialePokemon;
 	private int difesaSpecialePokemon;
 	private int velocitàPokemon; 
-	private double elusione = 30; 
+	private double elusionePokemon = 30; 
 	private Mossa[] mosse = new Mossa[4];
 	
-	public Pokemon(String codice, int elemento1, int elemento2, String nome, int xp, int livello, double hp, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon) {
+	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon, double elusionePokemon) {
 		this.codice = codice;
-		this.elemento1 = elemento1;
-		this.elemento2 = elemento2;
+		this.tipo1 = tipo1;
+		this.tipo2 = tipo2;
 		this.nome = nome;
 		this.xp = xp;
 		this.livello = livello;
@@ -29,6 +29,7 @@ public class Pokemon {
 		this.attaccoSpecialePokemon = attaccoSpecialePokemon;
 		this.difesaSpecialePokemon = difesaSpecialePokemon;
 		this.velocitàPokemon = velocitàPokemon;
+		this.elusionePokemon = 30;
 	}
 	
 	public String getCodice() {
@@ -37,17 +38,17 @@ public class Pokemon {
 	public void setCodice(String codice) {
 		this.codice = codice;
 	}
-	public int getElemento1() {
-		return elemento1;
+	public int getTipo1() {
+		return tipo1;
 	}
-	public void setTipo1(int elemento1) {
-		this.elemento1 = elemento1;
+	public void setTipo1(int tipo1) {
+		this.tipo1 = tipo1;
 	}
-	public int getElemento2() {
-		return elemento2;
+	public int getTipo2() {
+		return tipo2;
 	}
-	public void setTipo2(int elemento2) {
-		this.elemento2 = elemento2;
+	public void setTipo2(int tipo2) {
+		this.tipo2 = tipo2;
 	}
 	public String getNome() {
 		return nome;
@@ -98,10 +99,10 @@ public class Pokemon {
 		this.velocitàPokemon = velocitàPokemon;
 	}
 	public double getElusione() {
-		return elusione;
+		return elusionePokemon;
 	}
-	public void setElusione(double elusione) {
-		this.elusione = elusione;
+	public void setElusione(double elusionePokemon) {
+		this.elusionePokemon = elusionePokemon;
 	}
 	public Mossa[] getMosse() {
 		return mosse;
@@ -122,7 +123,7 @@ public class Pokemon {
 			this.difesaPokemon += 3;
 			this.difesaSpecialePokemon += 3;
 			this.velocitàPokemon += 3;
-			this.elusione += 3;
+			this.elusionePokemon += 3;
 			this.hp += 3;
 		}
 		
@@ -137,7 +138,7 @@ public class Pokemon {
 		
 	}
 	
-	public void attacca() {
+	public void attacca(Pokemon p1, Pokemon p2) {
 		
 	}
 	

@@ -3,25 +3,25 @@ public class Attacco extends Mossa {
 	int potenzaMossa;
 	int precisioneMossa;
 	double[][] efficacia = {
-		    //  No   Fu  Ac  El  Er  Gh  Lo  Ve  Te  Vo  Ps  Co  Ro  Sp  Dr  Bu  Ac
-		    { 1,   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0.5, 0,  1,  1,  0.5},  // Normale
-		    { 1,  0.5, 2,  1,  0.5, 2,  1,  1,  2,  1,  1,  2,  0.5, 1,  0.5, 1,  2},  // Fuoco
-		    { 1,   0.5, 0.5, 1,  2,  1,  1,  1,  1,  1,  1,  1,  2,  1,  0.5, 1,  1},  // Acqua
-		    { 1,   1,  2,  0.5, 0.5, 1,  1,  1,  0,  2,  1,  1,  1,  1,  0.5, 1,  1},  // Elettrico
-		    { 1,   2,  0.5, 1,  0.5, 1,  1,  0.5, 2,  0.5, 1,  0.5, 2,  1,  0.5, 1,  0.5},  // Erba
-		    { 1,   1,  1,  1,  2,  0.5, 1,  1,  2,  2,  1,  1,  1,  1,  2,  1,  0.5},  // Ghiaccio
-		    { 2,   1,  1,  1,  1,  2,  1,  0.5, 1,  0.5, 0.5, 0.5, 2,  0,  1,  2,  2},  // Lotta
-		    { 1,   1,  1,  1,  2,  1,  1,  0.5, 0.5, 1,  1,  0.5, 0.5, 0.5, 1,  1,  0},  // Veleno
-		    { 1,   2,  1,  2,  0.5, 1,  1,  2,  1,  0,  1,  0.5, 2,  1,  1,  1,  2},  // Terra
-		    { 1,   1,  1,  0.5, 2,  1,  2,  1,  1,  1,  1,  2,  0.5, 1,  1,  1,  0.5},  // Volante
-		    { 1,   1,  1,  1,  1,  1,  2,  2,  1,  1,  0.5, 1,  1,  1,  1,  0,  0.5},  // Psico
-		    { 1,   0.5, 1,  1,  2,  1,  0.5, 1,  1,  0.5, 2,  1,  1,  0.5, 1,  2,  0.5},  // Coleottero
-		    { 1,   2,  1,  1,  1,  2,  0.5, 1,  0.5, 2,  1,  2,  1,  1,  1,  1,  0.5},  // Roccia
-		    { 0,   1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  1,  1,  2,  1,  0.5, 1},  // Spettro
-		    { 1,   1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  1,  0.5},  // Drago
-		    { 1,   1,  1,  1,  1,  1,  0.5, 1,  1,  1,  2,  1,  1,  2,  1,  0.5, 0.5},  // Buio
-		    { 1,   0.5, 0.5, 0.5, 1,  2,  1,  1,  1,  1,  1,  1,  2,  1,  2,  1,  0.5}   // Acciaio
-		};
+			//                   NOR, FUO, ACQ, ELE, ERB, GHI, LOT, VEL, TER, VOL, PSI, COL, ROC, SPE, DRA, BUI, ACC
+            /* Normale  */      {  1,  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,  0.5,  0,   1,   1,  0.5 },
+            /* Fuoco    */      {  1, 0.5, 0.5,  1,   2,   2,   1,   1,   1,   1,   1,   2,  0.5,  1,  0.5,  1,   2  },
+            /* Acqua    */      {  1,  2,  0.5,  1,  0.5,  1,   1,   1,   2,   1,   1,   1,   2,   1,  0.5,  1,   1  },
+            /* Elettro  */      {  1,  1,   2,  0.5, 0.5,  1,   1,   1,   0,   2,   1,   1,   1,   1,  0.5,  1,   1  },
+            /* Erba     */      {  1, 0.5,  2,   1,  0.5,  1,   1,  0.5,  2,  0.5,  1,  0.5,  2,   1,  0.5,  1,  0.5 },
+            /* Ghiaccio */      {  1, 0.5, 0.5,  1,   2,  0.5,  2,   1,   2,   2,   1,   1,   1,   1,   2,   1,  0.5 },
+            /* Lotta    */      {  2,  1,   1,   1,   1,   1,   1,  0.5,  1,  0.5, 0.5, 0.5,  2,   0,   1,  0.5,  2  },
+            /* Veleno   */      {  1,  1,   1,   1,   2,   1,   1,  0.5, 0.5,  1,   1,  0.5, 0.5, 0.5,  1,   1,   0  },
+            /* Terra    */      {  1,  2,   1,   2,  0.5,  1,   1,   2,   1,   0,   1,   1,   2,   1,   1,   1,   2  },
+            /* Volante  */      {  1,  1,   1,  0.5,  2,   1,   2,   1,   1,   1,   1,   2,  0.5,  1,   1,   1,  0.5 },
+            /* Psico    */      {  1,  1,   1,   1,   1,   1,   2,   2,   1,   1,  0.5,  1,   1,   1,   1,   0,  0.5 },
+            /* Coleottero */    {  1, 0.5,  1,   1,   2,   1,  0.5, 0.5,  1,  0.5,  2,   1,   1,  0.5,  1,  0.5, 0.5 },
+            /* Roccia   */      {  1,  2,   1,   1,   1,   2,  0.5,  1,  0.5,  2,   1,   2,   1,   1,   1,   1,  0.5 },
+            /* Spettro  */      {  0,  1,   1,   1,   1,   1,   1,   1,   1,   1,   2,   1,   1,   2,   1,  0.5,  1  },
+            /* Drago    */      {  1,  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   2,   1,  0.5 },
+            /* Buio     */      {  1,  1,   1,   1,   1,   1,   2,   1,   1,   1,   2,   1,   1,   2,   1,  0.5, 0.5 },
+            /* Acciaio  */      {  1, 0.5,  1,  0.5,  1,   2,   1,   1,   1,   1,   1,   1,   2,   1,   1,   1,  0.5 }
+        };
 	
 	public double Danno(Pokemon p1, Pokemon p2, Attacco a1) {
 		double danno = 0;
@@ -42,10 +42,10 @@ public class Attacco extends Mossa {
 	
 	public double modificatore(Pokemon p2, Attacco a1) {
 		double modificatore = 1; 
-		if(p2.getElemento2() != -1) { // nel costruttore del Pokemon, se non c'è un secondo tipo, il valore è -1
-			modificatore *= efficacia[a1.elementoMossa][p2.getElemento2()]; 
+		if(p2.getTipo2() != -1) { // nel costruttore del Pokemon, se non c'è un secondo tipo, il valore è -1
+			modificatore *= efficacia[a1.elementoMossa][p2.getTipo2()]; 
 		}
-		modificatore *= efficacia[a1.elementoMossa][p2.getElemento1()];
+		modificatore *= efficacia[a1.elementoMossa][p2.getTipo1()];
 	return modificatore;
 	}
 	
