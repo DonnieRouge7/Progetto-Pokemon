@@ -118,13 +118,13 @@ public class Pokemon {
 	}
 	public void saliDiLivello() {
 		if(xp >= (livello*10)) {
-			this.attaccoPokemon += 3;
-			this.attaccoSpecialePokemon += 3;
-			this.difesaPokemon += 3;
-			this.difesaSpecialePokemon += 3;
-			this.velocitàPokemon += 3;
-			this.elusionePokemon += 3;
-			this.hp += 3;
+			setAttaccoPokemon(attaccoPokemon + 3);
+			setAttaccoSpecialePokemon(attaccoSpecialePokemon + 3);
+			setDifesaPokemon(difesaPokemon + 3);
+			setDifesaSpecialePokemon(difesaSpecialePokemon + 3);
+			setVelocitàPokemon(velocitàPokemon + 3);
+			setElusione(elusionePokemon + 3);
+			setHp(hp + 3);
 		}
 		
 		// aggiungere ricerca mosse da imparare 
