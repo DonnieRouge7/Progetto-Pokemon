@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Pokemon {
 
@@ -14,7 +16,7 @@ public class Pokemon {
 	private int difesaSpecialePokemon;
 	private int velocitàPokemon; 
 	private double elusionePokemon = 30; 
-	private Mossa[] mosse = new Mossa[4];
+	private Mossa[] mosse = new Mossa[2];
 	
 	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon, double elusionePokemon) {
 		this.codice = codice;
@@ -32,6 +34,15 @@ public class Pokemon {
 		this.elusionePokemon = 30;
 	}
 	
+	@Override
+	public String toString() {
+		return "Pokemon [codice=" + codice + ", tipo1=" + tipo1 + ", tipo2=" + tipo2 + ", nome=" + nome + ", xp=" + xp
+				+ ", livello=" + livello + ", hp=" + hp + ", attaccoPokemon=" + attaccoPokemon + ", difesaPokemon="
+				+ difesaPokemon + ", attaccoSpecialePokemon=" + attaccoSpecialePokemon + ", difesaSpecialePokemon="
+				+ difesaSpecialePokemon + ", velocitàPokemon=" + velocitàPokemon + ", elusionePokemon="
+				+ elusionePokemon + ", mosse=" + Arrays.toString(mosse) + "]";
+	}
+
 	public String getCodice() {
 		return codice;
 	}
@@ -129,21 +140,34 @@ public class Pokemon {
 		
 		// aggiungere ricerca mosse da imparare 
 	}
-	public void esausto(Pokemon p1) {
-		if(p1.hp <= 0) {
-			System.out.println(p1.nome + " è esausto");
+	
+	public void usaMossa(Pokemon difensore, MossaAttacco mossa) {
+		System.out.println(nome + " usa " + mossa.getNomeMossa());
+		mossa.attacca(this, difensore, mossa);
+				
+	}
+	
+	public void usaMossa(Pokemon difensore, MossaStato mossa) {
+		System.out.println(nome + " usa " + mossa.getNomeMossa());
+		mossa.attacca(this, difensore, mossa);
+				
+	}
+	
+	public void subisciDanno(Pokemon difensore, int danno) {
+		difensore.setHp(difensore.getHp() - danno);
+		if(difensore.getHp() <= 0) {
+			difensore.esausto(difensore);
 		}else {
-			System.out.println(p1.nome + " è ancora vivo");
+			System.out.println(difensore.getNome() + " ora ha " + difensore.getHp() + "HP: ");
 		}
-		
 	}
 	
-	public void attacca(Pokemon p1, Pokemon p2) {
-		
-	}
-	
-	public void subisciAttacco(Mossa[] mosse) {
-
+	public boolean esausto(Pokemon difensore) {
+		boolean esausto = false;
+		difensore.setHp(0);
+		System.out.println(this.getNome() + " è esausto");
+		esausto = true;
+		return esausto;
 	}
 	
 }

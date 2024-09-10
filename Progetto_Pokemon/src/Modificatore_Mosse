@@ -1,17 +1,37 @@
-Normale
-Fuoco
-Acqua
-Elettro
-Erba
-Ghiaccio
-Lotta
-Veleno
-Terra
-Volante
-Psico
-Coleottero 
-Roccia 
-Spettro 
-Drago 
-Buio 
-Acciaio 
+Normale 0
+Fuoco 1
+Acqua 2
+Elettro 3
+Erba 4
+Ghiaccio 5
+Lotta 6
+Veleno 7
+Terra 8
+Volante 9
+Psico 10
+Coleottero 11
+Roccia 12
+Spettro 13
+Drago 14
+Buio 15
+Acciaio 16
+
+public boolean noPP(Mossa m1) {
+		boolean b1 = false;
+		while(m1.PP == 0) {
+			System.out.println("hai finito i PP"); 
+			b1 = false;
+			}
+		b1 = true; 
+	return b1; 
+	}
+	
+	public int generaInteroCasuale(int a, int b) {
+		Random interoCasuale = new Random(); 
+		return interoCasuale.nextInt((b - a) + 1) + a;
+	}
+	
+	public double generaDoubleCasuale(double a, double b) {
+		Random doubleCasuale = new Random();
+		return doubleCasuale.nextDouble((b - a) + 1) + a;
+	}
