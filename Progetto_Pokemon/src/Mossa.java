@@ -16,16 +16,6 @@ public class Mossa{
 		this.precisioneMossa = precisioneMossa;
 	}
 	
-	public int generaInteroCasuale(int a, int b) {
-		Random interoCasuale = new Random(); 
-		return interoCasuale.nextInt((b - a) + 1) + a;
-	}
-	
-	public double generaDoubleCasuale(double a, double b) {
-		Random doubleCasuale = new Random();
-		return doubleCasuale.nextDouble((b - a) + 1) + a;
-	}
-
 	public String getNomeMossa() {
 		return nomeMossa;
 	}
@@ -68,13 +58,23 @@ public class Mossa{
 
 	public boolean noPP() {
 		boolean b1 = false;
-		if(this.PP == 0) {
+		if(getPP() <= 0) {
 			System.out.println("hai finito i PP"); 
-			b1 = false;
+			b1 = true;
 		}else {
-			b1 = true; 
+			b1 = false; 
 		}
 	return b1; 
+	}
+	
+	public int generaInteroCasuale(int a, int b) {
+		Random interoCasuale = new Random(); 
+		return interoCasuale.nextInt((b - a) + 1) + a;
+	}
+	
+	public double generaDoubleCasuale(double a, double b) {
+		Random doubleCasuale = new Random();
+		return doubleCasuale.nextDouble((b - a) + 1) + a;
 	}
 }
 

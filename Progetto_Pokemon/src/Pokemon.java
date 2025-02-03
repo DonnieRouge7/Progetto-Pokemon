@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+
 import java.util.Arrays;
 
 public class Pokemon {
@@ -18,8 +18,8 @@ public class Pokemon {
 	private double elusionePokemon = 30; 
 	private Mossa[] mosse = new Mossa[2];
 	
+	
 	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon, double elusionePokemon) {
-		this.codice = codice;
 		this.tipo1 = tipo1;
 		this.tipo2 = tipo2;
 		this.nome = nome;
@@ -129,6 +129,7 @@ public class Pokemon {
 	}
 	public void saliDiLivello() {
 		if(xp >= (livello*10)) {
+			setLivello(livello+1);
 			setAttaccoPokemon(attaccoPokemon + 3);
 			setAttaccoSpecialePokemon(attaccoSpecialePokemon + 3);
 			setDifesaPokemon(difesaPokemon + 3);
@@ -143,30 +144,33 @@ public class Pokemon {
 	
 	public void usaMossa(Pokemon difensore, MossaAttacco mossa) {
 		System.out.println(nome + " usa " + mossa.getNomeMossa());
-		mossa.attacca(this, difensore, mossa);
-				
+		mossa.noPP();
+		mossa.attaccaDanno(this, difensore);		
 	}
 	
 	public void usaMossa(Pokemon difensore, MossaStato mossa) {
 		System.out.println(nome + " usa " + mossa.getNomeMossa());
-		mossa.attacca(this, difensore, mossa);
-				
+		mossa.noPP();
+		mossa.attaccaStato(this, difensore);
 	}
 	
 	public void subisciDanno(Pokemon difensore, int danno) {
 		difensore.setHp(difensore.getHp() - danno);
-		if(difensore.getHp() <= 0) {
-			difensore.esausto(difensore);
+		if(difensore.esausto() == true) {
 		}else {
-			System.out.println(difensore.getNome() + " ora ha " + difensore.getHp() + "HP: ");
+			System.out.println(getNome() + " ha " + getHp() + " rimanenti");
 		}
 	}
 	
-	public boolean esausto(Pokemon difensore) {
+	public boolean esausto() {
 		boolean esausto = false;
-		difensore.setHp(0);
-		System.out.println(this.getNome() + " è esausto");
-		esausto = true;
+		if(getHp() <= 0) {
+			setHp(0);
+			System.out.println(getNome() + " è esausto");
+			esausto = true;
+		}else {
+			esausto = false;
+		}
 		return esausto;
 	}
 	

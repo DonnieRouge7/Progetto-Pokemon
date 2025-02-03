@@ -1,4 +1,3 @@
-import java.util.Random;
 
 public class MossaAttacco extends Mossa{
 	
@@ -10,7 +9,7 @@ public class MossaAttacco extends Mossa{
 	}
 
 	double[][] efficacia = {
-	     //                   	NOR, FUO, ACQ, ELE, ERB, GHI, LOT, VEL, TER, VOL, PSI, COL, ROC, SPE, DRA, BUI, ACC
+	     //                   	 NOR, FUO, ACQ, ELE, ERB, GHI, LOT, VEL, TER, VOL, PSI, COL, ROC, SPE, DRA, BUI, ACC
             /* Normale  */      {  1,  1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,  0.5,  0,   1,   1,  0.5 },
             /* Fuoco    */      {  1, 0.5, 0.5,  1,   2,   2,   1,   1,   1,   1,   1,   2,  0.5,  1,  0.5,  1,   2  },
             /* Acqua    */      {  1,  2,  0.5,  1,  0.5,  1,   1,   1,   2,   1,   1,   1,   2,   1,  0.5,  1,   1  },
@@ -35,40 +34,58 @@ public class MossaAttacco extends Mossa{
 		return super.noPP();
 	}
 
-	public void Danno(Pokemon attaccante, Pokemon difensore) { // da rivedere 
+	public void Danno(Pokemon attaccante, Pokemon difensore) { 
 		int danno = 0;
-		if(this.getTipo() == "speciale") {
-			danno = (int) (((this.potenzaMossa * attaccante.getAttaccoSpecialePokemon())/difensore.getDifesaSpecialePokemon())* modificatore(difensore));
-		}else if(this.getTipo() == "fisico"){
-			danno = (int) (((this.potenzaMossa * attaccante.getAttaccoPokemon())/difensore.getDifesaPokemon())* modificatore(difensore));
+		if(getTipo() == "speciale") {
+			danno = (int) (((potenzaMossa * attaccante.getAttaccoSpecialePokemon())/difensore.getDifesaSpecialePokemon())*modificatore(difensore));
+		}else if(getTipo() == "fisico"){
+			danno = (int) (((potenzaMossa * attaccante.getAttaccoPokemon())/difensore.getDifesaPokemon())* modificatore(difensore));
 		}
 		difensore.subisciDanno(difensore, danno);
-		this.setPP(this.getPP() - 1);
+		setPP(getPP() - 1);
 	}
 	
 	public double modificatore(Pokemon difensore) {
 		double modificatore = 1; 
 		if(difensore.getTipo2() != -1) { // nel costruttore del Pokemon, se non c'è un secondo tipo, il valore è -1
-			modificatore *= efficacia[this.getElementoMossa()][difensore.getTipo2()]; 
+			modificatore *= efficacia[getElementoMossa()][difensore.getTipo2()]; 
 		}
-		modificatore *= efficacia[this.getElementoMossa()][difensore.getTipo1()];
+		modificatore *= efficacia[getElementoMossa()][difensore.getTipo1()];
+		if(modificatore > 1) {
+			System.out.println("è superefficace");
+		}else if(modificatore < 1) {
+			System.out.println("non è molto efficace...");
+		}
 	return modificatore;
 	}
 	
-	public void attacca(Pokemon attaccante, Pokemon difensore, MossaAttacco mo1) {
-		int precisione = mo1.getPrecisioneMossa();
-		double elusione = difensore.getElusione();
-		int a = generaInteroCasuale(0, 255);
-		double b = generaDoubleCasuale(0, 100);
-		if(b >= elusione) {
-			if(a >= precisione) {
-				System.out.println("l'attacco fallisce");
-				mo1.setPP(mo1.getPP() - 1);
-			}else {
-				Danno(attaccante, difensore);
-			}
+//	public void attacca(Pokemon attaccante, Pokemon difensore) {
+//		int precisione = getPrecisioneMossa();
+//		double elusione = difensore.getElusione();
+//		int a = generaInteroCasuale(0, 255);
+//		double b = generaDoubleCasuale(0, 100);
+//		if(b >= elusione) {
+//			if(a >= precisione) {
+//				System.out.println("l'attacco fallisce");
+//				setPP(getPP() - 1);
+//			}else {
+//				Danno(attaccante, difensore);
+//			}
+//		}else {
+//			System.out.println(difensore.getNome() + " evita il colpo");
+//			this.setPP(this.getPP() - 1);
+//		}
+//	}
+	
+	public void attaccaDanno(Pokemon att, Pokemon dif) {
+		int precisione = getPrecisioneMossa();
+		double elusione = dif.getElusione();
+		int a = generaInteroCasuale(0, 100);
+		double probabilitaSuccesso = precisione / elusione;
+		if(probabilitaSuccesso < a) {
+			Danno(att, dif);
 		}else {
-			System.out.println(difensore.getNome() + " evita il colpo");
+			System.out.println(dif.getNome() + " evita il colpo");
 			this.setPP(this.getPP() - 1);
 		}
 	}

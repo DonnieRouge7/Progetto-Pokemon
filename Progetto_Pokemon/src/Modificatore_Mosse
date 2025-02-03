@@ -15,23 +15,3 @@ Spettro 13
 Drago 14
 Buio 15
 Acciaio 16
-
-public boolean noPP(Mossa m1) {
-		boolean b1 = false;
-		while(m1.PP == 0) {
-			System.out.println("hai finito i PP"); 
-			b1 = false;
-			}
-		b1 = true; 
-	return b1; 
-	}
-	
-	public int generaInteroCasuale(int a, int b) {
-		Random interoCasuale = new Random(); 
-		return interoCasuale.nextInt((b - a) + 1) + a;
-	}
-	
-	public double generaDoubleCasuale(double a, double b) {
-		Random doubleCasuale = new Random();
-		return doubleCasuale.nextDouble((b - a) + 1) + a;
-	}
