@@ -10,6 +10,9 @@ import javax.swing.border.*;
 public class SchermataLotta extends JPanel{
 	
  	private JFrame frame;
+ 	private JFrame lottaFrame;
+ 	
+ 	private Lotta lotta;
  	
  	private JLabel labelLotta;
 	private JTextArea fieldlotta;
@@ -80,7 +83,21 @@ public class SchermataLotta extends JPanel{
 		confirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				if(Charmander.isSelected() || Squirtle.isSelected() || Bulbasaur.isSelected()) {
+					lottaFrame = new JFrame("Lotta");
+					
+					lotta = new Lotta(lottaFrame);
+					
+					lottaFrame.add(lotta);
+					
+					lottaFrame.setSize(new Dimension(1000, 600));
+					lottaFrame.setLocationRelativeTo(null);
+					lottaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					lottaFrame.setVisible(true);
+					
+				}else {
+					JOptionPane.showMessageDialog(frame, "Nessuna checkbox selezionata!");
+				}
 			}
 		});
 		

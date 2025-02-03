@@ -57,6 +57,7 @@ public class SchermataStart extends JPanel{
 		bottoneStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				frameLotta = new JFrame("Menù di Lotta");
 				
 				schermataLotta = new SchermataLotta(frameLotta);
@@ -67,6 +68,7 @@ public class SchermataStart extends JPanel{
 				frameLotta.setLocationRelativeTo(null);
 				frameLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frameLotta.setVisible(true);
+		
 			}
 		});
 		
