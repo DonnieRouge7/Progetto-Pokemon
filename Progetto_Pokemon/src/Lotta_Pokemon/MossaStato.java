@@ -1,3 +1,4 @@
+package Lotta_Pokemon;
 
 public class MossaStato extends Mossa{
 	

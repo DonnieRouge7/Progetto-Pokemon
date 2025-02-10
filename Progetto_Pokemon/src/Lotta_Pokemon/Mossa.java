@@ -1,3 +1,4 @@
+package Lotta_Pokemon;
 import java.util.Random; 
 
 public class Mossa{

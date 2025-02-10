@@ -1,3 +1,4 @@
+package Lotta_Pokemon;
 
 public class MossaAttacco extends Mossa{
 	

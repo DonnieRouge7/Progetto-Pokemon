@@ -3,9 +3,12 @@ package GUI_Pokemon;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.*;
+import Lotta_Pokemon.*;
 
 public class SchermataLotta extends JPanel{
 	
@@ -14,8 +17,12 @@ public class SchermataLotta extends JPanel{
  	
  	private Lotta lotta;
  	
+ 	private Bulbasaur bulbasaur;
+ 	private Pikachu pikachu;
+ 	private Charmander charmander;
+ 	private Squirtle squirtle;
+ 	
  	private JLabel labelLotta;
-	private JTextArea fieldlotta;
 	
 	private JLabel labelCharmander;
 	private JCheckBox Charmander;
@@ -43,6 +50,14 @@ public class SchermataLotta extends JPanel{
 		
 		setBackground(Color.BLACK);
 		
+		// Creazione squadra CPU
+		
+		List<Pokemon> pokemonCPU = new ArrayList<>();
+		pokemonCPU.add(new Charmander());
+		pokemonCPU.add(new Squirtle());
+		pokemonCPU.add(new Bulbasaur());
+		pokemonCPU.add(new Pikachu());
+		
 		// Label Lotta
 		
 		labelLotta = new JLabel("Scegli i pokemon con cui lottare:");
@@ -51,27 +66,20 @@ public class SchermataLotta extends JPanel{
 		labelLotta.setForeground(Color.WHITE);
 		labelLotta.setBackground(Color.BLACK);
 		
-		// Label Pokemon
-		
-		labelCharmander = new JLabel("Charmander");
-		labelCharmander.setForeground(Color.WHITE);
-		
-		labelSquirtle = new JLabel("Squirtle");
-		labelSquirtle.setForeground(Color.WHITE);
-		
-		labelBulbasaur = new JLabel("Bulbasaur");
-		labelBulbasaur.setForeground(Color.WHITE);
 		
 		// CheckBox Pokemon 
 		
-		Charmander = new JCheckBox();
+		Charmander = new JCheckBox("Charmander");
 		Charmander.setBackground(Color.BLACK);
+		Charmander.setForeground(Color.WHITE);
 		
-		Squirtle = new JCheckBox();
+		Squirtle = new JCheckBox("Squirtle");
 		Squirtle.setBackground(Color.BLACK);
+		Squirtle.setForeground(Color.WHITE);
 		
-		Bulbasaur = new JCheckBox();
+		Bulbasaur = new JCheckBox("Bulbasaur");
 		Bulbasaur.setBackground(Color.BLACK);
+		Bulbasaur.setForeground(Color.WHITE);
 		
 		// Button confirm
 		
@@ -84,9 +92,24 @@ public class SchermataLotta extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(Charmander.isSelected() || Squirtle.isSelected() || Bulbasaur.isSelected()) {
+					
+					// Creazione squadra utente
+					
+					List<Pokemon> pokemonUtente = new ArrayList<>(3);
+					
+					if(Charmander.isSelected()) {
+						pokemonUtente.add(new Charmander());
+					}
+					if(Bulbasaur.isSelected()) {
+						pokemonUtente.add(new Bulbasaur());
+					}
+					if(Squirtle.isSelected()) {
+						pokemonUtente.add(new Squirtle());
+					}
+					
 					lottaFrame = new JFrame("Lotta");
 					
-					lotta = new Lotta(lottaFrame);
+					lotta = new Lotta(pokemonUtente, pokemonCPU);
 					
 					lottaFrame.add(lotta);
 					
@@ -96,7 +119,13 @@ public class SchermataLotta extends JPanel{
 					lottaFrame.setVisible(true);
 					
 				}else {
-					JOptionPane.showMessageDialog(frame, "Nessuna checkbox selezionata!");
+					try {
+			            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			        } catch (Exception e1) {
+			            e1.printStackTrace();
+			        }
+
+			        JOptionPane.showMessageDialog(null, "Seleziona almeno un Pokemon!");
 				}
 			}
 		});
@@ -145,21 +174,6 @@ public class SchermataLotta extends JPanel{
 		
 		add(labelLotta, gbc);
 		
-		// Layout Label Charmander
-		
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		
-		gbc.weightx = 0.0;
-		gbc.weighty = 0.0;
-		
-		gbc.anchor = GridBagConstraints.LINE_START;
-		
-		gbc.insets = new Insets(10, 25, 0, 0);
-		
-		
-		add(labelCharmander, gbc);
-		
 		// Layout CheckBox Charmander
 		
 		gbc.gridx = 0;
@@ -174,20 +188,6 @@ public class SchermataLotta extends JPanel{
 		
 		add(Charmander, gbc);
 		
-		// Layout Label Squirtle
-		
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		
-		gbc.weightx = 0.0;
-		gbc.weighty = 0.0;
-				
-		gbc.anchor = GridBagConstraints.LINE_START;
-				
-		gbc.insets = new Insets(10, 25, 0, 0);
-			
-		add(labelSquirtle, gbc);
-				
 		// Layout CheckBox Squirtle
 				
 		gbc.gridx = 0;
@@ -201,20 +201,6 @@ public class SchermataLotta extends JPanel{
 		gbc.insets = new Insets(10, 0, 0, 0);
 				
 		add(Squirtle, gbc);
-		
-		// Layout Label Bulbasaur
-		
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		
-		gbc.weightx = 0.0;
-		gbc.weighty = 0.0;
-				
-		gbc.anchor = GridBagConstraints.LINE_START;
-				
-		gbc.insets = new Insets(10, 25, 0, 0);
-			
-		add(labelBulbasaur, gbc);
 		
 		// Layout ChechBox Bulbasaur
 		

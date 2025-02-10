@@ -1,3 +1,5 @@
+import Lotta_Pokemon.Mossa;
+
 // questa classe ancora non sono sicuro sia utile, per ora la tengo, non si sa mai 
 public class Pokemon_Avversario {
 

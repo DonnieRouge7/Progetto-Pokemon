@@ -1,5 +1,7 @@
+package Lotta_Pokemon;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Pokemon {
 
@@ -16,7 +18,7 @@ public class Pokemon {
 	private int difesaSpecialePokemon;
 	private int velocitàPokemon; 
 	private double elusionePokemon = 30; 
-	private Mossa[] mosse = new Mossa[4];
+	private List<Mossa> mosse;;
 	
 	
 	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon, double elusionePokemon) {
@@ -40,7 +42,7 @@ public class Pokemon {
 				+ ", livello=" + livello + ", hp=" + hp + ", attaccoPokemon=" + attaccoPokemon + ", difesaPokemon="
 				+ difesaPokemon + ", attaccoSpecialePokemon=" + attaccoSpecialePokemon + ", difesaSpecialePokemon="
 				+ difesaSpecialePokemon + ", velocitàPokemon=" + velocitàPokemon + ", elusionePokemon="
-				+ elusionePokemon + ", mosse=" + Arrays.toString(mosse) + "]";
+				+ elusionePokemon;
 	}
 
 	public String getCodice() {
@@ -115,10 +117,10 @@ public class Pokemon {
 	public void setElusione(double elusionePokemon) {
 		this.elusionePokemon = elusionePokemon;
 	}
-	public Mossa[] getMosse() {
+	public List<Mossa> getMosse() {
 		return mosse;
 	}
-	public void setMosse(Mossa[] mosse) {
+	public void setMosse(List<Mossa> mosse) {
 		this.mosse = mosse;
 	}
 	public int getXp() {
@@ -142,16 +144,23 @@ public class Pokemon {
 		// aggiungere ricerca mosse da imparare 
 	}
 	
-	public void usaMossa(Pokemon difensore, MossaAttacco mossa) {
-		System.out.println(nome + " usa " + mossa.getNomeMossa());
-		mossa.noPP();
-		mossa.attaccaDanno(this, difensore);		
+	public void usaMossa(Pokemon difensore, Mossa mossa) {
+	    System.out.println(nome + " usa " + mossa.getNomeMossa());
+	    mossa.noPP();
+	    
+	    if (mossa instanceof MossaAttacco) {
+	        ((MossaAttacco) mossa).attaccaDanno(this, difensore);
+	    } else if (mossa instanceof MossaStato) {
+	        ((MossaStato) mossa).usaMossaStato(difensore);
+	    }
 	}
 	
-	public void usaMossa(Pokemon difensore, MossaStato mossa) {
-		System.out.println(nome + " usa " + mossa.getNomeMossa());
-		mossa.noPP();
-		mossa.attaccaStato(this, difensore);
+	public void scegliMossa(int indice, Pokemon difensore) {
+	    if (indice >= 0 && indice < mosse.size()) {
+	        usaMossa(difensore, mosse.get(indice));
+	    } else {
+	        System.out.println("Mossa non valida!");
+	    } 
 	}
 	
 	public void subisciDanno(Pokemon difensore, int danno) {
