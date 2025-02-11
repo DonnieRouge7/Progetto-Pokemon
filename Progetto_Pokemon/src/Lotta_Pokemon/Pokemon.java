@@ -18,7 +18,7 @@ public class Pokemon {
 	private int difesaSpecialePokemon;
 	private int velocitàPokemon; 
 	private double elusionePokemon = 30; 
-	private List<Mossa> mosse;;
+	private List<Mossa> mosse;
 	
 	
 	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon, double elusionePokemon) {

@@ -37,6 +37,20 @@ public class Lotta extends JPanel{
 	
 	private JPanel areaMessaggi;
 	private JTextArea testoMessaggi;
+	private JButton next;
+	
+	private JPanel areaMosse;
+		
+		private JButton mosse;
+		private List<Mossa> listaMosse;
+			private JButton mossa1;
+			private JButton mossa2;
+			private JButton mossa3;
+			private JButton mossa4;
+		
+		private JButton cambiaPokemon;
+		
+		private JButton borsa;
 	
 	private String name;
     private int level;
@@ -47,6 +61,13 @@ public class Lotta extends JPanel{
 		
 		setLayout(null);
 		setBackground(Color.GRAY);
+		
+		if (!pokemonUtente.isEmpty() && !pokemonCPU.isEmpty()) {
+	        this.attaccante = pokemonUtente.get(0);  // Primo Pokémon dell'utente
+	        this.difensore = pokemonCPU.get(0);  // Primo Pokémon della CPU
+	    } else {
+	        System.out.println("Errore: Le liste dei Pokémon sono vuote!");
+    	}
 		
 		// Sfondo pannello
 		
@@ -106,28 +127,114 @@ public class Lotta extends JPanel{
         
         areaMessaggi = new JPanel();
         areaMessaggi.setBackground(Color.BLACK);
-        areaMessaggi.setBounds(570, 400, 400, 150);
-        areaMessaggi.setBorder(new LineBorder(Color.WHITE, 2));
+        areaMessaggi.setBounds(570, 450, 400, 100);
+        areaMessaggi.setBorder(new LineBorder(Color.WHITE, 3));
         
         testoMessaggi = new JTextArea();
         testoMessaggi.setEditable(false); // L'utente non può scrivere
-        testoMessaggi.setLineWrap(true);  // Testo va a capo automaticamente
         testoMessaggi.setWrapStyleWord(true); // Mantiene parole intere quando va a capo
         testoMessaggi.setBackground(Color.BLACK);
         testoMessaggi.setForeground(Color.WHITE);
-        testoMessaggi.setFont(new Font("Arial", Font.BOLD, 18));
+        testoMessaggi.setFont(new Font("Arial", Font.BOLD, 12));
+        testoMessaggi.setText("INIZIA LA LOTTA!");
         
         areaMessaggi.add(testoMessaggi);
         add(areaMessaggi);
         
-        // Inizio lotta
+        // Panel area mosse
         
-        if (!pokemonUtente.isEmpty() && !pokemonCPU.isEmpty()) {
-	        this.attaccante = pokemonUtente.get(0);  // Primo Pokémon dell'utente
-	        this.difensore = pokemonCPU.get(0);  // Primo Pokémon della CPU
-	    } else {
-	        System.out.println("Errore: Le liste dei Pokémon sono vuote!");
-	    }
+        Border bordoAreaMosse = new LineBorder(Color.BLACK, 3);
+        areaMosse = new JPanel();
+        areaMosse.setBackground(Color.GRAY);
+        areaMosse.setBounds(20, 20, 400, 300);
+        areaMosse.setBorder(bordoAreaMosse);
+        
+        areaMosse.setLayout(null);
+        	
+        	// Pulsante next
+        
+        	
+        	
+        	// Pulsante Mosse
+        	
+        	listaMosse = attaccante.getMosse();
+        
+        	Border bordoMosse = new LineBorder(Color.WHITE, 3);
+        	mosse = new JButton("Mosse");
+        	mosse.setBackground(Color.RED);
+        	mosse.setForeground(Color.WHITE);
+        	mosse.setFont(new Font("Arial", Font.BOLD, 18));
+        	mosse.setBorder(bordoMosse);
+        	mosse.setBounds(15, 140, 370, 80);
+        	
+        	// Pulsanti delle mosse (inizialmente nascosti)
+            mossa1 = creaPulsanteMossa();
+            mossa2 = creaPulsanteMossa();
+            mossa3 = creaPulsanteMossa();
+            mossa4 = creaPulsanteMossa();
+
+            // Posizioni nei quattro angoli
+            mossa1.setBounds(10, 30, 180, 60);   // Alto sinistra
+            mossa2.setBounds(200, 30, 180, 60);  // Alto destra
+            mossa3.setBounds(10, 110, 180, 60);  // Basso sinistra
+            mossa4.setBounds(200, 110, 180, 60); // Basso destra
+
+            JButton[] pulsantiMosse = {mossa1, mossa2, mossa3, mossa4};
+            
+            for (JButton pulsante : pulsantiMosse) {
+                pulsante.setVisible(false); // Inizialmente nascosti
+                areaMosse.add(pulsante);
+            }
+            
+        	mosse.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					mosse.setVisible(false); // Nasconde il pulsante principale
+
+	                // Assegna le mosse ai pulsanti e li rende visibili
+	                for (int i = 0; i < listaMosse.size(); i++) {
+	                    pulsantiMosse[i].setText(listaMosse.get(i).getNomeMossa()); 
+	                    pulsantiMosse[i].setVisible(true);
+
+	                    final int index = i; // Variabile finale per ActionListener
+	                    pulsantiMosse[i].addActionListener(new ActionListener() {
+	                        @Override
+	                        public void actionPerformed(ActionEvent e) {
+	                            attaccante.usaMossa(difensore, listaMosse.get(index)); // Usa la mossa selezionata
+	                            mostraMessaggio(attaccante.getNome() + " usa " + listaMosse.get(index).getNomeMossa());
+	                        }
+	                    });
+	                }
+	            }
+			});
+        	
+        	areaMosse.add(mosse);
+        	
+        	// Pulsante cambia Pokemon
+        	
+        	Border bordoCambio = new LineBorder(Color.WHITE, 3);
+        	cambiaPokemon = new JButton("Cambia Pokémon");
+        	cambiaPokemon.setBackground(Color.GREEN);
+        	cambiaPokemon.setForeground(Color.WHITE);
+        	cambiaPokemon.setFont(new Font("Arial", Font.BOLD, 14));
+        	cambiaPokemon.setBorder(bordoCambio);
+        	cambiaPokemon.setBounds(15, 230, 160, 50);
+        	
+        	areaMosse.add(cambiaPokemon);
+        	
+        	// Pulsante borsa
+        	
+        	Border bordoBorsa = new LineBorder(Color.WHITE, 3);
+        	borsa = new JButton("Borsa");
+        	borsa.setBackground(Color.ORANGE);
+        	borsa.setForeground(Color.WHITE);
+        	borsa.setFont(new Font("Arial", Font.BOLD, 14));
+        	borsa.setBorder(bordoBorsa);
+        	borsa.setBounds(220, 230, 165, 50);
+        	
+        	areaMosse.add(borsa);
+        	
+        	add(areaMosse);
         
         // Pokemon utente
         
@@ -165,5 +272,15 @@ public class Lotta extends JPanel{
 	public void mostraMessaggio(String messaggio) {
 	    testoMessaggi.setText(messaggio);
 	}
+	// Metodo per creare un pulsante mossa con lo stile desiderato
+    private JButton creaPulsanteMossa() {
+        JButton button = new JButton();
+        button.setBackground(Color.RED);
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setBorder(new LineBorder(Color.WHITE, 3));
+        return button;
+    }
+	
 }
 
