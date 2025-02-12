@@ -15,6 +15,9 @@ import javax.swing.border.LineBorder;
 
 public class Lotta extends JPanel{
 	
+	private List<Pokemon> pokemonUtente;
+	private List<Pokemon> pokemonCPU;
+	
 	private Pokemon attaccante;
 	private Pokemon difensore;
 	
@@ -42,7 +45,7 @@ public class Lotta extends JPanel{
 	private JPanel areaMosse;
 		
 		private JButton mosse;
-		private List<Mossa> listaMosse;
+		private List<Mossa> listaMosseUtente;
 			private JButton mossa1;
 			private JButton mossa2;
 			private JButton mossa3;
@@ -52,12 +55,18 @@ public class Lotta extends JPanel{
 		
 		private JButton borsa;
 	
+		
+	private List<Mossa> listaMosseCPU;
+		
 	private String name;
     private int level;
     private int hp;
     private int maxHp;
 	
 	Lotta(List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
+		
+		this.pokemonUtente = pokemonUtente;
+		this.pokemonCPU = pokemonCPU;
 		
 		setLayout(null);
 		setBackground(Color.GRAY);
@@ -69,6 +78,7 @@ public class Lotta extends JPanel{
 	        System.out.println("Errore: Le liste dei Pokémon sono vuote!");
     	}
 		
+		
 		// Sfondo pannello
 		
 		sfondo = new ImageIcon("C:/Users/megam/OneDrive/Desktop/sfondo lotta ridimensionato.jpg/");
@@ -76,6 +86,34 @@ public class Lotta extends JPanel{
 		labelSfondo = new JLabel(new ImageIcon(sfondoscalato));
 		labelSfondo.setBounds(0,0,1000,600);
 		add(labelSfondo);
+		
+		// Pokemon utente
+        
+        areaPokemonAtt = new JPanel();
+        Border bordo = new LineBorder(Color.WHITE);
+        areaPokemonAtt.setBackground(Color.BLACK);
+        areaPokemonAtt.setBounds(30, 390, 200, 30);
+        areaPokemonAtt.setBorder(bordo);
+        
+        labelPokemonAtt = new JLabel(attaccante.getNome());
+        labelPokemonAtt.setForeground(Color.WHITE);
+        
+        areaPokemonAtt.add(labelPokemonAtt);
+        add(areaPokemonAtt);
+        
+        // Pokemon CPU
+        
+        areaPokemonDif = new JPanel();
+        Border bordo2 = new LineBorder(Color.WHITE);
+        areaPokemonDif.setBackground(Color.BLACK);
+        areaPokemonDif.setBounds(750, 100, 200, 30);
+        areaPokemonDif.setBorder(bordo2);
+        
+        labelPokemonDif = new JLabel(difensore.getNome());
+        labelPokemonDif.setForeground(Color.WHITE);
+        
+        areaPokemonDif.add(labelPokemonDif);
+        add(areaPokemonDif);
 		
 		// HealthBarCPU
 		
@@ -129,15 +167,19 @@ public class Lotta extends JPanel{
         areaMessaggi.setBackground(Color.BLACK);
         areaMessaggi.setBounds(570, 450, 400, 100);
         areaMessaggi.setBorder(new LineBorder(Color.WHITE, 3));
+        areaMessaggi.setLayout(null);
         
-        testoMessaggi = new JTextArea();
-        testoMessaggi.setEditable(false); // L'utente non può scrivere
-        testoMessaggi.setWrapStyleWord(true); // Mantiene parole intere quando va a capo
-        testoMessaggi.setBackground(Color.BLACK);
-        testoMessaggi.setForeground(Color.WHITE);
-        testoMessaggi.setFont(new Font("Arial", Font.BOLD, 12));
-        testoMessaggi.setText("INIZIA LA LOTTA!");
-        
+        	// Testo Messaggi
+        	
+	        testoMessaggi = new JTextArea();
+	        testoMessaggi.setEditable(false); // L'utente non può scrivere
+	        testoMessaggi.setWrapStyleWord(true); // Mantiene parole intere quando va a capo
+	        testoMessaggi.setBackground(Color.BLACK);
+	        testoMessaggi.setForeground(Color.WHITE);
+	        testoMessaggi.setFont(new Font("Arial", Font.BOLD, 12));
+	        testoMessaggi.setText("INIZIA LA LOTTA!");
+	        testoMessaggi.setBounds(120, 40, 200, 30);
+	       
         areaMessaggi.add(testoMessaggi);
         add(areaMessaggi);
         
@@ -151,13 +193,9 @@ public class Lotta extends JPanel{
         
         areaMosse.setLayout(null);
         	
-        	// Pulsante next
-        
-        	
-        	
         	// Pulsante Mosse
         	
-        	listaMosse = attaccante.getMosse();
+        	listaMosseUtente = attaccante.getMosse();
         
         	Border bordoMosse = new LineBorder(Color.WHITE, 3);
         	mosse = new JButton("Mosse");
@@ -192,16 +230,16 @@ public class Lotta extends JPanel{
 					mosse.setVisible(false); // Nasconde il pulsante principale
 
 	                // Assegna le mosse ai pulsanti e li rende visibili
-	                for (int i = 0; i < listaMosse.size(); i++) {
-	                    pulsantiMosse[i].setText(listaMosse.get(i).getNomeMossa()); 
+	                for (int i = 0; i < listaMosseUtente.size(); i++) {
+	                    pulsantiMosse[i].setText(listaMosseUtente.get(i).getNomeMossa()); 
 	                    pulsantiMosse[i].setVisible(true);
 
 	                    final int index = i; // Variabile finale per ActionListener
 	                    pulsantiMosse[i].addActionListener(new ActionListener() {
 	                        @Override
 	                        public void actionPerformed(ActionEvent e) {
-	                            attaccante.usaMossa(difensore, listaMosse.get(index)); // Usa la mossa selezionata
-	                            mostraMessaggio(attaccante.getNome() + " usa " + listaMosse.get(index).getNomeMossa());
+	                            attaccante.usaMossa(difensore, listaMosseUtente.get(index)); // Usa la mossa selezionata
+	                            mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
 	                        }
 	                    });
 	                }
@@ -209,6 +247,31 @@ public class Lotta extends JPanel{
 			});
         	
         	areaMosse.add(mosse);
+        	
+        	// Pulsante next
+	        
+	    	next = new JButton("AVANTI");
+	    	Border bordoNext = new LineBorder(Color.WHITE, 3);
+	    	next.setBorder(bordoNext);
+	    	next.setForeground(Color.WHITE);
+	    	next.setBackground(Color.GRAY);
+	    	next.setBounds(340, 70, 50, 20);
+	    	
+	    	next.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(difensore.esausto() == true) {
+						mostraMessaggio((difensore.getNome() + "è esausto"));
+						cambiaPokemonCPU();
+						mostraMessaggio("Scende in campo " + difensore.getNome());
+						labelPokemonDif.setText(difensore.getNome());
+					}else {
+						if()
+					}
+				}
+			});
+	    	
+	    	areaMessaggi.add(next);
         	
         	// Pulsante cambia Pokemon
         	
@@ -236,33 +299,7 @@ public class Lotta extends JPanel{
         	
         	add(areaMosse);
         
-        // Pokemon utente
-        
-        areaPokemonAtt = new JPanel();
-        Border bordo = new LineBorder(Color.WHITE);
-        areaPokemonAtt.setBackground(Color.BLACK);
-        areaPokemonAtt.setBounds(30, 390, 200, 30);
-        areaPokemonAtt.setBorder(bordo);
-        
-        labelPokemonAtt = new JLabel(attaccante.getNome());
-        labelPokemonAtt.setForeground(Color.WHITE);
-        
-        areaPokemonAtt.add(labelPokemonAtt);
-        add(areaPokemonAtt);
-        
-        // Pokemon CPU
-        
-        areaPokemonDif = new JPanel();
-        Border bordo2 = new LineBorder(Color.WHITE);
-        areaPokemonDif.setBackground(Color.BLACK);
-        areaPokemonDif.setBounds(750, 100, 200, 30);
-        areaPokemonDif.setBorder(bordo2);
-        
-        labelPokemonDif = new JLabel(difensore.getNome());
-        labelPokemonDif.setForeground(Color.WHITE);
-        
-        areaPokemonDif.add(labelPokemonDif);
-        add(areaPokemonDif);
+       
         
         
         setComponentZOrder(labelSfondo, getComponentCount() - 1);
@@ -272,6 +309,7 @@ public class Lotta extends JPanel{
 	public void mostraMessaggio(String messaggio) {
 	    testoMessaggi.setText(messaggio);
 	}
+	
 	// Metodo per creare un pulsante mossa con lo stile desiderato
     private JButton creaPulsanteMossa() {
         JButton button = new JButton();
@@ -282,5 +320,16 @@ public class Lotta extends JPanel{
         return button;
     }
 	
+    public void cambiaPokemonCPU() {
+    	if (!pokemonCPU.isEmpty()) {
+            pokemonCPU.remove(0); // Rimuove il Pokémon sconfitto
+            if (!pokemonCPU.isEmpty()) {
+                this.difensore = pokemonCPU.get(0); // Imposta il nuovo Pokémon avversario
+                System.out.println("Il nuovo Pokémon avversario è: " + difensore.getNome());
+            } else {
+                System.out.println("L'avversario non ha più Pokémon disponibili! Hai vinto!");
+            }
+        }
+    }
 }
 
