@@ -17,6 +17,8 @@ public class SchermataLotta extends JPanel{
  	
  	private Lotta lotta;
  	
+ 	private SchermataStart schermataStart;
+ 	
  	private Bulbasaur bulbasaur;
  	private Pikachu pikachu;
  	private Charmander charmander;
@@ -24,22 +26,20 @@ public class SchermataLotta extends JPanel{
  	
  	private JLabel labelLotta;
 	
-	private JLabel labelCharmander;
 	private JCheckBox Charmander;
 	
-	private JLabel labelSquirtle;
 	private JCheckBox Squirtle;
 	
-	private JLabel labelBulbasaur;
 	private JCheckBox Bulbasaur;
 	
 	private JButton confirm;
 	private JButton back;
 	private JButton ESC;
-
-    // Costruttore che accetta un riferimento al frame
-	SchermataLotta(JFrame frame) {
+	
+	// Costruttore che accetta un riferimento al frame
+	SchermataLotta(SchermataStart schermataStart, JFrame frame) {
 		
+		this.schermataStart = schermataStart;
 		this.frame = frame;
 		
 		setLayout(new GridBagLayout());
@@ -99,17 +99,20 @@ public class SchermataLotta extends JPanel{
 					
 					if(Charmander.isSelected()) {
 						pokemonUtente.add(new Charmander());
+						
 					}
 					if(Bulbasaur.isSelected()) {
 						pokemonUtente.add(new Bulbasaur());
+						
 					}
 					if(Squirtle.isSelected()) {
 						pokemonUtente.add(new Squirtle());
+							
 					}
 					
 					lottaFrame = new JFrame("Lotta");
 					
-					lotta = new Lotta(pokemonUtente, pokemonCPU);
+					lotta = new Lotta(schermataStart, pokemonUtente, pokemonCPU);
 					
 					lottaFrame.add(lotta);
 					

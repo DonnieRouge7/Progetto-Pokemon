@@ -3,7 +3,8 @@ package Lotta_Pokemon;
 public class MossaAttacco extends Mossa{
 	
 	private int potenzaMossa;
-	
+	private double modificatore;
+
 	public MossaAttacco(String nomeMossa, int elementoMossa, String tipo, int PP, int precisioneMossa, int potenzaMossa) {
 		super(nomeMossa, elementoMossa, tipo, PP, precisioneMossa);
 		this.potenzaMossa = potenzaMossa;
@@ -37,17 +38,18 @@ public class MossaAttacco extends Mossa{
 
 	public void Danno(Pokemon attaccante, Pokemon difensore) { 
 		int danno = 0;
-		if(getTipo() == "speciale") {
+		if(getTipo().equals("speciale")) {
 			danno = (int) (((potenzaMossa * attaccante.getAttaccoSpecialePokemon())/difensore.getDifesaSpecialePokemon())*modificatore(difensore));
-		}else if(getTipo() == "fisico"){
+		}else if(getTipo().equals("fisico")){
 			danno = (int) (((potenzaMossa * attaccante.getAttaccoPokemon())/difensore.getDifesaPokemon())* modificatore(difensore));
 		}
-		difensore.subisciDanno(difensore, danno);
+		danno = Math.max(1, danno); // Impedisce che il danno sia 0 o negativo
+		difensore.subisciDanno(danno);
 		setPP(getPP() - 1);
 	}
 	
 	public double modificatore(Pokemon difensore) {
-		double modificatore = 1; 
+		modificatore = 1; 
 		if(difensore.getTipo2() != -1) { // nel costruttore del Pokemon, se non c'è un secondo tipo, il valore è -1
 			modificatore *= efficacia[getElementoMossa()][difensore.getTipo2()]; 
 		}
@@ -89,6 +91,10 @@ public class MossaAttacco extends Mossa{
 			System.out.println(dif.getNome() + " evita il colpo");
 			this.setPP(this.getPP() - 1);
 		}
+	}
+	
+	public double getModificatore() {
+		return modificatore;
 	}
 
 }

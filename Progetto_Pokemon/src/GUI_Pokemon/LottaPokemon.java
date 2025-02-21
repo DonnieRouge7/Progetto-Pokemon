@@ -4,12 +4,11 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class Lotta_Tra_Pokemon extends JFrame{
+public class LottaPokemon extends JFrame{
 	
 	private SchermataStart schermataStart;
 	
-	public Lotta_Tra_Pokemon(){
-		super("Pokemon Fight");
+	public LottaPokemon(){
 	
 		setLayout(new BorderLayout());
 		
@@ -21,7 +20,6 @@ public class Lotta_Tra_Pokemon extends JFrame{
 		
 		setSize(800, 500);
 		setLocationRelativeTo(null);
-		//setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}	

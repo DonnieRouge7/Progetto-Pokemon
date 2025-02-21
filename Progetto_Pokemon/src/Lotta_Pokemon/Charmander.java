@@ -2,10 +2,10 @@ package Lotta_Pokemon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Charmander extends Pokemon implements TipoFuoco{
+public class Charmander extends Pokemon {
 	
 	public Charmander() {
-		super("123", tipoFuoco, -1, "Charmander", 0, 1, 39, 52, 43, 50,
+		super("123", 1, -1, "Charmander", 0, 1, 39, 39, 52, 43, 50,
 				50, 65, 30);
 		
 		List<Mossa> mosse = new ArrayList<>();

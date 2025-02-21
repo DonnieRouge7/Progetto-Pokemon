@@ -10,20 +10,26 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 public class SchermataStart extends JPanel{
-
+	
+	private SchermataStart schermataStart;
+	
 	private JButton bottoneStart; 
 	private JButton bottoneEsc;
+	
 	private JFrame frameLotta;
 	private SchermataLotta schermataLotta;
+	
 	private JLabel campoBenvenuto;
 	private JTextField testoBenvenuto;
+	
 	private JLabel labelSfondo;
 	private ImageIcon sfondo;
+	
 	private JLabel labelScore;
 	private JTextField fieldScore;
-	
-	private GUI_Pokemon.FormListener formListener; 
-	
+	private int pokemonSconfitti;
+	private int xpOttenuti;
+		
 	SchermataStart(){	
 		
 		setLayout(null);
@@ -60,7 +66,8 @@ public class SchermataStart extends JPanel{
 				
 				frameLotta = new JFrame("Menù di Lotta");
 				
-				schermataLotta = new SchermataLotta(frameLotta);
+				schermataStart = new SchermataStart();
+				schermataLotta = new SchermataLotta(schermataStart, frameLotta);
 				
 				frameLotta.add(schermataLotta);
 				
@@ -68,7 +75,6 @@ public class SchermataStart extends JPanel{
 				frameLotta.setLocationRelativeTo(null);
 				frameLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				frameLotta.setVisible(true);
-		
 			}
 		});
 		
@@ -128,57 +134,13 @@ public class SchermataStart extends JPanel{
         // Revalidate e Repaint
         revalidate();
         repaint();
+	}
+	
+	public void aggiornaPunteggio(int pokemonSconfitti, int xpOttenuti) {
+		this.pokemonSconfitti += pokemonSconfitti;
+		this.xpOttenuti += xpOttenuti;
 		
-        // Layout
-        
-		/* GridBagConstraints gbc = new GridBagConstraints();
-		
-		//Posizione Menù Welcome
-		
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		
-		gbc.weightx = 0.01;
-		gbc.weighty = 0.01;
-		
-		gbc.anchor = GridBagConstraints.CENTER;
-		
-		gbc.insets = new Insets(0, 0, 0, 0);
-		
-		add(campoBenvenuto, gbc);
-		
-		// Posizione Bottone Start
-		
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		
-		gbc.weightx = 0.01;
-		gbc.weighty = 0.01;
-		
-		gbc.anchor = GridBagConstraints.CENTER;
-		
-		gbc.insets = new Insets(0, 0, 0, 0);
-		
-		add(bottoneStart, gbc);
-		
-		// Posizione Bottone Esc
-		
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		
-		gbc.weightx = 0.01;
-		gbc.weighty = 0.01;
-		
-		gbc.anchor = GridBagConstraints.LAST_LINE_END;
-		
-		gbc.insets = new Insets(0, 0, 0, 0);
-		
-		add(bottoneEsc, gbc);
-		
-		*/
+		fieldScore.setText("hai sconfitto " + this.pokemonSconfitti + " " + this.xpOttenuti);
 	}
 
-	public void setFormListener(FormListener formListener) {
-		this.formListener = formListener;
-	}
 }

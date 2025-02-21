@@ -2,10 +2,10 @@ package Lotta_Pokemon;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Squirtle extends Pokemon implements TipoAcqua{
+public class Squirtle extends Pokemon {
 
 	public Squirtle() {
-		super("321", tipoAcqua, -1, "Squirtle", 0, 1, 44, 48, 65, 50,
+		super("321", 2, -1, "Squirtle", 0, 1, 44, 44, 48, 65, 50,
 				50, 43, 30);
 		
 		List<Mossa> mosse = new ArrayList<>();	

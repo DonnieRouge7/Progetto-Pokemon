@@ -6,7 +6,7 @@ public class Main_Prova_Gui {
 
 	public static void main(String[] args) {
 		
-		new Lotta_Tra_Pokemon();
+		new LottaPokemon();
 
 	}
 

@@ -12,6 +12,7 @@ public class Pokemon {
 	private int xp;
 	private int livello; 
 	private double hp; 
+	private double hpMax;
 	private int attaccoPokemon;
 	private int difesaPokemon; 
 	private int attaccoSpecialePokemon;
@@ -21,13 +22,14 @@ public class Pokemon {
 	private List<Mossa> mosse;
 	
 	
-	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon, double elusionePokemon) {
+	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon, double elusionePokemon) {
 		this.tipo1 = tipo1;
 		this.tipo2 = tipo2;
 		this.nome = nome;
 		this.xp = xp;
 		this.livello = livello;
 		this.hp = hp;
+		this.hpMax = hpMax;
 		this.attaccoPokemon = attaccoPokemon;
 		this.difesaPokemon = difesaPokemon;
 		this.attaccoSpecialePokemon = attaccoSpecialePokemon;
@@ -81,6 +83,12 @@ public class Pokemon {
 	public void setHp(double hp) {
 		this.hp = hp;
 	}
+	public double getHpMax() {
+		return hpMax;
+	}
+	public void setHpMax(double hpMax) {
+		this.hpMax = hpMax;
+	}
 	public int getAttaccoPokemon() {
 		return attaccoPokemon;
 	}
@@ -129,29 +137,33 @@ public class Pokemon {
 	public void setXp(int xp) {
 		this.xp = xp;
 	}
-	public void saliDiLivello() {
-		if(xp >= (livello*10)) {
-			setLivello(livello+1);
+	public boolean saliDiLivello() {
+		boolean saliDiLivello = false;
+		if(xp >= getLivello()*10) {
+			setLivello(livello + 1);
 			setAttaccoPokemon(attaccoPokemon + 3);
 			setAttaccoSpecialePokemon(attaccoSpecialePokemon + 3);
 			setDifesaPokemon(difesaPokemon + 3);
 			setDifesaSpecialePokemon(difesaSpecialePokemon + 3);
 			setVelocitàPokemon(velocitàPokemon + 3);
 			setElusione(elusionePokemon + 3);
-			setHp(hp + 3);
+			setHpMax(hpMax + 3);
+			saliDiLivello = true;
 		}
+		
+		return saliDiLivello;
 		
 		// aggiungere ricerca mosse da imparare 
 	}
 	
 	public void usaMossa(Pokemon difensore, Mossa mossa) {
-	    System.out.println(nome + " usa " + mossa.getNomeMossa());
 	    mossa.noPP();
+	    System.out.println(this.getNome() + " usa " + mossa.getNomeMossa());
 	    
 	    if (mossa instanceof MossaAttacco) {
 	        ((MossaAttacco) mossa).attaccaDanno(this, difensore);
 	    } else if (mossa instanceof MossaStato) {
-	        ((MossaStato) mossa).usaMossaStato(difensore);
+	        ((MossaStato) mossa).attaccaStato(this, difensore);
 	    }
 	}
 	
@@ -163,19 +175,15 @@ public class Pokemon {
 	    } 
 	}
 	
-	public void subisciDanno(Pokemon difensore, int danno) {
-		difensore.setHp(difensore.getHp() - danno);
-		if(difensore.esausto() == true) {
-		}else {
-			System.out.println(getNome() + " ha " + getHp() + " rimanenti");
-		}
+	public void subisciDanno(int danno) {
+		this.setHp(this.getHp() - danno);
+		this.esausto();
 	}
 	
 	public boolean esausto() {
 		boolean esausto = false;
 		if(getHp() <= 0) {
 			setHp(0);
-			System.out.println(getNome() + " è esausto");
 			esausto = true;
 		}else {
 			esausto = false;
