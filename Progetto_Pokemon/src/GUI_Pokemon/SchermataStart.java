@@ -141,6 +141,9 @@ public class SchermataStart extends JPanel{
 		this.xpOttenuti += xpOttenuti;
 		
 		fieldScore.setText("hai sconfitto " + this.pokemonSconfitti + " " + this.xpOttenuti);
+		
+		schermataStart.revalidate();
+		schermataStart.repaint();
 	}
 
 }

@@ -9,6 +9,8 @@ public class MossaStato extends Mossa{
 		this.effetto = effetto;
 	}
 	
+	// Per l'applicazione dell'effetto delle mosse che modificano le caratteristiche
+	
 	public void usaMossaStato(Pokemon attaccante, Pokemon difensore) {
 		double x = 0;
 		double y = 0;
@@ -73,6 +75,8 @@ public class MossaStato extends Mossa{
 	public boolean noPP() {
 		return super.noPP();
 	}
+	
+	// Per verificare se un attacco va a segno o meno
 	
 	public void attaccaStato(Pokemon att, Pokemon dif) {
 		int precisione = getPrecisioneMossa();

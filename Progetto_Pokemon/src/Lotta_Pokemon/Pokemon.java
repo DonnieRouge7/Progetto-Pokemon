@@ -137,6 +137,9 @@ public class Pokemon {
 	public void setXp(int xp) {
 		this.xp = xp;
 	}
+	
+	// Per verificare quando il Pokemon sale di livello 
+	
 	public boolean saliDiLivello() {
 		boolean saliDiLivello = false;
 		if(xp >= getLivello()*10) {
@@ -152,9 +155,9 @@ public class Pokemon {
 		}
 		
 		return saliDiLivello;
-		
-		// aggiungere ricerca mosse da imparare 
 	}
+	
+	// Per scegliere se usare una Mossa per infliggere danni o modificare le caratteristiche di uno dei due Pokemon
 	
 	public void usaMossa(Pokemon difensore, Mossa mossa) {
 	    mossa.noPP();
@@ -167,18 +170,14 @@ public class Pokemon {
 	    }
 	}
 	
-	public void scegliMossa(int indice, Pokemon difensore) {
-	    if (indice >= 0 && indice < mosse.size()) {
-	        usaMossa(difensore, mosse.get(indice));
-	    } else {
-	        System.out.println("Mossa non valida!");
-	    } 
-	}
+	// Per il calcolo del danno subito da un Pokemon
 	
 	public void subisciDanno(int danno) {
 		this.setHp(this.getHp() - danno);
 		this.esausto();
 	}
+	
+	// Per verificare quando un Pokemon è esausto
 	
 	public boolean esausto() {
 		boolean esausto = false;

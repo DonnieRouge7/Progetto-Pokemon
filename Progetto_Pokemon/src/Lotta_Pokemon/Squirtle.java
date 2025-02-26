@@ -2,11 +2,15 @@ package Lotta_Pokemon;
 import java.util.ArrayList;
 import java.util.List;
 
+// Classe del Pokemon Squirtle
+
 public class Squirtle extends Pokemon {
 
 	public Squirtle() {
 		super("321", 2, -1, "Squirtle", 0, 1, 44, 44, 48, 65, 50,
 				50, 43, 30);
+		
+		// Creazione delle mosse ed aggiunta alla lista
 		
 		List<Mossa> mosse = new ArrayList<>();	
 		

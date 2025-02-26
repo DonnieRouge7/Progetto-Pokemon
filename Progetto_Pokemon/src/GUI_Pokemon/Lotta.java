@@ -24,29 +24,28 @@ public class Lotta extends JPanel{
 	
 	private SchermataStart schermataStart;
 	
-	private Pokemon attaccante;
-	private Pokemon difensore;
-	
 	private ImageIcon sfondo;
 	private JLabel labelSfondo;
 	
-	private JProgressBar healthBarDif;
-	private int healthDif;
+	private Pokemon attaccante;
+	private Pokemon difensore;
 	
+	private JProgressBar healthBarDif;
 	private JProgressBar healthBarAtt;
-	private int healthAtt;
 
 	private Border bordoHealthBar;
 	
 	private JLabel labelPokemonAtt;
 	private JPanel areaPokemonAtt;
+	private JLabel livelloPokemonAtt;
 	
 	private JLabel labelPokemonDif;
 	private JPanel areaPokemonDif;
+	private JLabel livelloPokemonDif;
 	
 	private JPanel areaMessaggi;
-	private JTextArea testoMessaggi;
-	private JButton next;
+		private JTextArea testoMessaggi;
+		private JButton next;
 	
 	private JPanel areaMosse;
 		
@@ -59,7 +58,6 @@ public class Lotta extends JPanel{
 		
 		private JPanel panelCambiaPokemon;
 		private JButton buttonCambiaPokemon;
-		private JButton pokemonButton;
 		
 		private JButton borsa;
 	
@@ -89,6 +87,14 @@ public class Lotta extends JPanel{
 		
 		bordoHealthBar = new LineBorder(Color.BLACK); // Bordo delle healthBar
 		
+		// Sfondo pannello
+		
+		sfondo = new ImageIcon("C:/Users/megam/OneDrive/Desktop/sfondo lotta ridimensionato.jpg/");
+		Image sfondoscalato = sfondo.getImage();
+		labelSfondo = new JLabel(new ImageIcon(sfondoscalato));
+		labelSfondo.setBounds(0,0,1000,600);
+		add(labelSfondo);
+		
 		// HealthBar Cpu
 		
 		healthBarDif = new JProgressBar(0, 100);
@@ -117,14 +123,6 @@ public class Lotta extends JPanel{
 		
 		add(healthBarAtt);
 		
-		// Sfondo pannello
-		
-		sfondo = new ImageIcon("C:/Users/megam/OneDrive/Desktop/sfondo lotta ridimensionato.jpg/");
-		Image sfondoscalato = sfondo.getImage();
-		labelSfondo = new JLabel(new ImageIcon(sfondoscalato));
-		labelSfondo.setBounds(0,0,1000,600);
-		add(labelSfondo);
-		
 		// Pokemon utente
         
         areaPokemonAtt = new JPanel();
@@ -136,7 +134,11 @@ public class Lotta extends JPanel{
         labelPokemonAtt = new JLabel(attaccante.getNome());
         labelPokemonAtt.setForeground(Color.WHITE);
         
+        livelloPokemonAtt = new JLabel("Liv " + attaccante.getLivello());
+        livelloPokemonAtt.setForeground(Color.WHITE);
+        
         areaPokemonAtt.add(labelPokemonAtt);
+        areaPokemonAtt.add(livelloPokemonAtt);
         add(areaPokemonAtt);
         
         // Pokemon CPU
@@ -150,7 +152,11 @@ public class Lotta extends JPanel{
         labelPokemonDif = new JLabel(difensore.getNome());
         labelPokemonDif.setForeground(Color.WHITE);
         
+        livelloPokemonDif = new JLabel("Liv " + difensore.getLivello());
+        livelloPokemonDif.setForeground(Color.WHITE);
+        
         areaPokemonDif.add(labelPokemonDif);
+        areaPokemonDif.add(livelloPokemonDif);
         add(areaPokemonDif);
         
         // Area messaggi durante la lotta
@@ -247,7 +253,22 @@ public class Lotta extends JPanel{
                                 	// Primo attacco: attaccante
                                 	attaccante.usaMossa(difensore, listaMosseUtente.get(index));
                                 	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
-                                    
+                                	
+                                	 Timer timerAtt = new Timer(2000, new ActionListener() {
+											
+											@Override
+											public void actionPerformed(ActionEvent e) {
+												if(listaMosseUtente.get(index).getModificatore() > 1) {
+													mostraMessaggio("è superefficace");
+												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
+													mostraMessaggio("non è molto efficace...");
+												}
+											}
+										});
+                                     
+                                     timerAtt.setRepeats(false);
+                                     timerAtt.start();
+                                	
                                     // Controllo KO CPU
                                     if (difensore.esausto()) {
                                     	
@@ -256,28 +277,30 @@ public class Lotta extends JPanel{
                                     	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
                                     	attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);
                                     	
-                                    	// Controllo se il pokemon è salito di livello
-                                    	if(attaccante.saliDiLivello()) {
-                                    		Timer timer = new Timer(2000, new ActionListener() {
-												@Override
-												public void actionPerformed(ActionEvent e) {
-													mostraMessaggio(attaccante.getNome() + "è salito di livello, ora è al " + attaccante.getLivello());
-												}
-											});
-                                    		timer.setRepeats(false); // Il timer scatta solo una volta
-                                            timer.start();
-                                    	}
-                                  	
-                                    	Timer timer = new Timer(4000, new ActionListener() {
+                                    	Timer timerEsausto = new Timer(3000, new ActionListener() {
 											@Override
 											public void actionPerformed(ActionEvent e) {	
 												mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!");
 												next.setEnabled(true);
 											}
 										});
-                                    timer.setRepeats(false); // Il timer scatta solo una volta
-                                    timer.start();
-                                    return;
+                                    	
+                                    	timerEsausto.setRepeats(false); // Il timer scatta solo una volta
+                                    	timerEsausto.start();
+                                    	
+                                    	// Controllo se il pokemon è salito di livello
+                                    	if(attaccante.saliDiLivello()) {
+                                    		Timer timerLivello = new Timer(4000, new ActionListener() {
+												@Override
+												public void actionPerformed(ActionEvent e) {
+													mostraMessaggio(attaccante.getNome() + "è salito di livello, ora è al " + attaccante.getLivello());
+													livelloPokemonAtt.setText("Liv " + attaccante.getLivello());
+												}
+											});
+                                    		timerLivello.setRepeats(false); // Il timer scatta solo una volta
+                                            timerLivello.start();
+                                            return;
+                                    	}
                                     }
                                     aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
                                     next.setEnabled(true);
@@ -290,23 +313,39 @@ public class Lotta extends JPanel{
                                     	
                                     	difensore.usaMossa(attaccante, mossaCPU);
                                         mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
-
+                                        
+                                        Timer timerDif = new Timer(2000, new ActionListener() {
+											
+											@Override
+											public void actionPerformed(ActionEvent e) {
+												if(mossaCPU.getModificatore() > 1) {
+													mostraMessaggio("è superefficace");
+												}else if(mossaCPU.getModificatore() < 1) {
+													mostraMessaggio("non è molto efficace...");
+												}
+											}
+										});
+                                     
+                                     timerDif.setRepeats(false);
+                                     timerDif.start();
+                                        
                                         // Controllo KO utente dopo il contrattacco
                                         if (attaccante.esausto()) {
-                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
                                         	
+                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());                                      
                                         	difensore.setXp(difensore.getXp() + attaccante.getLivello()+5);
-                                      	
+                                        	
                                         	// Controllo se il pokemon è salito di livello
                                         	if(difensore.saliDiLivello()) {
-                                        		Timer timer = new Timer(2000, new ActionListener() {
+                                        		Timer timerLivelloDif = new Timer(4000, new ActionListener() {
     												@Override
     												public void actionPerformed(ActionEvent e) {
     													mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + attaccante.getLivello());
+    													livelloPokemonDif.setText("Liv " + difensore.getLivello());
     												}
     											});
-                                        		timer.setRepeats(false); // Il timer scatta solo una volta
-                                                timer.start();
+                                        		timerLivelloDif.setRepeats(false); // Il timer scatta solo una volta
+                                                timerLivelloDif.start();
                                         	}
                                         	
                                         	for (int i = 0; i < listaMosseUtente.size(); i++) {
@@ -315,7 +354,8 @@ public class Lotta extends JPanel{
                                         	areaMosse.setVisible(false);
                                         	mosse.setVisible(false);
 											next.setEnabled(false);
-                                        	Timer timer = new Timer(4000, new ActionListener() {
+                                        	
+											Timer timerEsaustoDif = new Timer(5000, new ActionListener() {
 												@Override
 												public void actionPerformed(ActionEvent e) {
 													mostraMessaggio(attaccante.getNome() + " è esausto!");
@@ -326,8 +366,8 @@ public class Lotta extends JPanel{
 												}
 											});
                                         	
-                                        	timer.setRepeats(false); // Il timer scatta solo una volta
-                                            timer.start();	
+                                        	timerEsaustoDif.setRepeats(false); // Il timer scatta solo una volta
+                                            timerEsaustoDif.start();	
                                             return;
                                         }
                                         aggiornaHealthBar(healthBarAtt, (int)attaccante.getHp(), (int)attaccante.getHpMax());
@@ -344,6 +384,21 @@ public class Lotta extends JPanel{
                                 	difensore.usaMossa(attaccante, mossaCPU);
                                     mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
 
+                                    Timer timerDif = new Timer(2000, new ActionListener() {
+										
+										@Override
+										public void actionPerformed(ActionEvent e) {
+											if(mossaCPU.getModificatore() > 1) {
+												mostraMessaggio("è superefficace");
+											}else if(mossaCPU.getModificatore() < 1) {
+												mostraMessaggio("non è molto efficace...");
+											}
+										}
+									});
+                                 
+                                 timerDif.setRepeats(false);
+                                 timerDif.start();
+                                    
                                     // Controllo KO utente
                                     if (attaccante.esausto()) {
                                     	
@@ -351,14 +406,15 @@ public class Lotta extends JPanel{
                                     	
                                     	// Controllo se il pokemon è salito di livello
                                     	if(difensore.saliDiLivello()) {
-                                    		Timer timer = new Timer(2000, new ActionListener() {
+                                    		Timer timerLivelloDif = new Timer(3000, new ActionListener() {
 												@Override
 												public void actionPerformed(ActionEvent e) {
 													mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + attaccante.getLivello());
+													livelloPokemonDif.setText("Liv " + difensore.getLivello());
 												}
 											});
-                                    		timer.setRepeats(false); // Il timer scatta solo una volta
-                                            timer.start();
+                                    		timerLivelloDif.setRepeats(false); // Il timer scatta solo una volta
+                                            timerLivelloDif.start();
                                     	}
                                     	
                                     	for (int i = 0; i < listaMosseUtente.size(); i++) {
@@ -368,7 +424,8 @@ public class Lotta extends JPanel{
                                     	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
 										areaMosse.setVisible(false);
 										next.setEnabled(false);	
-                                    	Timer timer = new Timer(4000, new ActionListener() {
+                                    	
+										Timer timerEsaustoDif = new Timer(4000, new ActionListener() {
 											@Override
 											public void actionPerformed(ActionEvent e) {
 												mostraMessaggio(attaccante.getNome() + " è esausto!");
@@ -379,8 +436,8 @@ public class Lotta extends JPanel{
 											}
 										});
                                
-                                    timer.setRepeats(false); // Il timer scatta solo una volta
-                                	timer.start();
+                                    timerEsaustoDif.setRepeats(false); // Il timer scatta solo una volta
+                                	timerEsaustoDif.start();
                                     return;
                                     
                                     }
@@ -393,6 +450,21 @@ public class Lotta extends JPanel{
                                     SwingUtilities.invokeLater(() -> {
                                         attaccante.usaMossa(difensore, listaMosseUtente.get(index));                                     
                                         mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
+                                        
+                                        Timer timerAtt = new Timer(3000, new ActionListener() {
+											
+											@Override
+											public void actionPerformed(ActionEvent e) {
+												if(listaMosseUtente.get(index).getModificatore() > 1) {
+													mostraMessaggio("è superefficace");
+												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
+													mostraMessaggio("non è molto efficace...");
+												}
+											}
+										});
+                                        
+                                        timerAtt.setRepeats(false);
+                                        timerAtt.start();
 
                                         // Controllo KO CPU dopo il contrattacco
                                         if (difensore.esausto()) {
@@ -404,18 +476,19 @@ public class Lotta extends JPanel{
                                         	
                                         	// Controllo se il pokemon è salito di livello
                                         	if(attaccante.saliDiLivello()) {
-                                        		Timer timer = new Timer(2000, new ActionListener() {
+                                        		Timer timerLivello = new Timer(3000, new ActionListener() {
     												@Override
     												public void actionPerformed(ActionEvent e) {
     													mostraMessaggio(attaccante.getNome() + "è salito di livello, ora è al " + attaccante.getLivello());
+    													livelloPokemonAtt.setText("Liv " + attaccante.getLivello());
     												}
     											});
                                         		
-                                        		timer.setRepeats(false); // Il timer scatta solo una volta
-                                                timer.start();
+                                        		timerLivello.setRepeats(false); // Il timer scatta solo una volta
+                                                timerLivello.start();
                                         	}
                                         	
-                                        	Timer timer = new Timer(4000, new ActionListener() {
+                                        	Timer timerEsausto = new Timer(4000, new ActionListener() {
 												@Override
 												public void actionPerformed(ActionEvent e) {
 													mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!");
@@ -425,8 +498,8 @@ public class Lotta extends JPanel{
 												
 											});
                                         
-                                    	timer.setRepeats(false); // Il timer scatta solo una volta
-                                    	timer.start();
+                                    	timerEsausto.setRepeats(false); // Il timer scatta solo una volta
+                                    	timerEsausto.start();
                                  		return;
                                         
                                         } 
@@ -538,27 +611,34 @@ public class Lotta extends JPanel{
         
     	// Controllo se ci sono Pokémon ancora disponibili nella lista
         if (!pokemonCPU.isEmpty()) {
-            // Se il difensore è esausto, rimuovilo dalla lista e scegli il prossimo
+            
+        	// Se il difensore è esausto, rimuovilo dalla lista e scegli il prossimo
             pokemonCPU.remove(difensore); 
+            
             if (!pokemonCPU.isEmpty()) {
-                difensore = pokemonCPU.get(0); // Il nuovo Pokémon entra in campo
+                
+            	difensore = pokemonCPU.get(0); // Il nuovo Pokémon entra in campo
                 listaMosseCPU = difensore.getMosse();
                 mostraMessaggio("La CPU manda in campo " + difensore.getNome());
+                // Aggiorna l'interfaccia grafica
                 aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-                labelPokemonDif.setText(difensore.getNome()); // Aggiorna l'interfaccia grafica
+                labelPokemonDif.setText(difensore.getNome()); 
+                livelloPokemonDif.setText("Liv " + difensore.getLivello());
+            
             } else {
-                Timer timer = new Timer(2000, new ActionListener() {
+                
+            	Timer timer = new Timer(2000, new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						mostraMessaggio("L'avversario non ha più Pokémon disponibili!");
 						mostraMessaggio("HAI VINTO !");
-						schermataStart.aggiornaPunteggio(pokemonSconfitti, xpOttenuti);
-						schermataStart.revalidate();
-			            schermataStart.repaint();
+						schermataStart.aggiornaPunteggio(pokemonSconfitti, xpOttenuti);					
 					}
 				});
-            timer.setRepeats(false); // Il timer scatta solo una volta
-            timer.start();
+            
+        	timer.setRepeats(false); // Il timer scatta solo una volta
+        	timer.start();
+            
             }
         }
     }
@@ -618,6 +698,7 @@ public class Lotta extends JPanel{
                     attaccante = i;
                     labelPokemonAtt.setText(i.getNome());
                     listaMosseUtente = i.getMosse();
+                    livelloPokemonAtt.setText("Liv " + i.getLivello());
 
                     // Crea i nuovi pulsanti delle mosse
                     for (Mossa m : listaMosseUtente) {
@@ -648,8 +729,6 @@ public class Lotta extends JPanel{
             if (pokemonUtente.stream().allMatch(Pokemon::esausto)) {
                 mostraMessaggio("Hai perso la lotta! Tutti i tuoi Pokémon sono esausti.");
                 schermataStart.aggiornaPunteggio(pokemonSconfitti, xpOttenuti);
-                schermataStart.revalidate();
-                schermataStart.repaint();
                 next.setEnabled(false);
             }
             

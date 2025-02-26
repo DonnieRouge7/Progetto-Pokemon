@@ -1,13 +1,16 @@
 package Lotta_Pokemon;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pikachu extends Pokemon implements TipoElettro{
-
+public class Pikachu extends Pokemon {
+	
+	// Classe del Pokemon Pikachu
+	
 	public Pikachu() {
-		super("111",tipoElettro, -1, "Pikachu", 0, 1, 35, 35, 55, 40, 50,
+		super("111", 3, -1, "Pikachu", 0, 1, 35, 35, 55, 40, 50,
 				50, 90, 30);
+		
+		// Creazione delle mosse ed aggiunta alla lista
 		
 		List<Mossa> mosse = new ArrayList<>();
 		
