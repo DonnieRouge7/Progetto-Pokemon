@@ -19,6 +19,8 @@ import javax.swing.border.LineBorder;
 
 public class SchermataLotta extends JPanel{
 	
+	private JFrame frame;
+	
 	private List<Pokemon> pokemonUtente;
 	private List<Pokemon> pokemonCPU;
 	
@@ -62,8 +64,11 @@ public class SchermataLotta extends JPanel{
 		
 	private List<Mossa> listaMosseCPU;
 	
-	SchermataLotta(List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
+	private int indicePokemonCPU = 0; // Tiene traccia del Pokémon attuale
+	
+	SchermataLotta(JFrame frame, List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
 		
+		this.frame = frame;
 		this.pokemonUtente = pokemonUtente;
 		this.pokemonCPU = pokemonCPU;
 		
@@ -72,10 +77,8 @@ public class SchermataLotta extends JPanel{
 		
 		if (!pokemonUtente.isEmpty() && !pokemonCPU.isEmpty()) {
 	        this.attaccante = pokemonUtente.get(0);  // Primo Pokémon dell'utente
-	        this.difensore = pokemonCPU.get(0);  // Primo Pokémon della CPU
-	    } else {
-	        System.out.println("Errore: Le liste dei Pokémon sono vuote!");
-    	}
+	        this.difensore = pokemonCPU.get(pokemonCasuale());  // Primo Pokémon della CPU  
+	    } 
 		
 		listaMosseCPU = difensore.getMosse(); // Setting delle mosse del primo pokemon avversario
 		
@@ -243,7 +246,7 @@ public class SchermataLotta extends JPanel{
                                 next.setEnabled(false);
 
                                 // Controllo la velocità dei pokemon per stabilire chi attacca per primo
-                                if (attaccante.getVelocitàPokemon() >= difensore.getVelocitàPokemon()) {
+                                if (attaccante.getVelocità() >= difensore.getVelocità()) {
                                     
                                 	// Primo attacco: attaccante
                                 	attaccante.usaMossa(difensore, listaMosseUtente.get(index));
@@ -298,7 +301,7 @@ public class SchermataLotta extends JPanel{
 		                                    		Timer timerLivello = new Timer(4000, new ActionListener() {
 														@Override
 														public void actionPerformed(ActionEvent e) {
-															mostraMessaggio(attaccante.getNome() + "è salito di livello, ora è al " + attaccante.getLivello());
+															mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello());
 															livelloPokemonAtt.setText("Liv " + attaccante.getLivello());
 														}
 													});
@@ -387,7 +390,7 @@ public class SchermataLotta extends JPanel{
 			                                        		Timer timerLivelloDif = new Timer(6000, new ActionListener() {
 			    												@Override
 			    												public void actionPerformed(ActionEvent e) {
-			    													mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + attaccante.getLivello());
+			    													mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello());
 			    													livelloPokemonDif.setText("Liv " + difensore.getLivello());
 			    												}
 			    											});
@@ -477,7 +480,7 @@ public class SchermataLotta extends JPanel{
 	                                    		Timer timerLivelloDif = new Timer(4000, new ActionListener() {
 													@Override
 													public void actionPerformed(ActionEvent e) {
-														mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + attaccante.getLivello());
+														mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello());
 														livelloPokemonDif.setText("Liv " + difensore.getLivello());
 													}
 												});
@@ -550,7 +553,7 @@ public class SchermataLotta extends JPanel{
 			                                        		Timer timerLivello = new Timer(6000, new ActionListener() {
 			    												@Override
 			    												public void actionPerformed(ActionEvent e) {
-			    													mostraMessaggio(attaccante.getNome() + "è salito di livello, ora è al " + attaccante.getLivello());
+			    													mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello());
 			    													livelloPokemonAtt.setText("Liv " + attaccante.getLivello());
 			    												}
 			    											});
@@ -670,40 +673,52 @@ public class SchermataLotta extends JPanel{
 	
     // Metodo per cambiare automaticamente i pokemon della CPU
     public void cambiaPokemonCPU() {
-        
-    	// Controllo se ci sono Pokémon ancora disponibili nella lista
         if (!pokemonCPU.isEmpty()) {
-            
-        	// Se il difensore è esausto, rimuovilo dalla lista e scegli il prossimo
-            pokemonCPU.remove(difensore); 
-            
-            if (!pokemonCPU.isEmpty()) {
+            int startIndex = indicePokemonCPU; // Salva l'indice di partenza
+
+            do {
+                // Passa al Pokémon successivo, ciclando la lista
+                indicePokemonCPU = (indicePokemonCPU + 1) % pokemonCPU.size();
                 
-            	difensore = pokemonCPU.get(0); // Il nuovo Pokémon entra in campo
-                listaMosseCPU = difensore.getMosse();
-                mostraMessaggio("La CPU manda in campo " + difensore.getNome());
-                // Aggiorna l'interfaccia grafica
-                aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-                labelPokemonDif.setText(difensore.getNome()); 
-                livelloPokemonDif.setText("Liv " + difensore.getLivello());
+                // Se il Pokémon non è esausto, lo manda in campo
+                if (!pokemonCPU.get(indicePokemonCPU).esausto()) {
+                    difensore = pokemonCPU.get(indicePokemonCPU);
+                    listaMosseCPU = difensore.getMosse();
+                    mostraMessaggio("La CPU manda in campo " + difensore.getNome());
+
+                    // Aggiorna l'interfaccia grafica
+                    aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+                    labelPokemonDif.setText(difensore.getNome());
+                    livelloPokemonDif.setText("Liv " + difensore.getLivello());
+                    return; // Esce dalla funzione dopo aver trovato un Pokémon valido
+                }
+
+            } while (indicePokemonCPU != startIndex); // Se ha girato tutta la lista e non ha trovato Pokémon validi, termina.
+
+            // Se arriva qui significa che tutti i Pokémon sono esausti
+            mostraMessaggio("L'avversario non ha più Pokémon disponibili!");
+            mostraMessaggio("HAI VINTO !");
+            mosse.setEnabled(false);
             
-            } else {
-                
-            	Timer timer = new Timer(2000, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						mostraMessaggio("L'avversario non ha più Pokémon disponibili!");
-						mostraMessaggio("HAI VINTO !");				
-					}
-				});
-            
-        	timer.setRepeats(false); // Il timer scatta solo una volta
-        	timer.start();
-            
+            // Aumenta il livello della squadra CPU
+            for (Pokemon p : pokemonCPU) {
+                p.setLivello(p.getLivello() + 1);
+                p.setAttacco(p.getAttacco() + 3);
+                p.setAttaccoSpeciale(p.getAttaccoSpeciale() + 3);
+                p.setDifesa(p.getDifesa() + 3);
+                p.setDifesaSpeciale(p.getAttaccoSpeciale() + 3);
+                p.setVelocità(p.getVelocità() + 3);
+                p.setElusione(p.getElusione() + 3);
+                p.setHpMax(p.getHpMax() + 3);
+                p.setHp(p.getHpMax());
             }
+
+            Timer timer = new Timer(4000, e -> frame.dispose());
+            timer.setRepeats(false);
+            timer.start();
         }
     }
-    
+ 
     // Metodo per permettere la sotituzione di un pokemon quando si desidera
     public void cambiaPokemonUtente() {
 
@@ -791,6 +806,15 @@ public class SchermataLotta extends JPanel{
             if (pokemonUtente.stream().allMatch(Pokemon::esausto)) {
                 mostraMessaggio("Hai perso la lotta! Tutti i tuoi Pokémon sono esausti.");
                 next.setEnabled(false);
+                Timer timer = new Timer(4000, new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						frame.dispose();					
+					}
+				});
+            
+            timer.setRepeats(false);
+            timer.start();
             }
             
         }
@@ -802,6 +826,12 @@ public class SchermataLotta extends JPanel{
 
     // Metodo per far attaccare il pokemon della CPU con una mossa a scelta tra quelle disponibili
     public int attaccoCasuale() {
+    	Random interoCasuale = new Random(); 
+		return interoCasuale.nextInt(3);
+	}
+    
+    // Metodo per selezionare casualemente i Pokemon che la CPU schiera 
+    public int pokemonCasuale() {
     	Random interoCasuale = new Random(); 
 		return interoCasuale.nextInt(3);
 	}

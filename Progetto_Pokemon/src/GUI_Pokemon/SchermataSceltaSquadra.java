@@ -46,8 +46,8 @@ public class SchermataSceltaSquadra extends JPanel{
 		
 		List<Pokemon> pokemonCPU = new ArrayList<>();
 		pokemonCPU.add(new Charmander());
-		pokemonCPU.add(new Squirtle());
 		pokemonCPU.add(new Bulbasaur());
+		pokemonCPU.add(new Squirtle());
 		pokemonCPU.add(new Pikachu());
 		
 		// Label Lotta
@@ -103,7 +103,7 @@ public class SchermataSceltaSquadra extends JPanel{
 					
 					lottaFrame = new JFrame("Lotta");
 					
-					schermataLotta = new SchermataLotta(pokemonUtente, pokemonCPU);
+					schermataLotta = new SchermataLotta(lottaFrame, pokemonUtente, pokemonCPU);
 					
 					lottaFrame.add(schermataLotta);
 					

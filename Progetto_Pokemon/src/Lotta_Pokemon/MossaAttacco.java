@@ -19,9 +19,9 @@ public class MossaAttacco extends Mossa{
 	public void Danno(Pokemon attaccante, Pokemon difensore) { 
 		int danno = 0;
 		if(getTipo().equals("speciale")) {
-			danno = (int) (((potenzaMossa * attaccante.getAttaccoSpecialePokemon())/difensore.getDifesaSpecialePokemon())*modificatore(difensore));
+			danno = (int) (((potenzaMossa * attaccante.getAttaccoSpeciale())/difensore.getDifesaSpeciale())*modificatore(difensore));
 		}else if(getTipo().equals("fisico")){
-			danno = (int) (((potenzaMossa * attaccante.getAttaccoPokemon())/difensore.getDifesaPokemon())* modificatore(difensore));
+			danno = (int) (((potenzaMossa * attaccante.getAttacco())/difensore.getDifesa())* modificatore(difensore));
 		}
 		danno = Math.max(1, danno); // Impedisce che il danno sia 0 o negativo
 		difensore.subisciDanno(danno);

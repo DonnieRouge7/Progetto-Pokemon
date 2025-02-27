@@ -13,16 +13,16 @@ public class Pokemon {
 	private int livello; 
 	private double hp; 
 	private double hpMax;
-	private int attaccoPokemon;
-	private int difesaPokemon; 
-	private int attaccoSpecialePokemon;
-	private int difesaSpecialePokemon;
-	private int velocitàPokemon; 
-	private double elusionePokemon = 30; 
+	private int attacco;
+	private int difesa; 
+	private int attaccoSpeciale;
+	private int difesaSpeciale;
+	private int velocità; 
+	private double elusione = 30; 
 	private List<Mossa> mosse;
 	
 	
-	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attaccoPokemon, int difesaPokemon, int attaccoSpecialePokemon, int difesaSpecialePokemon, int velocitàPokemon, double elusionePokemon) {
+	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attacco, int difesa, int attaccoSpeciale, int difesaSpeciale, int velocità, double elusione) {
 		this.tipo1 = tipo1;
 		this.tipo2 = tipo2;
 		this.nome = nome;
@@ -30,21 +30,21 @@ public class Pokemon {
 		this.livello = livello;
 		this.hp = hp;
 		this.hpMax = hpMax;
-		this.attaccoPokemon = attaccoPokemon;
-		this.difesaPokemon = difesaPokemon;
-		this.attaccoSpecialePokemon = attaccoSpecialePokemon;
-		this.difesaSpecialePokemon = difesaSpecialePokemon;
-		this.velocitàPokemon = velocitàPokemon;
-		this.elusionePokemon = 30;
+		this.attacco = attacco;
+		this.difesa = difesa;
+		this.attaccoSpeciale = attaccoSpeciale;
+		this.difesaSpeciale = difesaSpeciale;
+		this.velocità = velocità;
+		this.elusione = 30;
 	}
 	
 	@Override
 	public String toString() {
 		return "Pokemon [codice=" + codice + ", tipo1=" + tipo1 + ", tipo2=" + tipo2 + ", nome=" + nome + ", xp=" + xp
-				+ ", livello=" + livello + ", hp=" + hp + ", attaccoPokemon=" + attaccoPokemon + ", difesaPokemon="
-				+ difesaPokemon + ", attaccoSpecialePokemon=" + attaccoSpecialePokemon + ", difesaSpecialePokemon="
-				+ difesaSpecialePokemon + ", velocitàPokemon=" + velocitàPokemon + ", elusionePokemon="
-				+ elusionePokemon;
+				+ ", livello=" + livello + ", hp=" + hp + ", attaccoPokemon=" + attacco + ", difesaPokemon="
+				+ difesa + ", attaccoSpecialePokemon=" + attaccoSpeciale + ", difesaSpecialePokemon="
+				+ difesaSpeciale + ", velocitàPokemon=" + velocità + ", elusionePokemon="
+				+ elusione;
 	}
 
 	public String getCodice() {
@@ -89,41 +89,41 @@ public class Pokemon {
 	public void setHpMax(double hpMax) {
 		this.hpMax = hpMax;
 	}
-	public int getAttaccoPokemon() {
-		return attaccoPokemon;
+	public int getAttacco() {
+		return attacco;
 	}
-	public void setAttaccoPokemon(int attaccoPokemon) {
-		this.attaccoPokemon = attaccoPokemon;
+	public void setAttacco(int attacco) {
+		this.attacco = attacco;
 	}
-	public int getDifesaPokemon() {
-		return difesaPokemon;
+	public int getDifesa() {
+		return difesa;
 	}
-	public void setDifesaPokemon(int difesaPokemon) {
-		this.difesaPokemon = difesaPokemon;
+	public void setDifesa(int difesa) {
+		this.difesa = difesa;
 	}
-	public int getAttaccoSpecialePokemon() {
-		return attaccoSpecialePokemon;
+	public int getAttaccoSpeciale() {
+		return attaccoSpeciale;
 	}
-	public void setAttaccoSpecialePokemon(int attaccoSpecialePokemon) {
-		this.attaccoSpecialePokemon = attaccoSpecialePokemon;
+	public void setAttaccoSpeciale(int attaccoSpeciale) {
+		this.attaccoSpeciale = attaccoSpeciale;
 	}
-	public int getDifesaSpecialePokemon() {
-		return difesaSpecialePokemon;
+	public int getDifesaSpeciale() {
+		return difesaSpeciale;
 	}
-	public void setDifesaSpecialePokemon(int difesaSpecialePokemon) {
-		this.difesaSpecialePokemon = difesaSpecialePokemon;
+	public void setDifesaSpeciale(int difesaSpeciale) {
+		this.difesaSpeciale = difesaSpeciale;
 	}
-	public int getVelocitàPokemon() {
-		return velocitàPokemon;
+	public int getVelocità() {
+		return velocità;
 	}
-	public void setVelocitàPokemon(int velocitàPokemon) {
-		this.velocitàPokemon = velocitàPokemon;
+	public void setVelocità(int velocità) {
+		this.velocità = velocità;
 	}
 	public double getElusione() {
-		return elusionePokemon;
+		return elusione;
 	}
-	public void setElusione(double elusionePokemon) {
-		this.elusionePokemon = elusionePokemon;
+	public void setElusione(double elusione) {
+		this.elusione = elusione;
 	}
 	public List<Mossa> getMosse() {
 		return mosse;
@@ -144,12 +144,12 @@ public class Pokemon {
 		boolean saliDiLivello = false;
 		if(xp >= getLivello()*10) {
 			setLivello(livello + 1);
-			setAttaccoPokemon(attaccoPokemon + 3);
-			setAttaccoSpecialePokemon(attaccoSpecialePokemon + 3);
-			setDifesaPokemon(difesaPokemon + 3);
-			setDifesaSpecialePokemon(difesaSpecialePokemon + 3);
-			setVelocitàPokemon(velocitàPokemon + 3);
-			setElusione(elusionePokemon + 3);
+			setAttacco(attacco + 3);
+			setAttaccoSpeciale(attaccoSpeciale + 3);
+			setDifesa(difesa + 3);
+			setDifesaSpeciale(difesaSpeciale + 3);
+			setVelocità(velocità + 3);
+			setElusione(elusione + 3);
 			setHpMax(hpMax + 3);
 			saliDiLivello = true;
 		}
