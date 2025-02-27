@@ -11,13 +11,11 @@ import javax.swing.border.TitledBorder;
 
 public class SchermataStart extends JPanel{
 	
-	private SchermataStart schermataStart;
-	
 	private JButton bottoneStart; 
 	private JButton bottoneEsc;
 	
 	private JFrame frameLotta;
-	private SchermataLotta schermataLotta;
+	private SchermataSceltaSquadra schermataSceltaSquadra;
 	
 	private JLabel campoBenvenuto;
 	private JTextField testoBenvenuto;
@@ -27,8 +25,6 @@ public class SchermataStart extends JPanel{
 	
 	private JLabel labelScore;
 	private JTextField fieldScore;
-	private int pokemonSconfitti;
-	private int xpOttenuti;
 		
 	SchermataStart(){	
 		
@@ -66,10 +62,9 @@ public class SchermataStart extends JPanel{
 				
 				frameLotta = new JFrame("Menù di Lotta");
 				
-				schermataStart = new SchermataStart();
-				schermataLotta = new SchermataLotta(schermataStart, frameLotta);
+				schermataSceltaSquadra = new SchermataSceltaSquadra(frameLotta);
 				
-				frameLotta.add(schermataLotta);
+				frameLotta.add(schermataSceltaSquadra);
 				
 				frameLotta.setSize(new Dimension(1000, 600));
 				frameLotta.setLocationRelativeTo(null);
@@ -134,16 +129,6 @@ public class SchermataStart extends JPanel{
         // Revalidate e Repaint
         revalidate();
         repaint();
-	}
-	
-	public void aggiornaPunteggio(int pokemonSconfitti, int xpOttenuti) {
-		this.pokemonSconfitti += pokemonSconfitti;
-		this.xpOttenuti += xpOttenuti;
-		
-		fieldScore.setText("hai sconfitto " + this.pokemonSconfitti + " " + this.xpOttenuti);
-		
-		schermataStart.revalidate();
-		schermataStart.repaint();
 	}
 
 }

@@ -9,6 +9,7 @@ public class Mossa{
 	private int PP; // numero massimo di volte che quella mossa può essere usata, non si resetta dopo una lotta
 	int precisioneMossa;
 	private double modificatore = 1;
+	private boolean colpito = false;
 	
 	public Mossa(String nomeMossa, int elementoMossa, String tipo, int PP, int precisioneMossa){
 		this.nomeMossa = nomeMossa; 
@@ -88,6 +89,14 @@ public class Mossa{
 
 	public void setModificatore(double modificatore) {
 		this.modificatore = modificatore;
+	}
+	
+	public boolean getColpito() {
+		return colpito;
+	}
+
+	public void setColpito(boolean colpito) {
+		this.colpito = colpito;
 	}
 	
 	// Per verificare quando una mossa ha esaurito i PP

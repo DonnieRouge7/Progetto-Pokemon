@@ -84,10 +84,11 @@ public class MossaStato extends Mossa{
 		int a = generaInteroCasuale(0, 100);
 		double probabilitaSuccesso = precisione / elusione;
 		if(probabilitaSuccesso < a) {
+			setColpito(true);
 			usaMossaStato(att, dif);
 		}else {
-			System.out.println(dif.getNome() + " evita il colpo");
-			setPP(getPP() - 1);
+			setColpito(false);
+			this.setPP(this.getPP() - 1);
 		}
 	}
 }

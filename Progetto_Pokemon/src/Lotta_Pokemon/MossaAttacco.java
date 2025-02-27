@@ -36,9 +36,10 @@ public class MossaAttacco extends Mossa{
 		int a = generaInteroCasuale(0, 100);
 		double probabilitaSuccesso = precisione / elusione;
 		if(probabilitaSuccesso < a) {
+			setColpito(true);
 			Danno(att, dif);
 		}else {
-			System.out.println(dif.getNome() + " evita il colpo");
+			setColpito(false);
 			this.setPP(this.getPP() - 1);
 		}
 	}
