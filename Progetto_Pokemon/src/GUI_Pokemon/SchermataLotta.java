@@ -21,8 +21,10 @@ public class SchermataLotta extends JPanel{
 	
 	private JFrame frame;
 	
-	private List<Pokemon> pokemonUtente;
-	private List<Pokemon> pokemonCPU;
+	private List<Pokemon> pokemonUtente; // Contiene la lista dei pokemon selezionati dall'utente
+	private List<Pokemon> pokemonCPU; // Contiene la lista dei pokemon selezionati dalla CPU
+	
+	private List<Mossa> listaMosseCPU; // Contiene la lista delle mosse dei Pokemon della CPU
 	
 	private ImageIcon sfondo;
 	private JLabel labelSfondo;
@@ -61,10 +63,15 @@ public class SchermataLotta extends JPanel{
 		
 		private JButton borsa;
 	
-		
-	private List<Mossa> listaMosseCPU;
-	
 	private int indicePokemonCPU = 0; // Tiene traccia del Pokémon attuale
+	
+	private JFrame frameWIN;
+		private JPanel panelWIN;
+			private JLabel youWIN;
+			
+	private JFrame frameLOSE;
+		private JPanel panelLOSE;
+			private JLabel youLOSE;
 	
 	SchermataLotta(JFrame frame, List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
 		
@@ -77,7 +84,7 @@ public class SchermataLotta extends JPanel{
 		
 		if (!pokemonUtente.isEmpty() && !pokemonCPU.isEmpty()) {
 	        this.attaccante = pokemonUtente.get(0);  // Primo Pokémon dell'utente
-	        this.difensore = pokemonCPU.get(pokemonCasuale());  // Primo Pokémon della CPU  
+	        this.difensore = pokemonCPU.get(pokemonCasuale());  // Primo Pokémon della CPU selezionato casualemente tra quelli disponibili
 	    } 
 		
 		listaMosseCPU = difensore.getMosse(); // Setting delle mosse del primo pokemon avversario
@@ -238,12 +245,15 @@ public class SchermataLotta extends JPanel{
                         pulsantiMosse[i].addActionListener(new ActionListener() {
                             @Override
                         	public void actionPerformed(ActionEvent e) {
-                                // Disabilita i pulsanti delle mosse per evitare doppi input
+                                
+                            	// Disabilita i pulsanti delle mosse per evitare doppi input
                                 for (JButton pulsante : pulsantiMosse) {
                                     pulsante.setEnabled(false);
                                 }
                                 
                                 next.setEnabled(false);
+                                borsa.setEnabled(false);
+                                buttonCambiaPokemon.setEnabled(false);
 
                                 // Controllo la velocità dei pokemon per stabilire chi attacca per primo
                                 if (attaccante.getVelocità() >= difensore.getVelocità()) {
@@ -252,6 +262,7 @@ public class SchermataLotta extends JPanel{
                                 	attaccante.usaMossa(difensore, listaMosseUtente.get(index));
                                 	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
                                 	
+                                	// Verifico se l'attacco è andato a segno
                                 	if(listaMosseUtente.get(index).getColpito() == false) {
                                 		Timer timer = new Timer(2000, new ActionListener() {											
 											@Override
@@ -262,23 +273,39 @@ public class SchermataLotta extends JPanel{
                                 		
                                 		timer.setRepeats(false);
                                 		timer.start();
+                                	
+                                	}else {
+                                		
+                                		// Controllo se la mossa usata ha un effetto di tipo stato
+                                		if(listaMosseUtente.get(index).getEffetto() != "") {
+                                    		Timer timerEffetto = new Timer(2000, new ActionListener() {										
+    											@Override
+    											public void actionPerformed(ActionEvent e) {												
+    												mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto());
+    											}
+    										});
+                                    		
+                                    		timerEffetto.setRepeats(false);
+                                    		timerEffetto.start();
+                                    		
+                                    	} else {
+                                    		
+                                		// Timer per mostrare l'efficacia dell'attacco
+                                       	 Timer timerAtt = new Timer(2000, new ActionListener() {    											
+       											@Override
+       											public void actionPerformed(ActionEvent e) {
+       												if(listaMosseUtente.get(index).getModificatore() > 1) {
+       													mostraMessaggio("è superefficace");
+       												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
+       													mostraMessaggio("non è molto efficace...");
+       												}
+       											}
+       										});
+                                            
+                                            timerAtt.setRepeats(false);
+                                            timerAtt.start();
+                                    	}                                                                  		
                                 	}
-                                	
-                                	 Timer timerAtt = new Timer(2000, new ActionListener() {
-											
-											@Override
-											public void actionPerformed(ActionEvent e) {
-												if(listaMosseUtente.get(index).getModificatore() > 1) {
-													mostraMessaggio("è superefficace");
-												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
-													mostraMessaggio("non è molto efficace...");
-												}
-											}
-										});
-                                     
-                                     timerAtt.setRepeats(false);
-                                     timerAtt.start();
-                                	
 	                                    // Controllo KO CPU
 	                                    if (difensore.esausto()) {
 	                                  
@@ -330,7 +357,8 @@ public class SchermataLotta extends JPanel{
 			                                    	
 			                                    	difensore.usaMossa(attaccante, mossaCPU);
 			                                        mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
-			                                        
+			                                        			                                        
+			                                        // Verifico se l'attacco della CPU è andato a segno
 			                                        if(mossaCPU.getColpito() == false) {
 			                                    		Timer timer = new Timer(4000, new ActionListener() {											
 			    											@Override
@@ -341,23 +369,37 @@ public class SchermataLotta extends JPanel{
 			                                    		
 			                                    		timer.setRepeats(false);
 			                                    		timer.start();
+			                                    	
+			                                        } else {
+			                                    		// Controllo se la mossa usata ha un effetto di tipo stato
+			                                    		if(mossaCPU.getEffetto() != "") {
+			                                        		Timer timerEffetto = new Timer(4000, new ActionListener() {										
+			        											@Override
+			        											public void actionPerformed(ActionEvent e) {												
+			        												mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto());
+			        											}
+			        										});
+			                                        		
+			                                        		timerEffetto.setRepeats(false);
+			                                        		timerEffetto.start();			                                        		
+			                                        	} else {
+			                                        		// Verifico l'efficacia dell'attacco della CPU
+			                                        		Timer timerDif = new Timer(4000, new ActionListener() {									
+																@Override
+																public void actionPerformed(ActionEvent e) {
+																	if(mossaCPU.getModificatore() > 1) {
+																		mostraMessaggio("è superefficace");
+																	}else if(mossaCPU.getModificatore() < 1) {
+																		mostraMessaggio("non è molto efficace...");
+																	}
+																}
+															});
+					                                     
+						                                     timerDif.setRepeats(false);
+						                                     timerDif.start();
+			                                        	}
 			                                    	}
-			                                        
-			                                        Timer timerDif = new Timer(4000, new ActionListener() {
-														
-														@Override
-														public void actionPerformed(ActionEvent e) {
-															if(mossaCPU.getModificatore() > 1) {
-																mostraMessaggio("è superefficace");
-															}else if(mossaCPU.getModificatore() < 1) {
-																mostraMessaggio("non è molto efficace...");
-															}
-														}
-													});
-			                                     
-				                                     timerDif.setRepeats(false);
-				                                     timerDif.start();
-			                                        
+ 
 			                                        // Controllo KO utente dopo il contrattacco
 			                                        if (attaccante.esausto()) {
 			                                        	
@@ -421,6 +463,7 @@ public class SchermataLotta extends JPanel{
                                 	difensore.usaMossa(attaccante, mossaCPU);
                                     mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
                                     
+                                 // Verifico se l'attacco della CPU è andato a segno
                                     if(mossaCPU.getColpito() == false) {
                                 		Timer timer = new Timer(2000, new ActionListener() {											
 											@Override
@@ -431,22 +474,36 @@ public class SchermataLotta extends JPanel{
                                 		
                                 		timer.setRepeats(false);
                                 		timer.start();
+                                	
+                                    } else {
+                                		// Controllo se la mossa usata ha un effetto di tipo stato
+                                		if(mossaCPU.getEffetto() != "") {
+                                    		Timer timerEffetto = new Timer(2000, new ActionListener() {										
+    											@Override
+    											public void actionPerformed(ActionEvent e) {												
+    												mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto());
+    											}
+    										});
+                                    		
+                                    		timerEffetto.setRepeats(false);
+                                    		timerEffetto.start();			                                        		
+                                    	} else {
+                                    		// Verifico l'efficacia dell'attacco della CPU
+                                    		Timer timerDif = new Timer(2000, new ActionListener() {									
+												@Override
+												public void actionPerformed(ActionEvent e) {
+													if(mossaCPU.getModificatore() > 1) {
+														mostraMessaggio("è superefficace");
+													}else if(mossaCPU.getModificatore() < 1) {
+														mostraMessaggio("non è molto efficace...");
+													}
+												}
+											});
+	                                     
+		                                     timerDif.setRepeats(false);
+		                                     timerDif.start();
+                                    	}
                                 	}
-                                    
-                                    Timer timerDif = new Timer(2000, new ActionListener() {
-										
-										@Override
-										public void actionPerformed(ActionEvent e) {
-											if(mossaCPU.getModificatore() > 1) {
-												mostraMessaggio("è superefficace");
-											}else if(mossaCPU.getModificatore() < 1) {
-												mostraMessaggio("non è molto efficace...");
-											}
-										}
-									});
-                                 
-                                    timerDif.setRepeats(false);
-                                    timerDif.start();
                                     
                                     // Controllo KO utente
                                     if (attaccante.esausto()) {
@@ -502,34 +559,52 @@ public class SchermataLotta extends JPanel{
 											SwingUtilities.invokeLater(() -> {
 		                                    	
 												attaccante.usaMossa(difensore, listaMosseUtente.get(index));
-		                                    	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
-		                                    	
-		                                    	if(listaMosseUtente.get(index).getColpito() == false) {
-		                                    		Timer timer = new Timer(4000, new ActionListener() {											
-		    											@Override
-		    											public void actionPerformed(ActionEvent e) {
-		    												mostraMessaggio(difensore.getNome() +  " evita l'attacco");
-		    											}
-		    										});
-		                                    		
-		                                    		timer.setRepeats(false);
-		                                    		timer.start();
-		                                    	}
-		                                    	
-		                                    	 Timer timerAtt = new Timer(4000, new ActionListener() {
-		    											
-		    											@Override
-		    											public void actionPerformed(ActionEvent e) {
-		    												if(listaMosseUtente.get(index).getModificatore() > 1) {
-		    													mostraMessaggio("è superefficace");
-		    												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
-		    													mostraMessaggio("non è molto efficace...");
-		    												}
-		    											}
-		    										});
-		                                         
-		                                         timerAtt.setRepeats(false);
-		                                         timerAtt.start();
+			                                	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
+			                                	
+			                                	// Verifico se l'attacco è andato a segno
+			                                	if(listaMosseUtente.get(index).getColpito() == false) {
+			                                		Timer timer = new Timer(4000, new ActionListener() {											
+														@Override
+														public void actionPerformed(ActionEvent e) {
+															mostraMessaggio(difensore.getNome() +  " evita l'attacco");
+														}
+													});
+			                                		
+			                                		timer.setRepeats(false);
+			                                		timer.start();
+			                                	
+			                                	}else {
+			                                		
+			                                		// Controllo se la mossa usata ha un effetto di tipo stato
+			                                		if(listaMosseUtente.get(index).getEffetto() != "") {
+			                                    		Timer timerEffetto = new Timer(4000, new ActionListener() {										
+			    											@Override
+			    											public void actionPerformed(ActionEvent e) {												
+			    												mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto());
+			    											}
+			    										});
+			                                    		
+			                                    		timerEffetto.setRepeats(false);
+			                                    		timerEffetto.start();
+			                                    		
+			                                    	} else {
+			                                    		
+			                                		// Timer per mostrare l'efficacia dell'attacco
+			                                       	 Timer timerAtt = new Timer(4000, new ActionListener() {    											
+			       											@Override
+			       											public void actionPerformed(ActionEvent e) {
+			       												if(listaMosseUtente.get(index).getModificatore() > 1) {
+			       													mostraMessaggio("è superefficace");
+			       												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
+			       													mostraMessaggio("non è molto efficace...");
+			       												}
+			       											}
+			       										});
+			                                            
+			                                            timerAtt.setRepeats(false);
+			                                            timerAtt.start();
+			                                    	}                                                                  		
+			                                	}
 		                                    	
 		                                        // Controllo KO CPU
 		                                        if (difensore.esausto()) {
@@ -595,12 +670,18 @@ public class SchermataLotta extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(difensore.esausto()) {
+						for (JButton pulsante : pulsantiMosse) {
+	                        pulsante.setEnabled(false);
+	                    }
+						borsa.setEnabled(false);
+						buttonCambiaPokemon.setEnabled(false);
 						cambiaPokemonCPU();
-						next.setEnabled(false);
-					}
-					for (JButton pulsante : pulsantiMosse) {
-                        pulsante.setEnabled(true);
-                    }
+						next.setEnabled(false);						
+					} else {
+						for (JButton pulsante : pulsantiMosse) {
+	                        pulsante.setEnabled(true);
+	                    }
+					}					
 				}
 			});
 	    	
@@ -649,9 +730,9 @@ public class SchermataLotta extends JPanel{
     		});
         	
         	areaMosse.add(buttonCambiaPokemon);
-        	
+        
         	add(areaMosse);
-  
+
         setComponentZOrder(labelSfondo, getComponentCount() - 1);
               
 	}
@@ -697,8 +778,7 @@ public class SchermataLotta extends JPanel{
 
             // Se arriva qui significa che tutti i Pokémon sono esausti
             mostraMessaggio("L'avversario non ha più Pokémon disponibili!");
-            mostraMessaggio("HAI VINTO !");
-            mosse.setEnabled(false);
+                      
             
             // Aumenta il livello della squadra CPU
             for (Pokemon p : pokemonCPU) {
@@ -713,7 +793,62 @@ public class SchermataLotta extends JPanel{
                 p.setHp(p.getHpMax());
             }
 
-            Timer timer = new Timer(4000, e -> frame.dispose());
+            Timer timer = new Timer(4000, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					frame.dispose();	
+					
+					// Frame WIN
+		            
+		            frameWIN = new JFrame();
+		            frameWIN.setSize(new Dimension(300, 200));
+		            frameWIN.setLocationRelativeTo(null);
+		            frameWIN.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		            frameWIN.setVisible(true);
+		            
+		            	
+		            	// Panel WIN
+		            
+		            	panelWIN = new JPanel();
+		            	panelWIN.setSize(300, 200);
+		            	panelWIN.setLayout(null);
+		            	panelWIN.setBackground(Color.BLUE);
+		            	frameWIN.add(panelWIN);
+		            	
+		            		// Label youWin
+		            	
+		            		youWIN = new JLabel("HAI VINTO");
+		            		youWIN.setForeground(Color.YELLOW);
+		            		youWIN.setFont(new Font("Arial", Font.BOLD, 26));
+		            		youWIN.setBounds(75, 40, 150, 80);
+		            		panelWIN.add(youWIN);
+		            		
+		            		// Button menu
+		            		
+		            		JButton menu = new JButton("menu");
+		            		menu.setForeground(Color.YELLOW);
+		            		menu.setBackground(Color.BLACK);
+		            		menu.setFont(new Font("Arial", Font.BOLD, 11));
+		            		menu.setBounds(230, 130, 50, 20);
+		            		
+		            		Border bordoMenu = new LineBorder(Color.WHITE, 2);
+		            		menu.setBorder(bordoMenu);
+		            		
+		            		menu.addActionListener(new ActionListener() {								
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									frameWIN.dispose();	
+									
+								}
+							});								
+										            		
+		            		panelWIN.add(menu);
+		            		
+		            	frameWIN.add(panelWIN);
+		            	
+				}
+			});
             timer.setRepeats(false);
             timer.start();
         }
@@ -730,7 +865,7 @@ public class SchermataLotta extends JPanel{
     	Border bordoPokemonCambiati = new LineBorder(Color.BLACK, 3);
 
         int x = 20;
-        int y = 12;
+        int y = 10;
         
         panelCambiaPokemon.removeAll(); // Rimuove tutti i componenti precedenti
         panelCambiaPokemon.revalidate();
@@ -751,7 +886,9 @@ public class SchermataLotta extends JPanel{
             chiudiButton.setBorder(new LineBorder(Color.BLACK, 3));
             chiudiButton.setBounds(250, 230, 120, 50);
             chiudiButton.setVisible(true);
-
+            
+            if(attaccante.esausto()) chiudiButton.setEnabled(false);
+            
             chiudiButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -772,7 +909,21 @@ public class SchermataLotta extends JPanel{
             pokemonButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    attaccante = i;
+                    
+                	panelCambiaPokemon.setVisible(false);                    
+                    areaMosse.setVisible(true);
+                    mosse.setVisible(true);
+                    next.setEnabled(false);
+                    
+                    borsa.setVisible(true);
+                	borsa.setEnabled(true);
+                	
+                	buttonCambiaPokemon.setVisible(true);
+                	buttonCambiaPokemon.setEnabled(true);
+                	
+                	chiudiButton.setVisible(true);
+                	
+                	attaccante = i;
                     labelPokemonAtt.setText(i.getNome());
                     listaMosseUtente = i.getMosse();
                     livelloPokemonAtt.setText("Liv " + i.getLivello());
@@ -786,12 +937,6 @@ public class SchermataLotta extends JPanel{
                     
                     mostraMessaggio("Coraggio " + i.getNome() + " scelgo te!");
                     aggiornaHealthBar(healthBarAtt, (int) i.getHp(), (int) i.getHpMax());
-                    panelCambiaPokemon.setVisible(false);
-                    buttonCambiaPokemon.setVisible(true);
-                    areaMosse.setVisible(true);
-                    mosse.setVisible(true);
-                    next.setEnabled(false);
-                    borsa.setVisible(true);
                     
                     aggiornaStatoPulsanti(); 
                     
@@ -801,27 +946,78 @@ public class SchermataLotta extends JPanel{
             });
             
             panelCambiaPokemon.add(pokemonButton);
-            y += 80; // Sposta i pulsanti in basso
+            y += 70; // Sposta i pulsanti in basso
             
             if (pokemonUtente.stream().allMatch(Pokemon::esausto)) {
-                mostraMessaggio("Hai perso la lotta! Tutti i tuoi Pokémon sono esausti.");
+                mostraMessaggio("Tutti i tuoi Pokémon sono esausti.");
                 next.setEnabled(false);
+                chiudiButton.setEnabled(false);
                 Timer timer = new Timer(4000, new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						frame.dispose();					
+						
+						frame.dispose();
+						
+						// Frame LOSE
+						
+						frameLOSE = new JFrame();
+						frameLOSE.setSize(new Dimension(300, 200));
+						frameLOSE.setLocationRelativeTo(null);
+						frameLOSE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+						frameLOSE.setVisible(true);
+			            
+			            	
+			            	// Panel LOSE
+			            
+			            	panelLOSE = new JPanel();
+			            	panelLOSE.setSize(300, 200);
+			            	panelLOSE.setLayout(null);
+			            	panelLOSE.setBackground(Color.BLACK);
+			            	frameLOSE.add(panelLOSE);
+			            	
+			            		// Label youLOSE
+			            	
+			            		youLOSE = new JLabel("HAI PERSO");
+			            		youLOSE.setForeground(Color.RED);
+			            		youLOSE.setFont(new Font("Arial", Font.BOLD, 26));
+			            		youLOSE.setBounds(75, 40, 150, 80);
+			            		panelLOSE.add(youLOSE);
+			            		
+			            		// Button menu
+			            		
+			            		JButton menu = new JButton("menu");
+			            		menu.setForeground(Color.RED);
+			            		menu.setBackground(Color.WHITE);
+			            		menu.setFont(new Font("Arial", Font.BOLD, 11));
+			            		menu.setBounds(230, 130, 50, 20);
+			            		
+			            		Border bordoMenu = new LineBorder(Color.RED, 2);
+			            		menu.setBorder(bordoMenu);
+			            		
+			            		menu.addActionListener(new ActionListener() {								
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										frameLOSE.dispose();	
+										
+									}
+								});								
+											            		
+			            		panelLOSE.add(menu);
+			            		
+			            	frameLOSE.add(panelLOSE);						
 					}
 				});
             
             timer.setRepeats(false);
             timer.start();
+            
             }
             
         }
         
         // Rinfresca il pannello dopo le modifiche
         panelCambiaPokemon.revalidate();
-        panelCambiaPokemon.repaint();   
+        panelCambiaPokemon.repaint();         
     }
 
     // Metodo per far attaccare il pokemon della CPU con una mossa a scelta tra quelle disponibili
@@ -833,7 +1029,7 @@ public class SchermataLotta extends JPanel{
     // Metodo per selezionare casualemente i Pokemon che la CPU schiera 
     public int pokemonCasuale() {
     	Random interoCasuale = new Random(); 
-		return interoCasuale.nextInt(3);
+		return interoCasuale.nextInt(pokemonCPU.size());
 	}
     
     // Metodo per aggiornare le barre di salute dei pokemon quando necessario

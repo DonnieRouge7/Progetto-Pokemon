@@ -136,7 +136,14 @@ public class Mossa{
 		}
 	return modificatore;
 	}
+	
+	public String getEffetto() {
+        return ""; // Default: nessun effetto
+    }
+
 }
+
+
 
 
 

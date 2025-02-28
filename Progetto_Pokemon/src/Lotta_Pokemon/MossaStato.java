@@ -39,31 +39,31 @@ public class MossaStato extends Mossa{
 			attaccante.setElusione(attaccante.getElusione() + ((attaccante.getElusione()/100) * 33));
 			System.out.println("l'elusione di " + attaccante.getNome() + " sale");
 			break;
-		case "Diminuisci Difesa":
+		case "Diminuisce Difesa":
 			x = difensore.getDifesa();
 			y = x - (x/100 * 33);
 			difensore.setDifesa((int) Math.max(1, y)); // Evita che l'attacco vada sotto 1
 			System.out.println("la difesa di " + difensore.getNome() + " avversario"+ " cala");
 			break;
-		case "Diminuisci Attacco":
+		case "Diminuisce Attacco":
 			 x = difensore.getAttacco();
 			 y = x - (x/100 * 33);
 			 difensore.setAttacco((int) Math.max(1, y)); // Evita che l'attacco vada sotto 1
 			System.out.println("l'attacco di " + difensore.getNome() + " avversario"+ " cala");
 			break;
-		case "Diminuisci Difesa Speciale":
+		case "Diminuisce Difesa Speciale":
 			difensore.setDifesaSpeciale(difensore.getDifesaSpeciale() - ((difensore.getDifesaSpeciale()/100)*33));
 			System.out.println("la difesa speciale di " + difensore.getNome() + " avversario" + " cala");
 			break;
-		case "Diminuisci Attacco Speciale":
+		case "Diminuisce Attacco Speciale":
 			difensore.setAttaccoSpeciale(difensore.getAttaccoSpeciale() - ((difensore.getAttaccoSpeciale()/100)*33));
 			System.out.println("l'attacco speciale di " + difensore.getNome() + " avversario"+ " cala");
 			break;
-		case "Diminuisci Velocità":
+		case "Diminuisce Velocità":
 			difensore.setVelocità(difensore.getVelocità() - ((difensore.getVelocità()/100)*33));
 			System.out.println("la velocità di " + difensore.getNome() + " avversario"+ " cala");
 			break;
-		case "Diminuisci Elusione":
+		case "Diminuisce Elusione":
 			difensore.setElusione(difensore.getElusione() - ((difensore.getElusione()/100)*33));
 			System.out.println("l'elusione di " + difensore.getNome() + " avversario"+ " cala");
 			break;
@@ -91,5 +91,11 @@ public class MossaStato extends Mossa{
 			this.setPP(this.getPP() - 1);
 		}
 	}
+
+	@Override
+	public String getEffetto() {
+	    return effetto; // Restituisce l'effetto specifico
+	}
+	
 }
 

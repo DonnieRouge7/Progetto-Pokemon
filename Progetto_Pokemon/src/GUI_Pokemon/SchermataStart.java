@@ -22,9 +22,6 @@ public class SchermataStart extends JPanel{
 	
 	private JLabel labelSfondo;
 	private ImageIcon sfondo;
-	
-	private JLabel labelScore;
-	private JTextField fieldScore;
 		
 	SchermataStart(){	
 		
@@ -59,6 +56,9 @@ public class SchermataStart extends JPanel{
 		bottoneStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				bottoneStart.setEnabled(false);
+				bottoneEsc.setEnabled(false);
 				
 				frameLotta = new JFrame("Menù di Lotta");
 				
@@ -108,20 +108,6 @@ public class SchermataStart extends JPanel{
         testoBenvenuto.setBackground(Color.BLUE);
         testoBenvenuto.setBorder(bordoCampoBenvenuto);
         add(testoBenvenuto);
-        
-        // Label Score
-        
-        labelScore = new JLabel();
-        labelScore.setBounds(0, 150, 200, 300);
-        add(labelScore);
-        
-        // Testo Score
-        
-        fieldScore = new JTextField();
-        fieldScore.setBounds(30, 150, 200, 300);
-        fieldScore.setBackground(Color.BLUE);
-        fieldScore.setBorder(bordoScore);
-        add(fieldScore);
         
         // Porta il JLabel dello sfondo in fondo
         setComponentZOrder(labelSfondo, getComponentCount() - 1);

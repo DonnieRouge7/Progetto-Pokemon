@@ -16,7 +16,7 @@ public class Squirtle extends Pokemon {
 		
 		Mossa bolla = new MossaAttacco("Bolla", 2, "speciale", 30, 100, 40);
 		Mossa pistolacqua = new MossaAttacco("Pistolacqua", 2, "speciale", 25, 100, 40);
-		Mossa colpocoda = new MossaStato("Colpocoda", 0, "stato", 30, 100, "Diminuisci Difesa");
+		Mossa colpocoda = new MossaStato("Colpocoda", 0, "stato", 30, 100, "Diminuisce Difesa");
 		Mossa morso = new MossaAttacco("Morso", 0, "fisico", 25, 100, 60);
 		
 		mosse.add(bolla);

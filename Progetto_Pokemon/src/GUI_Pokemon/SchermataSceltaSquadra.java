@@ -12,7 +12,7 @@ import Lotta_Pokemon.*;
 
 public class SchermataSceltaSquadra extends JPanel{
 	
- 	private JFrame frame;
+	private JFrame frame;
  	private JFrame lottaFrame;
  	
  	private SchermataLotta schermataLotta;
@@ -24,6 +24,8 @@ public class SchermataSceltaSquadra extends JPanel{
 	private JCheckBox Squirtle;
 	
 	private JCheckBox Bulbasaur;
+	
+	private JCheckBox Pikachu;
 	
 	private JButton confirm;
 	private JButton back;
@@ -46,10 +48,10 @@ public class SchermataSceltaSquadra extends JPanel{
 		
 		List<Pokemon> pokemonCPU = new ArrayList<>();
 		pokemonCPU.add(new Charmander());
-		pokemonCPU.add(new Bulbasaur());
+	/*	pokemonCPU.add(new Bulbasaur());
 		pokemonCPU.add(new Squirtle());
 		pokemonCPU.add(new Pikachu());
-		
+	*/
 		// Label Lotta
 		
 		labelLotta = new JLabel("Scegli i pokemon con cui lottare:");
@@ -72,6 +74,10 @@ public class SchermataSceltaSquadra extends JPanel{
 		Bulbasaur.setBackground(Color.BLACK);
 		Bulbasaur.setForeground(Color.WHITE);
 		
+		Pikachu = new JCheckBox("Pikachu");
+		Pikachu.setBackground(Color.BLACK);
+		Pikachu.setForeground(Color.WHITE);
+		
 		// Button confirm
 		
 		confirm = new JButton("Conferma");
@@ -82,11 +88,11 @@ public class SchermataSceltaSquadra extends JPanel{
 		confirm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(Charmander.isSelected() || Squirtle.isSelected() || Bulbasaur.isSelected()) {
+				if(Charmander.isSelected() || Squirtle.isSelected() || Bulbasaur.isSelected() || Pikachu.isSelected()) {
 					
 					// Creazione squadra utente
 					
-					List<Pokemon> pokemonUtente = new ArrayList<>(3);
+					List<Pokemon> pokemonUtente = new ArrayList<>(4);
 					
 					if(Charmander.isSelected()) {
 						pokemonUtente.add(new Charmander());
@@ -100,6 +106,9 @@ public class SchermataSceltaSquadra extends JPanel{
 						pokemonUtente.add(new Squirtle());
 							
 					}
+					if(Pikachu.isSelected()) {
+						pokemonUtente.add(new Pikachu());
+					}
 					
 					lottaFrame = new JFrame("Lotta");
 					
@@ -111,6 +120,7 @@ public class SchermataSceltaSquadra extends JPanel{
 					lottaFrame.setLocationRelativeTo(null);
 					lottaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					lottaFrame.setVisible(true);
+					frame.setVisible(false);
 					
 				}else {
 					try {
@@ -210,10 +220,24 @@ public class SchermataSceltaSquadra extends JPanel{
 				
 		add(Bulbasaur, gbc);
 		
-		// Button confirm
+		// Layout ChechBox Pikachu
 		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
+		
+		gbc.weightx = 0.0;
+		gbc.weighty = 0.0;
+				
+		gbc.anchor = GridBagConstraints.LINE_START;
+				
+		gbc.insets = new Insets(10, 0, 0, 0);
+				
+		add(Pikachu, gbc);
+		
+		// Button confirm
+		
+		gbc.gridx = 0;
+		gbc.gridy = 5;
 		
 		gbc.weightx = 0.0;
 		gbc.weighty = 0.0;
@@ -227,7 +251,7 @@ public class SchermataSceltaSquadra extends JPanel{
 		// Button back
 		
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		
 		gbc.weightx = 0.0;
 		gbc.weighty = 0.0;
@@ -241,7 +265,7 @@ public class SchermataSceltaSquadra extends JPanel{
 		// Button ESC
 		
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 5;
 		
 		gbc.weightx = 0.0;
 		gbc.weighty = 0.0;
