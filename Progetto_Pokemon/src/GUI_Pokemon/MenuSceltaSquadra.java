@@ -10,12 +10,11 @@ import javax.swing.*;
 import javax.swing.border.*;
 import Lotta_Pokemon.*;
 
-public class SchermataSceltaSquadra extends JPanel{
+public class MenuSceltaSquadra extends JPanel{
 	
-	private JFrame frame;
- 	private JFrame lottaFrame;
+	private JFrame frameMenuLotta;
  	
- 	private SchermataLotta schermataLotta;
+ 	private CampoDiBattaglia campoDiBattaglia;
  	
  	private JLabel labelLotta;
 	
@@ -32,9 +31,7 @@ public class SchermataSceltaSquadra extends JPanel{
 	private JButton ESC;
 	
 	// Costruttore che accetta un riferimento al frame
-	SchermataSceltaSquadra(JFrame frame) {
-		
-		this.frame = frame;
+	MenuSceltaSquadra(JFrame frame) {
 		
 		setLayout(new GridBagLayout());
 		
@@ -48,10 +45,10 @@ public class SchermataSceltaSquadra extends JPanel{
 		
 		List<Pokemon> pokemonCPU = new ArrayList<>();
 		pokemonCPU.add(new Charmander());
-	/*	pokemonCPU.add(new Bulbasaur());
-		pokemonCPU.add(new Squirtle());
-		pokemonCPU.add(new Pikachu());
-	*/
+		pokemonCPU.add(new Bulbasaur());
+		/*	pokemonCPU.add(new Squirtle());
+			pokemonCPU.add(new Pikachu());
+		 */
 		// Label Lotta
 		
 		labelLotta = new JLabel("Scegli i pokemon con cui lottare:");
@@ -110,17 +107,16 @@ public class SchermataSceltaSquadra extends JPanel{
 						pokemonUtente.add(new Pikachu());
 					}
 					
-					lottaFrame = new JFrame("Lotta");
+					frameMenuLotta = new JFrame("Lotta");
 					
-					schermataLotta = new SchermataLotta(lottaFrame, pokemonUtente, pokemonCPU);
+					campoDiBattaglia = new CampoDiBattaglia(frameMenuLotta, pokemonUtente, pokemonCPU);
 					
-					lottaFrame.add(schermataLotta);
+					frameMenuLotta.add(campoDiBattaglia);
 					
-					lottaFrame.setSize(new Dimension(1000, 600));
-					lottaFrame.setLocationRelativeTo(null);
-					lottaFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-					lottaFrame.setVisible(true);
-					frame.setVisible(false);
+					frameMenuLotta.setSize(new Dimension(1000, 600));
+					frameMenuLotta.setLocationRelativeTo(null);
+					frameMenuLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frameMenuLotta.setVisible(true);
 					
 				}else {
 					try {

@@ -7,7 +7,7 @@ import java.util.List;
 public class Squirtle extends Pokemon {
 
 	public Squirtle() {
-		super("321", 2, -1, "Squirtle", 0, 1, 44, 44, 48, 65, 50,
+		super("002", 2, -1, "Squirtle", 0, 1, 44, 44, 48, 65, 50,
 				50, 43, 30);
 		
 		// Creazione delle mosse ed aggiunta alla lista

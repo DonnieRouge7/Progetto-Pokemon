@@ -7,7 +7,7 @@ import java.util.List;
 public class Bulbasaur extends Pokemon {
 
 	public Bulbasaur() {
-		super("213", 4, -1, "Bulbasaur", 0, 1, 45, 45, 49, 49, 65,
+		super("003", 4, -1, "Bulbasaur", 0, 1, 45, 45, 49, 49, 65,
 				65, 45, 30);
 	
 		// Creazione delle mosse ed aggiunta alla lista	

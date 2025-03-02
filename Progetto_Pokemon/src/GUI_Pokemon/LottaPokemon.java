@@ -6,17 +6,17 @@ import javax.swing.border.*;
 
 public class LottaPokemon extends JFrame{
 	
-	private SchermataStart schermataStart;
+	private MenuPrincipale menuPrincipale;
 	
 	public LottaPokemon(){
 	
 		setLayout(new BorderLayout());
 		
-		schermataStart = new SchermataStart();
+		menuPrincipale = new MenuPrincipale();
 		
-		schermataStart.setVisible(true);
+		menuPrincipale.setVisible(true);
 		
-		add(schermataStart, BorderLayout.CENTER);
+		add(menuPrincipale, BorderLayout.CENTER);
 		
 		setSize(800, 500);
 		setLocationRelativeTo(null);

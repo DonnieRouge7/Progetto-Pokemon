@@ -9,21 +9,21 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-public class SchermataStart extends JPanel{
+public class MenuPrincipale extends JPanel{
 	
 	private JButton bottoneStart; 
 	private JButton bottoneEsc;
 	
-	private JFrame frameLotta;
-	private SchermataSceltaSquadra schermataSceltaSquadra;
+	private JFrame menuLotta;
+	private MenuSceltaSquadra menuSceltaSquadra;
 	
-	private JLabel campoBenvenuto;
-	private JTextField testoBenvenuto;
+	private JLabel labelBenvenuto;
+	private JTextField fieldBenvenuto;
 	
 	private JLabel labelSfondo;
 	private ImageIcon sfondo;
 		
-	SchermataStart(){	
+	MenuPrincipale(){	
 		
 		setLayout(null);
 		
@@ -38,7 +38,7 @@ public class SchermataStart extends JPanel{
 		
 		// Bordi
 		
-		Border bordoCampoBenvenuto = new LineBorder(Color.WHITE, 2, true);
+		Border bordoFieldBenvenuto = new LineBorder(Color.WHITE, 2, true);
 		Border bordoStart = new LineBorder(Color.WHITE, 2, true);
 		Border bordoEsc = new LineBorder(Color.WHITE, 2, true);
 		Border bordoScore = new TitledBorder("Migliori Score");
@@ -57,19 +57,18 @@ public class SchermataStart extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				bottoneStart.setEnabled(false);
 				bottoneEsc.setEnabled(false);
 				
-				frameLotta = new JFrame("Menù di Lotta");
+				menuLotta = new JFrame("Menù di Lotta");
 				
-				schermataSceltaSquadra = new SchermataSceltaSquadra(frameLotta);
+				menuSceltaSquadra = new MenuSceltaSquadra(menuLotta);
 				
-				frameLotta.add(schermataSceltaSquadra);
+				menuLotta.add(menuSceltaSquadra);
 				
-				frameLotta.setSize(new Dimension(1000, 600));
-				frameLotta.setLocationRelativeTo(null);
-				frameLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				frameLotta.setVisible(true);
+				menuLotta.setSize(new Dimension(1000, 600));
+				menuLotta.setLocationRelativeTo(null);
+				menuLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				menuLotta.setVisible(true);
 			}
 		});
 		
@@ -95,19 +94,19 @@ public class SchermataStart extends JPanel{
 		
 		// Label Benvenuto
 		
-		campoBenvenuto = new JLabel("Welcome to Pokemon Fight!");
-		campoBenvenuto.setForeground(Color.YELLOW);
-		campoBenvenuto.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-		campoBenvenuto.setBounds(110, 10, 600, 100);
-        add(campoBenvenuto);
+		labelBenvenuto = new JLabel("Welcome to Pokemon Fight!");
+		labelBenvenuto.setForeground(Color.YELLOW);
+		labelBenvenuto.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+		labelBenvenuto.setBounds(110, 10, 600, 100);
+        add(labelBenvenuto);
         
         // TextField Benvenuto
         
-        testoBenvenuto = new JTextField();
-        testoBenvenuto.setBounds(100, 10, 600, 100);
-        testoBenvenuto.setBackground(Color.BLUE);
-        testoBenvenuto.setBorder(bordoCampoBenvenuto);
-        add(testoBenvenuto);
+        fieldBenvenuto = new JTextField();
+        fieldBenvenuto.setBounds(100, 10, 600, 100);
+        fieldBenvenuto.setBackground(Color.BLUE);
+        fieldBenvenuto.setBorder(bordoFieldBenvenuto);
+        add(fieldBenvenuto);
         
         // Porta il JLabel dello sfondo in fondo
         setComponentZOrder(labelSfondo, getComponentCount() - 1);
