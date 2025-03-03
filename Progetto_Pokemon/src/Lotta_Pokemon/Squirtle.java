@@ -7,8 +7,21 @@ import java.util.List;
 public class Squirtle extends Pokemon {
 
 	public Squirtle() {
-		super("002", 2, -1, "Squirtle", 0, 1, 44, 44, 48, 65, 50,
-				50, 43, 30);
+		
+		super(	"002" 			/* codice */, 
+				2 				/* codice tipo */, 
+				-1 				/* codice 2 tipo, se presente */, 
+				"Squirtle", 	/* nome */
+				0, 				/* xp attuali */
+				1, 	 			/* livello */
+				44, 			/* xp attuali*/	
+				44, 			/* xp massimi */
+				48, 			/* attacco */
+				65, 			/* difesa */
+				50, 			/* attacco speciale */
+				50, 			/* difesa speciale */	
+				43, 			/* velocità */
+				30);			/* elusione */
 		
 		// Creazione delle mosse ed aggiunta alla lista
 		
@@ -17,15 +30,13 @@ public class Squirtle extends Pokemon {
 		Mossa bolla = new MossaAttacco("Bolla", 2, "speciale", 30, 100, 40);
 		Mossa pistolacqua = new MossaAttacco("Pistolacqua", 2, "speciale", 25, 100, 40);
 		Mossa colpocoda = new MossaStato("Colpocoda", 0, "stato", 30, 100, "Diminuisce Difesa");
-		Mossa morso = new MossaAttacco("Morso", 0, "fisico", 25, 100, 60);
+		Mossa azione = new MossaAttacco("Azione", 0, "fisico", 35, 100, 40);
 		
 		mosse.add(bolla);
-		mosse.add(morso);
+		mosse.add(azione);
 		mosse.add(pistolacqua);
 		mosse.add(colpocoda);
 		
 		super.setMosse(mosse);
 	}
-
-	
 }

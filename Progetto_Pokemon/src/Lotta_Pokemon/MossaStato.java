@@ -42,7 +42,7 @@ public class MossaStato extends Mossa{
 		case "Diminuisce Difesa":
 			x = difensore.getDifesa();
 			y = x - (x/100 * 33);
-			difensore.setDifesa((int) Math.max(1, y)); // Evita che l'attacco vada sotto 1
+			difensore.setDifesa((int) Math.max(1, y)); // Evita che la difesa vada sotto 1
 			System.out.println("la difesa di " + difensore.getNome() + " avversario"+ " cala");
 			break;
 		case "Diminuisce Attacco":

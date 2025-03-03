@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -44,11 +45,11 @@ public class MenuSceltaSquadra extends JPanel{
 		// Creazione squadra CPU
 		
 		List<Pokemon> pokemonCPU = new ArrayList<>();
+		
 		pokemonCPU.add(new Charmander());
 		pokemonCPU.add(new Bulbasaur());
-		/*	pokemonCPU.add(new Squirtle());
-			pokemonCPU.add(new Pikachu());
-		 */
+		pokemonCPU.add(new Squirtle());
+		 
 		// Label Lotta
 		
 		labelLotta = new JLabel("Scegli i pokemon con cui lottare:");
@@ -273,4 +274,9 @@ public class MenuSceltaSquadra extends JPanel{
 		add(ESC, gbc);
 	}
 	
+	public int generaInteroCasuale(int a, int b) {
+		Random interoCasuale = new Random(); 
+		return interoCasuale.nextInt((b - a) + 1) + a;
+	}
+
 }
