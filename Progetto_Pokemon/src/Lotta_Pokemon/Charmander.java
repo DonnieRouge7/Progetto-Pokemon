@@ -37,12 +37,6 @@ public class Charmander extends Pokemon {
 		mosse.add(ruggito);
 		mosse.add(colpocoda);
 		
-	/*	Mossa[] mosse = new Mossa[4];
-		mosse[0] = braciere;
-		mosse[1] = morso;
-		mosse[2] = colpocoda;
-		mosse[3] = ruggito;
-	*/	
 		super.setMosse(mosse);
 	}
 }

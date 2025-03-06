@@ -159,22 +159,15 @@ public class Pokemon {
 	
 	// Per scegliere se usare una Mossa per infliggere danni o modificare le caratteristiche di uno dei due Pokemon
 	
-	public void usaMossa(Pokemon difensore, Mossa mossa) {
+	public void usaMossa(Pokemon bersaglio, Mossa mossa) {
 	    mossa.noPP();
-	    System.out.println(this.getNome() + " usa " + mossa.getNomeMossa());
+	    System.out.println(this.getNome() + " usa " + mossa.getNomeMossa() + " su " + bersaglio.getNome());
 	    
 	    if (mossa instanceof MossaAttacco) {
-	        ((MossaAttacco) mossa).attaccaDanno(this, difensore);
+	        ((MossaAttacco) mossa).attaccaDanno(this, bersaglio);
 	    } else if (mossa instanceof MossaStato) {
-	        ((MossaStato) mossa).attaccaStato(this, difensore);
+	        ((MossaStato) mossa).attaccaStato(this, bersaglio);
 	    }
-	}
-	
-	// Per il calcolo del danno subito da un Pokemon
-	
-	public void subisciDanno(int danno) {
-		this.setHp(this.getHp() - danno);
-		this.esausto();
 	}
 	
 	// Per verificare quando un Pokemon è esausto

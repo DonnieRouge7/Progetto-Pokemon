@@ -12,83 +12,49 @@ public class MossaStato extends Mossa{
 	// Per l'applicazione dell'effetto delle mosse che modificano le caratteristiche
 	
 	public void usaMossaStato(Pokemon attaccante, Pokemon difensore) {
-		double x = 0;
-		double y = 0;
-		switch(effetto) {
-		case "Aumenta Difesa":
-			attaccante.setDifesa(attaccante.getDifesa() + ((attaccante.getDifesa()/100) * 33));
-			System.out.println("la difesa di " + attaccante.getNome() + " sale");
-			break;
-		case "Aumenta Attacco":
-			attaccante.setAttacco(attaccante.getAttacco() + ((attaccante.getAttacco()/100) * 33));
-			System.out.println("l'attacco di " + attaccante.getNome() + " sale");
-			break;
-		case "Aumenta Difesa Speciale":
-			attaccante.setDifesaSpeciale(attaccante.getDifesaSpeciale() + ((attaccante.getDifesaSpeciale()/100) * 33));
-			System.out.println("la difesa speciale di " + attaccante.getNome() + " sale");
-			break;
-		case "Aumenta Attacco Speciale":
-			attaccante.setAttaccoSpeciale(attaccante.getAttaccoSpeciale() + ((attaccante.getAttaccoSpeciale()/100) * 33));
-			System.out.println("l'attacco speciale di " + attaccante.getNome() + " avversario"+ " sale");
-			break;
-		case "Aumenta Velocità":
-			attaccante.setVelocità(attaccante.getVelocità() + ((attaccante.getVelocità()/100) * 33));
-			System.out.println("la velocità di " + attaccante.getNome() + " sale");
-			break;
-		case "Aumenta Elusione": 
-			attaccante.setElusione(attaccante.getElusione() + ((attaccante.getElusione()/100) * 33));
-			System.out.println("l'elusione di " + attaccante.getNome() + " sale");
-			break;
-		case "Diminuisce Difesa":
-			x = difensore.getDifesa();
-			y = x - (x/100 * 33);
-			difensore.setDifesa((int) Math.max(1, y)); // Evita che la difesa vada sotto 1
-			System.out.println("la difesa di " + difensore.getNome() + " avversario"+ " cala");
-			break;
-		case "Diminuisce Attacco":
-			 x = difensore.getAttacco();
-			 y = x - (x/100 * 33);
-			 difensore.setAttacco((int) Math.max(1, y)); // Evita che l'attacco vada sotto 1
-			System.out.println("l'attacco di " + difensore.getNome() + " avversario"+ " cala");
-			break;
-		case "Diminuisce Difesa Speciale":
-			difensore.setDifesaSpeciale(difensore.getDifesaSpeciale() - ((difensore.getDifesaSpeciale()/100)*33));
-			System.out.println("la difesa speciale di " + difensore.getNome() + " avversario" + " cala");
-			break;
-		case "Diminuisce Attacco Speciale":
-			difensore.setAttaccoSpeciale(difensore.getAttaccoSpeciale() - ((difensore.getAttaccoSpeciale()/100)*33));
-			System.out.println("l'attacco speciale di " + difensore.getNome() + " avversario"+ " cala");
-			break;
-		case "Diminuisce Velocità":
-			difensore.setVelocità(difensore.getVelocità() - ((difensore.getVelocità()/100)*33));
-			System.out.println("la velocità di " + difensore.getNome() + " avversario"+ " cala");
-			break;
-		case "Diminuisce Elusione":
-			difensore.setElusione(difensore.getElusione() - ((difensore.getElusione()/100)*33));
-			System.out.println("l'elusione di " + difensore.getNome() + " avversario"+ " cala");
-			break;
-		}
-		setPP(getPP() - 1);
+	    Pokemon bersaglio = effetto.startsWith("Aumenta") ? attaccante : difensore; // Scegli il bersaglio
+	    double valoreModifica = 0.33; // 33% di modifica
+
+	    switch (effetto) {
+	        case "Aumenta Difesa", "Diminuisce Difesa":	     
+	        	bersaglio.setDifesa((int) Math.max(1, bersaglio.getDifesa() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));	        	
+	        	break;
+	        case "Aumenta Attacco", "Diminuisce Attacco":	      
+	        	bersaglio.setAttacco((int) Math.max(1, bersaglio.getAttacco() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));	        	
+	        	break;
+	        case "Aumenta Difesa Speciale", "Diminuisce Difesa Speciale":
+	            bersaglio.setDifesaSpeciale((int) Math.max(1, bersaglio.getDifesaSpeciale() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
+	            break;
+	        case "Aumenta Attacco Speciale", "Diminuisce Attacco Speciale":
+	            bersaglio.setAttaccoSpeciale((int) Math.max(1, bersaglio.getAttaccoSpeciale() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
+	            break;
+	        case "Aumenta Velocità", "Diminuisce Velocità":
+	            bersaglio.setVelocità((int) Math.max(1, bersaglio.getVelocità() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
+	            break;
+	        case "Aumenta Elusione", "Diminuisce Elusione":	        	
+	        	bersaglio.setElusione((int) Math.max(1, bersaglio.getElusione() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));	        
+	        	break;
+	    }
 	}
-	
+
 	@Override
 	public boolean noPP() {
 		return super.noPP();
 	}
 	
 	// Per verificare se un attacco va a segno o meno
-	
 	public void attaccaStato(Pokemon att, Pokemon dif) {
 		int precisione = getPrecisioneMossa();
 		double elusione = dif.getElusione();
 		int a = generaInteroCasuale(0, 100);
 		double probabilitaSuccesso = precisione / elusione;
-		if(probabilitaSuccesso < a) {
+		if (probabilitaSuccesso * 100 > a) {
 			setColpito(true);
 			usaMossaStato(att, dif);
+			setPP(getPP()-1);
 		}else {
 			setColpito(false);
-			this.setPP(this.getPP() - 1);
+			setPP(getPP() - 1);
 		}
 	}
 

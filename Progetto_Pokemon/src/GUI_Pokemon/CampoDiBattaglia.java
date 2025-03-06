@@ -236,7 +236,7 @@ public class CampoDiBattaglia extends JPanel{
                         pulsantiMosse[i].setText(listaMosseUtente.get(i).getNomeMossa());
                         pulsantiMosse[i].setVisible(true);
                         
-                     // Rimuove tutti i vecchi listener prima di aggiungere il nuovo
+                        // Rimuove tutti i vecchi listener prima di aggiungere il nuovo
                         for (ActionListener al : pulsantiMosse[i].getActionListeners()) {
                             pulsantiMosse[i].removeActionListener(al);
                         }
@@ -277,7 +277,7 @@ public class CampoDiBattaglia extends JPanel{
                                 	} else {
                                 		
                                 		// Controllo se la mossa usata ha un effetto di tipo stato
-                                		if(listaMosseUtente.get(index).getEffetto() != "") {
+                                		if(!listaMosseUtente.get(index).getEffetto().equals("")) {
                                     		Timer timerEffetto = new Timer(2000, new ActionListener() {										
     											@Override
     											public void actionPerformed(ActionEvent e) {												
@@ -340,13 +340,13 @@ public class CampoDiBattaglia extends JPanel{
 		                                    	
 		                                    	return;
 		                                    
-		                                    }else {
-		 	                                    
+		                                    } else {
 		                                    	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
 		                                    	Timer timer = new Timer(4000, new ActionListener() {												
 													@Override
 													public void actionPerformed(ActionEvent e) {														
-														next.setEnabled(true);													
+														next.setEnabled(true);		
+														
 													}
 												});
 		                                    	
@@ -380,11 +380,13 @@ public class CampoDiBattaglia extends JPanel{
 			    										});
 			                                    		
 			                                    		timer.setRepeats(false);
-			                                    		timer.start();		                                    		
+			                                    		timer.start();	
+			                                    		
 			                                    		return;
+			                                        
 			                                        } else {
 			                                    		// Controllo se la mossa usata ha un effetto di tipo stato
-			                                    		if(mossaCPU.getEffetto() != "") {
+			                                    		if(!mossaCPU.getEffetto().equals("")) {
 			                                        		Timer timerEffetto = new Timer(6000, new ActionListener() {										
 			        											@Override
 			        											public void actionPerformed(ActionEvent e) {												
@@ -440,7 +442,7 @@ public class CampoDiBattaglia extends JPanel{
 															
 															// Controllo se il pokemon è salito di livello
 				                                        	if(difensore.saliDiLivello()) {
-				                                        		Timer timerLivelloDif = new Timer(6000, new ActionListener() {
+				                                        		Timer timerLivelloDif = new Timer(7000, new ActionListener() {
 				    												@Override
 				    												public void actionPerformed(ActionEvent e) {
 				    													mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello());
@@ -455,11 +457,11 @@ public class CampoDiBattaglia extends JPanel{
 				                                        	return;
 				                                        
 				                                        }else {
-				                                        	aggiornaHealthBar(healthBarDif, (int) attaccante.getHp(), (int) attaccante.getHpMax());
+				                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
 				                                        	Timer timer = new Timer(6000, new ActionListener() {												
 																@Override
 																public void actionPerformed(ActionEvent e) {														
-																	next.setEnabled(true);																
+																	next.setEnabled(true);								
 																}
 															});
 					                                    	
@@ -501,8 +503,9 @@ public class CampoDiBattaglia extends JPanel{
                                 		timer.start();
                                 	
                                     } else {
-                                		// Controllo se la mossa usata ha un effetto di tipo stato
-                                		if(mossaCPU.getEffetto() != "") {
+                                		
+                                    	// Controllo se la mossa usata ha un effetto di tipo stato
+                                		if(!mossaCPU.getEffetto().equals("")) {
                                     		Timer timerEffetto = new Timer(2000, new ActionListener() {										
     											@Override
     											public void actionPerformed(ActionEvent e) {												
@@ -512,8 +515,10 @@ public class CampoDiBattaglia extends JPanel{
                                     		
                                     		timerEffetto.setRepeats(false);
                                     		timerEffetto.start();			                                        		
-                                    	} else {
-                                    		// Verifico l'efficacia dell'attacco della CPU
+                                    	
+                                		} else {
+                                    		
+                                			// Verifico l'efficacia dell'attacco della CPU
                                     		Timer timerDif = new Timer(2000, new ActionListener() {									
 												@Override
 												public void actionPerformed(ActionEvent e) {
@@ -570,12 +575,14 @@ public class CampoDiBattaglia extends JPanel{
 	    	                                            
 	    	                                    	}
 	                                    	return;
+	                                        
 	                                        } else {
-	                                        	aggiornaHealthBar(healthBarDif, (int) attaccante.getHp(), (int) attaccante.getHpMax());
+	                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
 	                                        	Timer timer = new Timer(4000, new ActionListener() {												
 	    											@Override
 	    											public void actionPerformed(ActionEvent e) {	    									
-	    												next.setEnabled(true);												
+	    												next.setEnabled(true);			
+	    												
 	    											}
 	    										});
 	                                        	
@@ -605,13 +612,13 @@ public class CampoDiBattaglia extends JPanel{
 													});
 			                                		
 			                                		timer.setRepeats(false);
-			                                		timer.start();
+			                                		timer.start();			                                		
 			                                		return;
 			                                	
 			                                	} else {
 			                                		
 			                                		// Controllo se la mossa usata ha un effetto di tipo stato
-			                                		if(listaMosseUtente.get(index).getEffetto() != "") {
+			                                		if(!listaMosseUtente.get(index).getEffetto().equals("")) {
 			                                    		Timer timerEffetto = new Timer(5000, new ActionListener() {										
 			    											@Override
 			    											public void actionPerformed(ActionEvent e) {												
@@ -673,11 +680,13 @@ public class CampoDiBattaglia extends JPanel{
 		                                        	return;
 			                                        
 			                                        }else {
+			                                        	
 			                                        	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
 			                                        	Timer timer = new Timer(6000, new ActionListener() {												
 															@Override
 															public void actionPerformed(ActionEvent e) {									
 																next.setEnabled(true);															
+																
 															}
 														});
 				                                    	
@@ -827,18 +836,32 @@ public class CampoDiBattaglia extends JPanel{
             mostraMessaggio("L'avversario non ha più Pokémon disponibili!");                    
             areaMosse.setVisible(false);
             
-            // Aggiungo Pidgey alla squadra della CPU quando viene sconfitta (se non è già presente in squadra)
-            Pidgey pidgey = new Pidgey();          
-            boolean presente = false;
+            // Aggiunta Pokemon alla squadra della CPU quando viene sconfitta (se non già presenti in squadra)
+            Pidgey pidgey = new Pidgey(); 
+            Pikachu pikachu = new Pikachu();
+            
+            boolean pidgeyPresente = false;
+            boolean pikachuPresente = false;
+        
+            // Controlliamo quali Pokémon sono già presenti nella lista
             for (Pokemon p : pokemonCPU) {
-                if (p.getNome().equals(pidgey.getNome())) { // Controlla se esiste già un Pidgey nella lista
-                	presente = true;
-                	Pikachu pikachu = new Pikachu();
-                	pokemonCPU.add(pikachu);
-                	break;
+                if (p.getNome().equals(pidgey.getNome())) {
+                    pidgeyPresente = true;
+                }
+                if (p.getNome().equals(pikachu.getNome())) {
+                    pikachuPresente = true;
                 }
             }
-            if (!presente) pokemonCPU.add(pidgey);          
+
+            // Prima aggiungiamo Pidgey se non è presente
+            if (!pidgeyPresente) {
+                pokemonCPU.add(pidgey);
+            } 
+            
+            // Pikachu viene aggiunto solo **nella lotta successiva**, se Pidgey è già presente
+            else if (!pikachuPresente) {
+                pokemonCPU.add(pikachu);
+            }
             
             // Aumenta il livello della squadra CPU
             aumentaLivelloCPU();
@@ -898,6 +921,7 @@ public class CampoDiBattaglia extends JPanel{
 		            	
 				}
 			});
+            
             timer.setRepeats(false);
             timer.start();
         }
@@ -911,14 +935,14 @@ public class CampoDiBattaglia extends JPanel{
 		buttonCambiaPokemon.setVisible(false);
     	panelCambiaPokemon.setVisible(true);
     	
+    	panelCambiaPokemon.removeAll(); // Rimuove tutti i componenti precedenti
+        panelCambiaPokemon.revalidate();
+        panelCambiaPokemon.repaint();
+    	
     	Border bordoPokemonCambiati = new LineBorder(Color.BLACK, 3);
 
         int x = 20;
-        int y = 10;
-        
-        panelCambiaPokemon.removeAll(); // Rimuove tutti i componenti precedenti
-        panelCambiaPokemon.revalidate();
-        panelCambiaPokemon.repaint();
+        int y = 10;          
         
         for (Pokemon i : pokemonUtente) {
         	JButton pokemonButton = new JButton(i.getNome());
@@ -944,6 +968,7 @@ public class CampoDiBattaglia extends JPanel{
                     panelCambiaPokemon.setVisible(false);
                     mosse.setVisible(true);
                     borsa.setVisible(true);
+                    buttonCambiaPokemon.setVisible(true);
                 }
             });
 
@@ -1125,8 +1150,6 @@ public class CampoDiBattaglia extends JPanel{
     		p.setHp(p.getHpMax());
     	}
     	
-    	System.out.println("Attacco: " + attaccante.getAttacco() + " Att. Spec: " + attaccante.getAttaccoSpeciale());
-    	System.out.println("Difesa: " + difensore.getDifesa() + " Dif. Spec: " + difensore.getDifesaSpeciale());
     }
     
 }

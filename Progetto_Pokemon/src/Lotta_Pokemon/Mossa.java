@@ -125,6 +125,7 @@ public class Mossa{
 	}
 	
 	public double modificatore(Pokemon difensore) {
+		modificatore = 1;
 		if(difensore.getTipo2() != -1) { // nel costruttore del Pokemon, se non c'è un secondo tipo, il valore è -1
 			modificatore *= efficacia[getElementoMossa()][difensore.getTipo2()]; 
 		}
