@@ -21,6 +21,8 @@ public class CampoDiBattaglia extends JPanel{
 	
 	private JFrame frame;
 	
+	private AudioPlayer audioPlayer;
+	
 	private List<Pokemon> pokemonUtente; // Contiene la lista dei pokemon selezionati dall'utente
 	private List<Pokemon> pokemonCPU; // Contiene la lista dei pokemon selezionati dalla CPU
 	
@@ -49,7 +51,7 @@ public class CampoDiBattaglia extends JPanel{
 		private JTextArea testoMessaggi;
 		private JButton next;
 	
-	private JPanel areaMosse;
+	private JPanel panelAreaMosse;
 		
 		private List<Mossa> listaMosseUtente;
 		private JButton mosse;
@@ -82,6 +84,9 @@ public class CampoDiBattaglia extends JPanel{
 		setLayout(null);
 		setBackground(Color.GRAY);
 		
+		audioPlayer = new AudioPlayer();
+		audioPlayer.playMusic("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/Pokémon Battle Music - Anime Version.wav");
+		
 		if (!pokemonUtente.isEmpty() && !pokemonCPU.isEmpty()) {
 	        this.attaccante = pokemonUtente.get(0);  // Primo Pokémon dell'utente
 	        this.difensore = pokemonCPU.get(pokemonCasuale());  // Primo Pokémon della CPU selezionato casualemente tra quelli disponibili
@@ -93,7 +98,7 @@ public class CampoDiBattaglia extends JPanel{
 		
 		// Sfondo pannello
 		
-		sfondo = new ImageIcon("C:/Users/megam/OneDrive/Desktop/sfondo lotta ridimensionato.jpg/");
+		sfondo = new ImageIcon("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/sfondo lotta.jpg");
 		Image sfondoscalato = sfondo.getImage();
 		labelSfondo = new JLabel(new ImageIcon(sfondoscalato));
 		labelSfondo.setBounds(0,0,1000,600);
@@ -188,12 +193,12 @@ public class CampoDiBattaglia extends JPanel{
         // Panel area mosse
         
         Border bordoAreaMosse = new LineBorder(Color.BLACK, 3);
-        areaMosse = new JPanel();
-        areaMosse.setBackground(Color.GRAY);
-        areaMosse.setBounds(20, 20, 400, 300);
-        areaMosse.setBorder(bordoAreaMosse);
+        panelAreaMosse = new JPanel();
+        panelAreaMosse.setBackground(Color.GRAY);
+        panelAreaMosse.setBounds(20, 20, 400, 300);
+        panelAreaMosse.setBorder(bordoAreaMosse);
         
-        areaMosse.setLayout(null);
+        panelAreaMosse.setLayout(null);
         
         	// Pulsante Mosse
         	
@@ -223,7 +228,7 @@ public class CampoDiBattaglia extends JPanel{
             
             for (JButton pulsante : pulsantiMosse) {
                 pulsante.setVisible(false); // Inizialmente nascosti
-                areaMosse.add(pulsante);
+                panelAreaMosse.add(pulsante);
             }
             
             mosse.addActionListener(new ActionListener() {
@@ -422,7 +427,7 @@ public class CampoDiBattaglia extends JPanel{
 				                                        	for (int i = 0; i < listaMosseUtente.size(); i++) {
 				    											pulsantiMosse[i].setVisible(false);
 				    										}
-				                                        	areaMosse.setVisible(false);
+				                                        	panelAreaMosse.setVisible(false);
 				                                        	mosse.setVisible(false);
 															next.setEnabled(false);
 				                                        	
@@ -544,7 +549,7 @@ public class CampoDiBattaglia extends JPanel{
 	    										}
 	                                        	
 	                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-	    										areaMosse.setVisible(false);
+	                                        	panelAreaMosse.setVisible(false);
 	    										next.setEnabled(false);	
 	                                        	
 	    										Timer timerEsaustoDif = new Timer(4000, new ActionListener() {
@@ -708,7 +713,7 @@ public class CampoDiBattaglia extends JPanel{
                 
             });
             
-        	areaMosse.add(mosse);
+            panelAreaMosse.add(mosse);
         	
         	// Pulsante next
 	        
@@ -753,7 +758,7 @@ public class CampoDiBattaglia extends JPanel{
         	borsa.setBorder(bordoBorsa);
         	borsa.setBounds(220, 230, 165, 50);
         	
-        	areaMosse.add(borsa);
+        	panelAreaMosse.add(borsa);
         	
         	// Panel per il cambio Pokemon dell'utente
         	
@@ -781,13 +786,16 @@ public class CampoDiBattaglia extends JPanel{
         	buttonCambiaPokemon.addActionListener(new ActionListener() {
     			@Override
     			public void actionPerformed(ActionEvent e) {
+    				for(JButton button: pulsantiMosse) {
+    					button.setVisible(false);
+    				}    				
     				cambiaPokemonUtente();
     			}
     		});
         	
-        	areaMosse.add(buttonCambiaPokemon);
+        	panelAreaMosse.add(buttonCambiaPokemon);
         
-        	add(areaMosse);
+        	add(panelAreaMosse);
 
         setComponentZOrder(labelSfondo, getComponentCount() - 1);
               
@@ -834,7 +842,7 @@ public class CampoDiBattaglia extends JPanel{
 
             // Se arriva qui significa che tutti i Pokémon sono esausti
             mostraMessaggio("L'avversario non ha più Pokémon disponibili!");                    
-            areaMosse.setVisible(false);
+            panelAreaMosse.setVisible(false);
             
             // Aggiunta Pokemon alla squadra della CPU quando viene sconfitta (se non già presenti in squadra)
             Pidgey pidgey = new Pidgey(); 
@@ -871,6 +879,7 @@ public class CampoDiBattaglia extends JPanel{
 				public void actionPerformed(ActionEvent e) {
 					
 					frame.dispose();	
+					audioPlayer.stopMusic();
 					
 					// Frame WIN
 		            
@@ -929,11 +938,13 @@ public class CampoDiBattaglia extends JPanel{
  
     // Metodo per permettere la sotituzione di un pokemon quando si desidera
     public void cambiaPokemonUtente() {
-
+    	
+    	panelAreaMosse.setVisible(false);
     	borsa.setVisible(false);
 		mosse.setVisible(false);
 		buttonCambiaPokemon.setVisible(false);
-    	panelCambiaPokemon.setVisible(true);
+    	
+		panelCambiaPokemon.setVisible(true);
     	
     	panelCambiaPokemon.removeAll(); // Rimuove tutti i componenti precedenti
         panelCambiaPokemon.revalidate();
@@ -965,10 +976,13 @@ public class CampoDiBattaglia extends JPanel{
             chiudiButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    panelCambiaPokemon.setVisible(false);
+                    
+                	panelCambiaPokemon.setVisible(false);
+                	panelAreaMosse.setVisible(true);
                     mosse.setVisible(true);
                     borsa.setVisible(true);
                     buttonCambiaPokemon.setVisible(true);
+                    
                 }
             });
 
@@ -983,12 +997,15 @@ public class CampoDiBattaglia extends JPanel{
             pokemonButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
+                	
+                	panelAreaMosse.setVisible(true);
+                	
                 	panelCambiaPokemon.setVisible(false);                    
-                    areaMosse.setVisible(true);
-                    mosse.setVisible(true);
-                    next.setEnabled(false);
                     
+                    mosse.setVisible(true);
+                    
+                    next.setEnabled(false);
+ 
                     borsa.setVisible(true);
                 	borsa.setEnabled(true);
                 	
@@ -1006,21 +1023,21 @@ public class CampoDiBattaglia extends JPanel{
                     for (Mossa m : listaMosseUtente) {
                         JButton mossa = creaPulsanteMossa();
                         mossa.setText(m.getNomeMossa());
-                        areaMosse.add(mossa);
+                        panelAreaMosse.add(mossa);
                     }
-                    
+                     
                     mostraMessaggio("Coraggio " + i.getNome() + " scelgo te!");
                     aggiornaHealthBar(healthBarAtt, (int) i.getHp(), (int) i.getHpMax());
                     
                     aggiornaStatoPulsanti(); 
                     
-                    areaMosse.revalidate();
-                    areaMosse.repaint();
+                    panelAreaMosse.revalidate();
+                    panelAreaMosse.repaint();
                 }
             });
             
             panelCambiaPokemon.add(pokemonButton);
-            y += 70; // Sposta i pulsanti in basso
+            y += 55; // Sposta i pulsanti in basso
             
             if (pokemonUtente.stream().allMatch(Pokemon::esausto)) {
                 mostraMessaggio("Tutti i tuoi Pokémon sono esausti.");
@@ -1031,6 +1048,7 @@ public class CampoDiBattaglia extends JPanel{
 					public void actionPerformed(ActionEvent e) {
 						
 						frame.dispose();
+						audioPlayer.stopMusic();
 						
 						// Frame LOSE
 						

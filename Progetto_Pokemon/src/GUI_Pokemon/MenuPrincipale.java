@@ -22,14 +22,19 @@ public class MenuPrincipale extends JPanel{
 	
 	private JLabel labelSfondo;
 	private ImageIcon sfondo;
+	
+	private AudioPlayer audioPlayer;
 		
 	MenuPrincipale(){	
 		
 		setLayout(null);
 		
+		audioPlayer = new AudioPlayer();
+        audioPlayer.playMusic("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/Pokemon [Gotta Catch Em All] - Giorgio Vanni (Sigla Completa).wav");
+		
 		// Sfondo Pannello
 		
-		sfondo = new ImageIcon("C://Users//megam//OneDrive//Desktop//thumb-1920-1243956.jpg");
+		sfondo = new ImageIcon("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/sfondo schermata principale.jpg");
 		Image sfondoScalato = sfondo.getImage();
 		Image immagineScalata = sfondoScalato.getScaledInstance(1200, 1000, Image.SCALE_SMOOTH);
 		labelSfondo = new JLabel(new ImageIcon(immagineScalata));
@@ -41,8 +46,6 @@ public class MenuPrincipale extends JPanel{
 		Border bordoFieldBenvenuto = new LineBorder(Color.WHITE, 2, true);
 		Border bordoStart = new LineBorder(Color.WHITE, 2, true);
 		Border bordoEsc = new LineBorder(Color.WHITE, 2, true);
-		Border bordoScore = new TitledBorder("Migliori Score");
-		((TitledBorder) bordoScore).setTitleColor(Color.YELLOW);
 		
 		// Button Start
 		
@@ -61,7 +64,7 @@ public class MenuPrincipale extends JPanel{
 				
 				menuLotta = new JFrame("Menù di Lotta");
 				
-				menuSceltaSquadra = new MenuSceltaSquadra(menuLotta);
+				menuSceltaSquadra = new MenuSceltaSquadra(menuLotta, audioPlayer);
 				
 				menuLotta.add(menuSceltaSquadra);
 				
@@ -115,5 +118,5 @@ public class MenuPrincipale extends JPanel{
         revalidate();
         repaint();
 	}
-
+	
 }

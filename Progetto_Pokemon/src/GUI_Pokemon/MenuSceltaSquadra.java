@@ -15,24 +15,26 @@ public class MenuSceltaSquadra extends JPanel{
 	
 	private JFrame frameMenuLotta;
  	
+	private AudioPlayer audioPlayer;
+	
  	private CampoDiBattaglia campoDiBattaglia;
  	
  	private JLabel labelLotta;
 	
 	private JCheckBox Charmander;
-	
 	private JCheckBox Squirtle;
-	
 	private JCheckBox Bulbasaur;
-	
 	private JCheckBox Pikachu;
+	private JCheckBox Pidgey;
 	
 	private JButton confirm;
 	private JButton back;
 	private JButton ESC;
 	
 	// Costruttore che accetta un riferimento al frame
-	MenuSceltaSquadra(JFrame frame) {
+	MenuSceltaSquadra(JFrame frame, AudioPlayer audioPlayer) {
+		
+		this.audioPlayer = audioPlayer;
 		
 		setLayout(new GridBagLayout());
 		
@@ -40,7 +42,7 @@ public class MenuSceltaSquadra extends JPanel{
 		
 		setBorder(bordo);
 		
-		setBackground(Color.BLACK);
+		setBackground(Color.BLUE);
 		
 		// Creazione squadra CPU
 		
@@ -55,32 +57,38 @@ public class MenuSceltaSquadra extends JPanel{
 		labelLotta = new JLabel("Scegli i pokemon con cui lottare:");
 		labelLotta.setFont(new Font("Arial", Font.PLAIN, 30));
 		labelLotta.setOpaque(true);
-		labelLotta.setForeground(Color.WHITE);
+		labelLotta.setForeground(Color.YELLOW);
 		labelLotta.setBackground(Color.BLACK);
+		Border bordoLabelLotta = new LineBorder(Color.WHITE, 2);
+		labelLotta.setBorder(bordoLabelLotta);
 		
 		// CheckBox Pokemon 
 		
 		Charmander = new JCheckBox("Charmander");
-		Charmander.setBackground(Color.BLACK);
-		Charmander.setForeground(Color.WHITE);
+		Charmander.setBackground(Color.BLUE);
+		Charmander.setForeground(Color.YELLOW);
 		
 		Squirtle = new JCheckBox("Squirtle");
-		Squirtle.setBackground(Color.BLACK);
-		Squirtle.setForeground(Color.WHITE);
+		Squirtle.setBackground(Color.BLUE);
+		Squirtle.setForeground(Color.YELLOW);
 		
 		Bulbasaur = new JCheckBox("Bulbasaur");
-		Bulbasaur.setBackground(Color.BLACK);
-		Bulbasaur.setForeground(Color.WHITE);
+		Bulbasaur.setBackground(Color.BLUE);
+		Bulbasaur.setForeground(Color.YELLOW);
 		
 		Pikachu = new JCheckBox("Pikachu");
-		Pikachu.setBackground(Color.BLACK);
-		Pikachu.setForeground(Color.WHITE);
+		Pikachu.setBackground(Color.BLUE);
+		Pikachu.setForeground(Color.YELLOW);
+		
+		Pidgey = new JCheckBox("Pidgey");
+		Pidgey.setBackground(Color.BLUE);
+		Pidgey.setForeground(Color.YELLOW);
 		
 		// Button confirm
 		
 		confirm = new JButton("Conferma");
-		confirm.setForeground(Color.BLACK);
-		confirm.setBackground(Color.WHITE);
+		confirm.setForeground(Color.YELLOW);
+		confirm.setBackground(Color.BLACK);
 		confirm.setFont(new Font("Arial", Font.PLAIN, 20));
 		
 		confirm.addActionListener(new ActionListener() {
@@ -90,23 +98,13 @@ public class MenuSceltaSquadra extends JPanel{
 					
 					// Creazione squadra utente
 					
-					List<Pokemon> pokemonUtente = new ArrayList<>(4);
+					List<Pokemon> pokemonUtente = new ArrayList<>(5);
 					
-					if(Charmander.isSelected()) {
-						pokemonUtente.add(new Charmander());
-						
-					}
-					if(Bulbasaur.isSelected()) {
-						pokemonUtente.add(new Bulbasaur());
-						
-					}
-					if(Squirtle.isSelected()) {
-						pokemonUtente.add(new Squirtle());
-							
-					}
-					if(Pikachu.isSelected()) {
-						pokemonUtente.add(new Pikachu());
-					}
+					if(Charmander.isSelected()) pokemonUtente.add(new Charmander());
+					if(Bulbasaur.isSelected()) pokemonUtente.add(new Bulbasaur());
+					if(Squirtle.isSelected()) pokemonUtente.add(new Squirtle());
+					if(Pikachu.isSelected()) pokemonUtente.add(new Pikachu());
+					if(Pidgey.isSelected()) pokemonUtente.add(new Pidgey());
 					
 					frameMenuLotta = new JFrame("Lotta");
 					
@@ -118,6 +116,8 @@ public class MenuSceltaSquadra extends JPanel{
 					frameMenuLotta.setLocationRelativeTo(null);
 					frameMenuLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					frameMenuLotta.setVisible(true);
+					
+					audioPlayer.stopMusic();
 					
 				}else {
 					try {
@@ -134,8 +134,8 @@ public class MenuSceltaSquadra extends JPanel{
 		// Button back
 		
 		back = new JButton("Indietro");
-		back.setForeground(Color.BLACK);
-		back.setBackground(Color.WHITE);
+		back.setForeground(Color.YELLOW);
+		back.setBackground(Color.BLACK);
 		back.setFont(confirm.getFont());
 		
 		back.addActionListener(new ActionListener() {
@@ -148,8 +148,8 @@ public class MenuSceltaSquadra extends JPanel{
 		// Button ESC
 		
 		ESC = new JButton("ESCI");
-		ESC.setForeground(Color.BLACK);
-		ESC.setBackground(Color.WHITE);
+		ESC.setForeground(Color.YELLOW);
+		ESC.setBackground(Color.BLACK);
 		ESC.setFont(confirm.getFont());
 		
 		ESC.addActionListener(new ActionListener() {
@@ -231,10 +231,24 @@ public class MenuSceltaSquadra extends JPanel{
 				
 		add(Pikachu, gbc);
 		
-		// Button confirm
+		// Layout ChechBox Pidgey
 		
 		gbc.gridx = 0;
 		gbc.gridy = 5;
+		
+		gbc.weightx = 0.0;
+		gbc.weighty = 0.0;
+				
+		gbc.anchor = GridBagConstraints.LINE_START;
+				
+		gbc.insets = new Insets(10, 0, 0, 0);
+				
+		add(Pidgey, gbc);
+		
+		// Button confirm
+		
+		gbc.gridx = 0;
+		gbc.gridy = 6;
 		
 		gbc.weightx = 0.0;
 		gbc.weighty = 0.0;
@@ -248,7 +262,7 @@ public class MenuSceltaSquadra extends JPanel{
 		// Button back
 		
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 6;
 		
 		gbc.weightx = 0.0;
 		gbc.weighty = 0.0;
@@ -262,7 +276,7 @@ public class MenuSceltaSquadra extends JPanel{
 		// Button ESC
 		
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 6;
 		
 		gbc.weightx = 0.0;
 		gbc.weighty = 0.0;
