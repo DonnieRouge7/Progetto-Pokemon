@@ -255,102 +255,45 @@ public class CampoDiBattaglia extends JPanel{
                                 buttonCambiaPokemon.setEnabled(false);                                                              
                                 
                                 // Controllo la velocità dei pokemon per stabilire chi attacca per primo
-                                if (attaccante.getVelocità() >= difensore.getVelocità()) {
-                                    
-                                	// Primo attacco: attaccante
-                                	attaccante.usaMossa(difensore, listaMosseUtente.get(index));
+                                if (attaccante.getVelocità() >= difensore.getVelocità()) {                                   
+                                	// Primo attacco: attaccante                               	
+									attaccante.usaMossa(difensore, listaMosseUtente.get(index));
                                 	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
                                 	
                                 	// Verifico se l'attacco è andato a segno
                                 	if(listaMosseUtente.get(index).getColpito() == false) {
-                                		Timer timer = new Timer(2000, new ActionListener() {											
-											@Override
-											public void actionPerformed(ActionEvent e) {
-												mostraMessaggio(difensore.getNome() +  " evita l'attacco");
-											}
-										});
-                                		
-                                		timer.setRepeats(false);
-                                		timer.start();
+                                		avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"));                              
                                 	
-                                	} else {
-                                		
+									} else {                             		
                                 		// Controllo se la mossa usata ha un effetto di tipo stato
                                 		if(!listaMosseUtente.get(index).getEffetto().equals("")) {
-                                    		Timer timerEffetto = new Timer(2000, new ActionListener() {										
-    											@Override
-    											public void actionPerformed(ActionEvent e) {												
-    												mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto());
-    											}
-    										});
-                                    		
-                                    		timerEffetto.setRepeats(false);
-                                    		timerEffetto.start();
-                                    		
-                                    	} else {
-                                    		
-                                		// Timer per mostrare l'efficacia dell'attacco
-                                       	 Timer timerAtt = new Timer(2000, new ActionListener() {    											
-       											@Override
-       											public void actionPerformed(ActionEvent e) {
-       												if(listaMosseUtente.get(index).getModificatore() > 1) {
-       													mostraMessaggio("è superefficace");
-       												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
-       													mostraMessaggio("non è molto efficace...");
-       												}
-       											}
-       										});
-                                            
-                                            timerAtt.setRepeats(false);
-                                            timerAtt.start();
+                                    		avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto()));                                   		
+                                    	
+										} else {                                   		
+                                			// Timer per mostrare l'efficacia dell'attacco
+											if(listaMosseUtente.get(index).getModificatore() > 1) {
+												avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+											}else if(listaMosseUtente.get(index).getModificatore() < 1){
+												avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+											}
                                     	}                                                                  		
                                 	
 	                                		// Controllo KO CPU
-		                                    if (difensore.esausto()) {
-		                                  
+		                                    if (difensore.esausto()) {		                                  
 		                                    	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-		                                    	attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);
-		                                    	
-		                                    	Timer timerEsausto = new Timer(4000, new ActionListener() {
-													@Override
-													public void actionPerformed(ActionEvent e) {	
-														mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!");
-														next.setEnabled(true);
-													}
-												});
-		                                    	
-		                                    	timerEsausto.setRepeats(false); // Il timer scatta solo una volta
-		                                    	timerEsausto.start();
-		                                    	
-			                                    	// Controllo se l'attaccante è salito di livello
-			                                    	if(attaccante.saliDiLivello()) {
-			                                    		Timer timerLivello = new Timer(5000, new ActionListener() {
-															@Override
-															public void actionPerformed(ActionEvent e) {
-																mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello());
-																livelloPokemonAtt.setText("Liv " + attaccante.getLivello());
-															}
-														});
-			                                    		
-			                                    		timerLivello.setRepeats(false); 
-			                                            timerLivello.start();
-			                                            
-			                                    	}
-		                                    	
-		                                    	return;
+		                                    	attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);		                                    										
+
+												avviaTimerDoubleTask(3000, () -> mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!"), () -> next.setEnabled(true));
+		                                    		
+												// Controllo se l'attaccante è salito di livello
+												if(attaccante.saliDiLivello()){
+													avviaTimerDoubleTask(4000, () -> mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello()), () -> livelloPokemonAtt.setText("Liv " + attaccante.getLivello()));
+												}	                                    	
+												return;
 		                                    
 		                                    } else {
 		                                    	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-		                                    	Timer timer = new Timer(4000, new ActionListener() {												
-													@Override
-													public void actionPerformed(ActionEvent e) {														
-														next.setEnabled(true);		
-														
-													}
-												});
-		                                    	
-		                                    	timer.setRepeats(false);
-		                                    	timer.start();
+		                                    	avviaTimerSingleTask(4000, () -> next.setEnabled(true));
 		                                    }	                                	
 	                                	}
 	                                            
@@ -366,50 +309,25 @@ public class CampoDiBattaglia extends JPanel{
 			                                    	Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); // Recupera la mossa scelta
 			                                    	
 			                                    	difensore.usaMossa(attaccante, mossaCPU);
-			                                        mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
-			                                        			                                        
+			                                        mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());																																				
+
 			                                        // Verifico se l'attacco della CPU è andato a segno
 			                                        if(mossaCPU.getColpito() == false) {
-			                                    		Timer timer = new Timer(5000, new ActionListener() {											
-			    											@Override
-			    											public void actionPerformed(ActionEvent e) {
-			    												mostraMessaggio(attaccante.getNome() +  " evita l'attacco");
-			    												next.setEnabled(true);
-			    											}
-			    										});
-			                                    		
-			                                    		timer.setRepeats(false);
-			                                    		timer.start();	
-			                                    		
+			                                    		avviaTimerDoubleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"), () -> next.setEnabled(true));	       		
 			                                    		return;
 			                                        
 			                                        } else {
 			                                    		// Controllo se la mossa usata ha un effetto di tipo stato
 			                                    		if(!mossaCPU.getEffetto().equals("")) {
-			                                        		Timer timerEffetto = new Timer(6000, new ActionListener() {										
-			        											@Override
-			        											public void actionPerformed(ActionEvent e) {												
-			        												mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto());
-			        											}
-			        										});
-			                                        		
-			                                        		timerEffetto.setRepeats(false);
-			                                        		timerEffetto.start();			                                        		
-			                                        	} else {
-			                                        		// Verifico l'efficacia dell'attacco della CPU
-			                                        		Timer timerDif = new Timer(5000, new ActionListener() {									
-																@Override
-																public void actionPerformed(ActionEvent e) {
-																	if(mossaCPU.getModificatore() > 1) {
-																		mostraMessaggio("è superefficace");
-																	}else if(mossaCPU.getModificatore() < 1) {
-																		mostraMessaggio("non è molto efficace...");
-																	}
-																}
-															});
-					                                     
-						                                     timerDif.setRepeats(false);
-						                                     timerDif.start();
+			                                        		avviaTimerSingleTask(2000, () -> mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto()));		                                        		
+			                                        	
+														} else {													
+															// Timer per mostrare l'efficacia dell'attacco
+															if(mossaCPU.getModificatore() > 1) {
+																avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+															}else if(mossaCPU.getModificatore() < 1){
+																avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+															}
 			                                        	}
 			                                    	
 			                                    		// Controllo KO utente dopo il contrattacco
@@ -425,7 +343,7 @@ public class CampoDiBattaglia extends JPanel{
 				                                        	mosse.setVisible(false);
 															next.setEnabled(false);
 				                                        	
-															Timer timerEsaustoDif = new Timer(6000, new ActionListener() {
+															Timer timerEsaustoDif = new Timer(3000, new ActionListener() {
 																@Override
 																public void actionPerformed(ActionEvent e) {
 																	mostraMessaggio(attaccante.getNome() + " è esausto!");
@@ -439,37 +357,19 @@ public class CampoDiBattaglia extends JPanel{
 															timerEsaustoDif.setRepeats(false); // Il timer scatta solo una volta
 				                                            timerEsaustoDif.start();	
 															
+															
+
 															// Controllo se il pokemon è salito di livello
 				                                        	if(difensore.saliDiLivello()) {
-				                                        		Timer timerLivelloDif = new Timer(7000, new ActionListener() {
-				    												@Override
-				    												public void actionPerformed(ActionEvent e) {
-				    													mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello());
-				    													livelloPokemonDif.setText("Liv " + difensore.getLivello());
-				    												}
-				    											});
-				                                        		timerLivelloDif.setRepeats(false); // Il timer scatta solo una volta
-				                                                timerLivelloDif.start();
-				                                                
-				                                        	}
-			                                        	
+				                                        		avviaTimerDoubleTask(4000, () -> mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello()), () -> livelloPokemonDif.setText("Liv " + difensore.getLivello()));				                                                
+				                                        	}			                                        	
 				                                        	return;
 				                                        
 				                                        }else {
 				                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-				                                        	Timer timer = new Timer(6000, new ActionListener() {												
-																@Override
-																public void actionPerformed(ActionEvent e) {														
-																	next.setEnabled(true);								
-																}
-															});
-					                                    	
-					                                    	timer.setRepeats(false);
-					                                    	timer.start();				                                        	
-				                                        }
-			                                    		
-			                                        }
-			                                        		                                        
+				                                        	avviaTimerSingleTask(4000, () -> next.setEnabled(true));			                                        	
+				                                        }			                                    		
+			                                        }			                                        		                                        
 			                                    });
 											}
 										}); 
@@ -491,51 +391,24 @@ public class CampoDiBattaglia extends JPanel{
                                     
                                     // Verifico se l'attacco della CPU è andato a segno
                                     if(mossaCPU.getColpito() == false) {
-                                		Timer timer = new Timer(2000, new ActionListener() {											
-											@Override
-											public void actionPerformed(ActionEvent e) {
-												mostraMessaggio(attaccante.getNome() +  " evita l'attacco");
-											}
-										});
-                                		
-                                		timer.setRepeats(false);
-                                		timer.start();
-                                	
-                                    } else {
-                                		
+                                		avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"));                               	
+                                    
+									} else {                            		
                                     	// Controllo se la mossa usata ha un effetto di tipo stato
                                 		if(!mossaCPU.getEffetto().equals("")) {
-                                    		Timer timerEffetto = new Timer(2000, new ActionListener() {										
-    											@Override
-    											public void actionPerformed(ActionEvent e) {												
-    												mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto());
-    											}
-    										});
-                                    		
-                                    		timerEffetto.setRepeats(false);
-                                    		timerEffetto.start();			                                        		
+                                    		avviaTimerSingleTask(2000, () -> mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto()));		                                        		
                                     	
-                                		} else {
-                                    		
-                                			// Verifico l'efficacia dell'attacco della CPU
-                                    		Timer timerDif = new Timer(2000, new ActionListener() {									
-												@Override
-												public void actionPerformed(ActionEvent e) {
-													if(mossaCPU.getModificatore() > 1) {
-														mostraMessaggio("è superefficace");
-													}else if(mossaCPU.getModificatore() < 1) {
-														mostraMessaggio("non è molto efficace...");
-													}
+                                		} else {                                   		
+												// Timer per mostrare l'efficacia dell'attacco
+												if(mossaCPU.getModificatore() > 1) {
+													avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+												}else if(mossaCPU.getModificatore() < 1){
+													avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
 												}
-											});
-	                                     
-		                                     timerDif.setRepeats(false);
-		                                     timerDif.start();
                                     	}
                                 	
 	                                		// Controllo KO utente
-	                                        if (attaccante.esausto()) {
-	                                        	
+	                                        if (attaccante.esausto()) {	                                        	
 	                                        	difensore.setXp(difensore.getXp() + attaccante.getLivello()+5);
 	
 	                                        	for (int i = 0; i < listaMosseUtente.size(); i++) {
@@ -546,7 +419,7 @@ public class CampoDiBattaglia extends JPanel{
 	                                        	panelAreaMosse.setVisible(false);
 	    										next.setEnabled(false);	
 	                                        	
-	    										Timer timerEsaustoDif = new Timer(4000, new ActionListener() {
+	    										Timer timerEsaustoDif = new Timer(3000, new ActionListener() {
 	    											@Override
 	    											public void actionPerformed(ActionEvent e) {
 	    												mostraMessaggio(attaccante.getNome() + " è esausto!");
@@ -559,91 +432,49 @@ public class CampoDiBattaglia extends JPanel{
 	    										
 	    										timerEsaustoDif.setRepeats(false); // Il timer scatta solo una volta
 	    	                                	timerEsaustoDif.start();
-	    										
+
+													
+
 	    											// Controllo se il pokemon è salito di livello
 	    	                                    	if(difensore.saliDiLivello()) {
-	    	                                    		Timer timerLivelloDif = new Timer(5000, new ActionListener() {
-	    													@Override
-	    													public void actionPerformed(ActionEvent e) {
-	    														mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello());
-	    														livelloPokemonDif.setText("Liv " + difensore.getLivello());
-	    													}
-	    												});
-	    	                                    		timerLivelloDif.setRepeats(false); // Il timer scatta solo una volta
-	    	                                            timerLivelloDif.start();
-	    	                                            
+	    	                                    		avviaTimerDoubleTask(4000, () -> mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello()), () -> livelloPokemonDif.setText("Liv " + difensore.getLivello()));	    	                                            
 	    	                                    	}
-	                                    	return;
+	                                    			return;
 	                                        
 	                                        } else {
 	                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-	                                        	Timer timer = new Timer(4000, new ActionListener() {												
-	    											@Override
-	    											public void actionPerformed(ActionEvent e) {	    									
-	    												next.setEnabled(true);			
-	    												
-	    											}
-	    										});
-	                                        	
-	                                        	timer.setRepeats(false);
-	                                        	timer.start();                                    	
-	                                        }
-	                                		
-	                                    }                                                               
-                                                                       
-                                    // Dopo un piccolo ritardo, attacca il giocatore
-                                    Timer timer = new Timer(4000, new ActionListener() {
+	                                        	avviaTimerSingleTask(3000, () -> next.setEnabled(true));                               	
+	                                        }	                                		
+	                                    }                                                                                                                                     
+                                    
+										// Dopo un piccolo ritardo, attacca il giocatore
+                                    	Timer timer = new Timer(4000, new ActionListener() {
 										@Override
 										public void actionPerformed(ActionEvent e) {
 											SwingUtilities.invokeLater(() -> {
 		                                    	
 												attaccante.usaMossa(difensore, listaMosseUtente.get(index));
-			                                	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
-			                                	
+			                                	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());			                                													
+
 			                                	// Verifico se l'attacco è andato a segno
 			                                	if(listaMosseUtente.get(index).getColpito() == false) {
-			                                		Timer timer = new Timer(5000, new ActionListener() {											
-														@Override
-														public void actionPerformed(ActionEvent e) {
-															mostraMessaggio(difensore.getNome() +  " evita l'attacco");
-															next.setEnabled(true);
-														}
-													});
-			                                		
-			                                		timer.setRepeats(false);
-			                                		timer.start();			                                		
+			                                		avviaTimerDoubleTask(2000, () -> mostraMessaggio(difensore.getNome() +  " evita l'attacco"), () -> next.setEnabled(true));			                                		
 			                                		return;
 			                                	
 			                                	} else {
 			                                		
 			                                		// Controllo se la mossa usata ha un effetto di tipo stato
 			                                		if(!listaMosseUtente.get(index).getEffetto().equals("")) {
-			                                    		Timer timerEffetto = new Timer(5000, new ActionListener() {										
-			    											@Override
-			    											public void actionPerformed(ActionEvent e) {												
-			    												mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto());
-			    											}
-			    										});
+			                                    		avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto()));
 			                                    		
-			                                    		timerEffetto.setRepeats(false);
-			                                    		timerEffetto.start();
-			                                    		
-			                                    	} else {
-			                                    		
-			                                		// Timer per mostrare l'efficacia dell'attacco
-			                                       	 Timer timerAtt = new Timer(5000, new ActionListener() {    											
-			       											@Override
-			       											public void actionPerformed(ActionEvent e) {
-			       												if(listaMosseUtente.get(index).getModificatore() > 1) {
-			       													mostraMessaggio("è superefficace");
-			       												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
-			       													mostraMessaggio("non è molto efficace...");
-			       												}
-			       											}
-			       										});
-			                                            
-			                                            timerAtt.setRepeats(false);
-			                                            timerAtt.start();
+			                                    	} else {			                                    	
+														// Timer per mostrare l'efficacia dell'attacco
+														if(listaMosseUtente.get(index).getModificatore() > 1) {
+															avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+														}else if(listaMosseUtente.get(index).getModificatore() < 1){
+															avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+														}
+													
 			                                    	}                                                                  		
 			                                	
 			                                		// Controllo KO CPU
@@ -651,46 +482,18 @@ public class CampoDiBattaglia extends JPanel{
 			                                       		                                        	
 			                                        	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
 			                                        	attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);
-			                                        	
-			                                        	Timer timerEsausto = new Timer(6000, new ActionListener() {
-			    											@Override
-			    											public void actionPerformed(ActionEvent e) {	
-			    												mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!");
-			    												next.setEnabled(true);
-			    											}
-			    										});
-			                                        	
-			                                        	timerEsausto.setRepeats(false); // Il timer scatta solo una volta
-			                                        	timerEsausto.start();
+
+			                                        	avviaTimerDoubleTask(3000, () -> mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!"), () -> next.setEnabled(true));
 			                                        	
 				                                        	// Controllo se il pokemon è salito di livello
 				                                        	if(attaccante.saliDiLivello()) {
-				                                        		Timer timerLivello = new Timer(7000, new ActionListener() {
-				    												@Override
-				    												public void actionPerformed(ActionEvent e) {
-				    													mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello());
-				    													livelloPokemonAtt.setText("Liv " + attaccante.getLivello());
-				    												}
-				    											});
-				                                        		timerLivello.setRepeats(false); // Il timer scatta solo una volta
-				                                                timerLivello.start();
-				                                                
+				                                        		avviaTimerDoubleTask(4000, () -> mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello()), () -> livelloPokemonAtt.setText("Liv " + attaccante.getLivello()));				                                                
 				                                        	}
-		                                        	return;
+		                                        			return;
 			                                        
-			                                        }else {
-			                                        	
+			                                        }else {			                                        	
 			                                        	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-			                                        	Timer timer = new Timer(6000, new ActionListener() {												
-															@Override
-															public void actionPerformed(ActionEvent e) {									
-																next.setEnabled(true);															
-																
-															}
-														});
-				                                    	
-				                                    	timer.setRepeats(false);
-				                                    	timer.start();		                                        	
+			                                        	avviaTimerSingleTask(3000, () -> next.setEnabled(true));                                     	
 			                                        }			                                	
 			                                	}  		                                        
 		                                    });
@@ -930,7 +733,7 @@ public class CampoDiBattaglia extends JPanel{
         }
     }
  
-    // Metodo per permettere la sotituzione di un pokemon quando si desidera
+    // Metodo per permettere la sotituzione di un pokemon quando l'utente lo desidera
     public void cambiaPokemonUtente() {
     	
     	panelAreaMosse.setVisible(false);
@@ -1106,7 +909,24 @@ public class CampoDiBattaglia extends JPanel{
         panelCambiaPokemon.repaint();         
     }
 
-    // Metodo per far attaccare il pokemon della CPU con una mossa a scelta tra quelle disponibili
+	// Metodo per far partire un timer con un compito da svolgere dopo un certo ritardo
+	private void avviaTimerSingleTask(int delay, Runnable task) {
+        Timer timer = new Timer(delay, e -> task.run());
+        timer.setRepeats(false);
+        timer.start();
+    }
+	
+	// Metodo per far partire due timer con due compiti da svolgere dopo un certo ritardo
+	private void avviaTimerDoubleTask(int delay, Runnable task, Runnable task2){
+		Timer timer = new Timer(delay, e -> task.run());
+		timer.setRepeats(false);
+		timer.start();
+		Timer timer2 = new Timer(delay, e -> task2.run());
+		timer2.setRepeats(false);
+		timer2.start();
+	}
+    
+	// Metodo per far attaccare il pokemon della CPU con una mossa a scelta tra quelle disponibili
     public int attaccoCasuale() {
     	Random interoCasuale = new Random(); 
 		return interoCasuale.nextInt(3);

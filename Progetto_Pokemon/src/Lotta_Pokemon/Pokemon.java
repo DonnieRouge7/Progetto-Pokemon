@@ -5,7 +5,7 @@ import java.util.List;
 public class Pokemon {
 
 	private String codice;
-	private int tipo1; // ogni tipo ha un codice di riferimento nel file "Modificatore_Mosse"
+	private int tipo1; // ogni tipo ha un codice di riferimento nel file di testo "Modificatore_Mosse"
 	private int tipo2; // se è -1 significa che non ha un secondo tipo 
 	private String nome;
 	private int xp;
@@ -152,7 +152,6 @@ public class Pokemon {
 			setHpMax(hpMax + 3);
 			saliDiLivello = true;
 		}
-		
 		return saliDiLivello;
 	}
 	
@@ -181,7 +180,6 @@ public class Pokemon {
 		}
 		return esausto;
 	}
-	
 }
 
 
