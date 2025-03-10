@@ -10,16 +10,16 @@ public class Pikachu extends Pokemon {
 		
 		super(	"004" 		/* codice */, 
 				3 			/* codice tipo */, 
-				-1 			/* codice 2 tipo, se presente */, 
+				-1 					/* codice 2 tipo, se presente */, 
 				"Pikachu", 	/* nome */
-				0, 			/* xp attuali */
+				0, 				/* xp attuali */
 				1, 	 		/* livello */
-				35, 		/* xp attuali*/	
-				35, 		/* xp massimi */
+				35, 				/* xp attuali*/	
+				35, 			/* xp massimi */
 				55, 		/* attacco */
-				40, 		/* difesa */
-				50, 		/* attacco speciale */
-				50, 		/* difesa speciale */	
+				40, 			/* difesa */
+				50, /* attacco speciale */
+				50, 	/* difesa speciale */	
 				90, 		/* velocità */
 				30);		/* elusione */
 		

@@ -117,12 +117,7 @@ public class Mossa{
 	public int generaInteroCasuale(int a, int b) {
 		Random interoCasuale = new Random(); 
 		return interoCasuale.nextInt((b - a) + 1) + a;
-	}
-	
-	public double generaDoubleCasuale(double a, double b) {
-		Random doubleCasuale = new Random();
-		return doubleCasuale.nextDouble((b - a) + 1) + a;
-	}
+	}	
 	
 	public double modificatore(Pokemon difensore) {
 		modificatore = 1;

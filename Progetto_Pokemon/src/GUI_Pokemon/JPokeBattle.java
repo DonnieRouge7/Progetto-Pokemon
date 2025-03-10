@@ -2,7 +2,6 @@ package GUI_Pokemon;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
 
 public class JPokeBattle extends JFrame{
 	

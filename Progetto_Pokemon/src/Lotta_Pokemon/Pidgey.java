@@ -11,16 +11,16 @@ public class Pidgey extends Pokemon{
 		
 		super(	"005" 		/* codice */, 
 				9 			/* codice tipo */, 
-				-1 			/* codice 2 tipo, se presente */, 
-				"Pidgey", 	/* nome */
-				0, 			/* xp attuali */
+				-1 					/* codice 2 tipo, se presente */, 
+				"Pidgey", 		/* nome */
+				0, 				/* xp attuali */
 				1, 	 		/* livello */
-				40, 		/* xp attuali*/	
-				40, 		/* xp massimi */
+				40, 				/* xp attuali*/	
+				40, 			/* xp massimi */
 				45, 		/* attacco */
-				40, 		/* difesa */
-				35, 		/* attacco speciale */
-				35, 		/* difesa speciale */	
+				40, 			/* difesa */
+				35, /* attacco speciale */
+				35, 	/* difesa speciale */	
 				56, 		/* velocità */
 				30);		/* elusione */
 		

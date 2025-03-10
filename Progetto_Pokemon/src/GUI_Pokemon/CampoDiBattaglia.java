@@ -6,14 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.awt.*;
-import java.awt.image.AreaAveragingScaleFilter;
-import java.beans.PropertyChangeListener;
-
-import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -140,7 +134,7 @@ public class CampoDiBattaglia extends JPanel{
         areaPokemonAtt.setBounds(30, 390, 200, 30);
         areaPokemonAtt.setBorder(bordo);
         
-        labelPokemonAtt = new JLabel(attaccante.getNome());
+        labelPokemonAtt = new JLabel(attaccante.getNome()); 
         labelPokemonAtt.setForeground(Color.WHITE);
         
         livelloPokemonAtt = new JLabel("Liv " + attaccante.getLivello());

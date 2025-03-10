@@ -14,8 +14,6 @@ import Lotta_Pokemon.*;
 public class MenuSceltaSquadra extends JPanel{
 	
 	private JFrame frameMenuLotta;
- 	
-	private AudioPlayer audioPlayer;
 	
  	private CampoDiBattaglia campoDiBattaglia;
  	
@@ -33,8 +31,6 @@ public class MenuSceltaSquadra extends JPanel{
 	
 	// Costruttore che accetta un riferimento al frame
 	MenuSceltaSquadra(JFrame frame, AudioPlayer audioPlayer) {
-		
-		this.audioPlayer = audioPlayer;
 		
 		setLayout(new GridBagLayout());
 		

@@ -10,16 +10,16 @@ public class Charmander extends Pokemon {
 	
 		super(	"001" 			/* codice */, 
 				1 				/* codice tipo */, 
-				-1 				/* codice 2 tipo, se presente */, 
-				"Charmander", 	/* nome */
-				0, 				/* xp attuali */
+				-1 						/* codice 2 tipo, se presente */, 
+				"Charmander", 		/* nome */
+				0, 					/* xp attuali */
 				1, 	 			/* livello */
-				39, 			/* xp attuali*/	
-				39, 			/* xp massimi */
+				39, 					/* xp attuali*/	
+				39, 				/* xp massimi */
 				52, 			/* attacco */
-				43, 			/* difesa */
-				50, 			/* attacco speciale */
-				50, 			/* difesa speciale */	
+				43, 				/* difesa */
+				50, 	/* attacco speciale */
+				50, 		/* difesa speciale */	
 				65, 			/* velocità */
 				30);			/* elusione */
 		

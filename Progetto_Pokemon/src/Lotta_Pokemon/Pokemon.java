@@ -1,6 +1,5 @@
 package Lotta_Pokemon;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Pokemon {

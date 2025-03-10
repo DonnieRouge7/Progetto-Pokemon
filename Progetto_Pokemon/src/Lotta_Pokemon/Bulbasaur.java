@@ -10,16 +10,16 @@ public class Bulbasaur extends Pokemon {
 		
 		super(	"003" 			/* codice */, 
 				4 				/* codice tipo */, 
-				-1 				/* codice 2 tipo, se presente */, 
-				"Bulbasaur", 	/* nome */
-				0, 				/* xp attuali */
+				-1 						/* codice 2 tipo, se presente */, 
+				"Bulbasaur", 		/* nome */
+				0, 					/* xp attuali */
 				1, 	 			/* livello */
-				45, 			/* xp attuali*/	
-				45, 			/* xp massimi */
+				45, 					/* xp attuali*/	
+			    45, 				/* xp massimi */
 				49, 			/* attacco */
-				49, 			/* difesa */
-				65, 			/* attacco speciale */
-				65, 			/* difesa speciale */	
+				49, 				/* difesa */
+		        65, 	/* attacco speciale */
+				65, 		/* difesa speciale */	
 				45, 			/* velocità */
 				30);			/* elusione */		
 		
