@@ -4,8 +4,8 @@ public class MossaStato extends Mossa {
     
     private String effetto;
     
-    public MossaStato(String nomeMossa, int elementoMossa, String tipo, int PP, int precisioneMossa, String effetto) {
-        super(nomeMossa, elementoMossa, tipo, PP, precisioneMossa);
+    public MossaStato(String nomeMossa, int elementoMossa, String tipo, int PP, int PPmax, int precisioneMossa, String effetto) {
+        super(nomeMossa, elementoMossa, tipo, PP, PPmax, precisioneMossa);
         this.effetto = effetto;
     }
     

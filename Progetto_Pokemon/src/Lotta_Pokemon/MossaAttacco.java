@@ -4,8 +4,8 @@ public class MossaAttacco extends Mossa{
 	
 	private int potenzaMossa;
 
-	public MossaAttacco(String nomeMossa, int elementoMossa, String tipo, int PP, int precisioneMossa, int potenzaMossa) {
-		super(nomeMossa, elementoMossa, tipo, PP, precisioneMossa);
+	public MossaAttacco(String nomeMossa, int elementoMossa, String tipo, int PP, int PPmax, int precisioneMossa, int potenzaMossa) {
+		super(nomeMossa, elementoMossa, tipo, PP, PPmax, precisioneMossa);
 		this.potenzaMossa = potenzaMossa;
 	}
 

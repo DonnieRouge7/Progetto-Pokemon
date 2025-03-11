@@ -45,9 +45,9 @@ public class MenuSceltaSquadra extends JPanel{
 		List<Pokemon> pokemonCPU = new ArrayList<>();
 		
 		pokemonCPU.add(new Charmander());
-		pokemonCPU.add(new Bulbasaur());
-		pokemonCPU.add(new Squirtle());
-		 
+		 	pokemonCPU.add(new Bulbasaur());
+		/*	pokemonCPU.add(new Squirtle());
+		 */
 		// Label Lotta
 		
 		labelLotta = new JLabel("Scegli i pokemon con cui lottare:");

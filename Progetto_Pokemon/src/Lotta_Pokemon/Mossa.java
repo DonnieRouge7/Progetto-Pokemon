@@ -6,16 +6,18 @@ public class Mossa{
 	private String nomeMossa;
 	private int elementoMossa; // fuoco, erba, etc...
 	private String tipo; // fisico, speciale, stato
-	private int PP; // numero massimo di volte che quella mossa può essere usata, non si resetta dopo una lotta
+	private int PP; // numero di volte che quella mossa può essere usata, non si resetta dopo una lotta
+	private int PPmax; // numero massimo di volte che quella mossa può essere usata, si resetta dopo una lotta
 	int precisioneMossa;
 	private double modificatore = 1;
 	private boolean colpito = false;
 	
-	public Mossa(String nomeMossa, int elementoMossa, String tipo, int PP, int precisioneMossa){
+	public Mossa(String nomeMossa, int elementoMossa, String tipo, int PP, int PPmax, int precisioneMossa){
 		this.nomeMossa = nomeMossa; 
 		this.elementoMossa = elementoMossa; 
 		this.tipo = tipo; 
 		this.PP = PP;
+		this.PPmax = PPmax;
 		this.precisioneMossa = precisioneMossa;
 	}
 	
@@ -73,6 +75,14 @@ public class Mossa{
 
 	public void setPP(int pP) {
 		PP = pP;
+	}
+
+	public int getPPmax() {
+		return PPmax;
+	}
+
+	public void setPPmax(int pPmax) {
+		PPmax = pPmax;
 	}
 
 	public int getPrecisioneMossa() {

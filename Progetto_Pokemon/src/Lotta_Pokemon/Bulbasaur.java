@@ -27,10 +27,10 @@ public class Bulbasaur extends Pokemon {
 		
 		List<Mossa> mosse = new ArrayList<>();	
 		
-		Mossa frustata = new MossaAttacco("Frustata", 4, "fisico", 25, 100, 45);
-		Mossa foglielama = new MossaAttacco("Foglielama", 4, "fisico", 25, 100, 55);
-		Mossa ruggito = new MossaStato("Ruggito", 0, "stato", 40, 100, "Diminuisce Attacco");
-		Mossa azione = new MossaAttacco("Azione", 0, "fisico", 35, 100, 40);
+		Mossa frustata = new MossaAttacco("Frustata", 4, "fisico", 25, 25, 100, 45);
+		Mossa foglielama = new MossaAttacco("Foglielama", 4, "fisico", 25, 25, 100, 55);
+		Mossa ruggito = new MossaStato("Ruggito", 0, "stato", 40, 40, 100, "Diminuisce Attacco");
+		Mossa azione = new MossaAttacco("Azione", 0, "fisico", 35, 35, 100, 40);
 	
 		mosse.add(frustata);
 		mosse.add(foglielama);

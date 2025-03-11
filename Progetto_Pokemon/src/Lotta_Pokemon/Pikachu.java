@@ -27,10 +27,10 @@ public class Pikachu extends Pokemon {
 		
 		List<Mossa> mosse = new ArrayList<>();
 		
-		Mossa azione = new MossaAttacco("Azione", 0, "fisico", 35, 100, 40);
-		Mossa attacco_rapido = new MossaAttacco("Attacco rapido", 0, "fisico", 30, 100, 40);
-		Mossa fulmine = new MossaAttacco("Fulmine", 3, "speciale", 15, 100, 90);
-		Mossa doppioteam = new MossaStato("Doppioteam", 0, "stato", 15, 100, "Aumenta Elusione");
+		Mossa azione = new MossaAttacco("Azione", 0, "fisico", 35, 35, 100, 40);
+		Mossa attacco_rapido = new MossaAttacco("Attacco rapido", 0, "fisico", 30, 30, 100, 40);
+		Mossa fulmine = new MossaAttacco("Fulmine", 3, "speciale", 15, 15, 100, 90);
+		Mossa doppioteam = new MossaStato("Doppioteam", 0, "stato", 15, 15, 100, "Aumenta Elusione");
 		
 		mosse.add(azione);
 		mosse.add(attacco_rapido);

@@ -68,670 +68,736 @@ public class CampoDiBattaglia extends JPanel{
 	private JFrame frameLOSE;
 		private JPanel panelLOSE;
 			private JLabel youLOSE;
+
+	private JFrame frameLeaderboard;
+		private JPanel panelLeaderboard;
+			private JTextArea leaderboard;
+				private JLabel labelLaderboard;
+				private JButton buttonChiudi;
 	
-	CampoDiBattaglia(JFrame frame, List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
-		
-		this.frame = frame;
-		this.pokemonUtente = pokemonUtente;
-		this.pokemonCPU = pokemonCPU;
-		
-		setLayout(null);
-		setBackground(Color.GRAY);
-		
-		audioPlayer = new AudioPlayer();
-		audioPlayer.playMusic("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/Pokémon Battle Music - Anime Version.wav");
-		
-		if (!pokemonUtente.isEmpty() && !pokemonCPU.isEmpty()) {
-	        this.attaccante = pokemonUtente.get(0);  // Primo Pokémon dell'utente
-	        this.difensore = pokemonCPU.get(pokemonCasuale());  // Primo Pokémon della CPU selezionato casualemente tra quelli disponibili
-	    } 
-		
-		listaMosseCPU = difensore.getMosse(); // Setting delle mosse del primo pokemon avversario
-		
-		bordoHealthBar = new LineBorder(Color.BLACK); // Bordo delle healthBar
-		
-		// Sfondo pannello
-		
-		sfondo = new ImageIcon("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/sfondo lotta.jpg");
-		Image sfondoscalato = sfondo.getImage();
-		labelSfondo = new JLabel(new ImageIcon(sfondoscalato));
-		labelSfondo.setBounds(0,0,1000,600);
-		add(labelSfondo);
-		
-		// HealthBar Cpu
-		
-		healthBarDif = new JProgressBar(0, 100);
-		aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-		healthBarDif.setStringPainted(true); // Mostra il valore numerico
-      
-		healthBarDif.setForeground(Color.GREEN);
-		healthBarDif.setBorder(bordoHealthBar);
-		
-		healthBarDif.setBackground(Color.WHITE);
-		healthBarDif.setBounds(750, 110, 200, 20);
+				private int serieVittorie;
 	
-		add(healthBarDif);
 		
-		// HealthBar Utente
+									
+		CampoDiBattaglia(JFrame frame, List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
+									
+			this.frame = frame;
+			this.pokemonUtente = pokemonUtente;
+			this.pokemonCPU = pokemonCPU;
+									
+				setLayout(null);
+				setBackground(Color.GRAY);
+				
+				audioPlayer = new AudioPlayer();
+				audioPlayer.playMusic("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/Pokémon Battle Music - Anime Version.wav");
+				
+				if (!pokemonUtente.isEmpty() && !pokemonCPU.isEmpty()) {
+					this.attaccante = pokemonUtente.get(0);  // Primo Pokémon dell'utente
+					this.difensore = pokemonCPU.get(pokemonCasuale());  // Primo Pokémon della CPU selezionato casualemente tra quelli disponibili
+				} 
+				
+				listaMosseCPU = difensore.getMosse(); // Setting delle mosse del primo pokemon avversario
+				
+				bordoHealthBar = new LineBorder(Color.BLACK); // Bordo delle healthBar
+				
+				// Sfondo pannello
+				
+				sfondo = new ImageIcon("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/sfondo lotta.jpg");
+				Image sfondoscalato = sfondo.getImage();
+				labelSfondo = new JLabel(new ImageIcon(sfondoscalato));
+				labelSfondo.setBounds(0,0,1000,600);
+				add(labelSfondo);
+				
+				// HealthBar Cpu
+				
+				healthBarDif = new JProgressBar(0, 100);
+				aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+				healthBarDif.setStringPainted(true); // Mostra il valore numerico
+				
+				healthBarDif.setForeground(Color.GREEN);
+				healthBarDif.setBorder(bordoHealthBar);
+				healthBarDif.setBackground(Color.WHITE);
+				
+				healthBarDif.setBounds(750, 110, 200, 20);
+			
+				add(healthBarDif);
+				
+				// HealthBar Utente
+				
+				healthBarAtt = new JProgressBar(0, 100);
+				aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
+				healthBarAtt.setStringPainted(true); // Mostra il valore numerico
+				
+				healthBarAtt.setForeground(Color.GREEN);
+				healthBarAtt.setBorder(bordoHealthBar);
+				healthBarAtt.setBackground(Color.WHITE);
+				
+				healthBarAtt.setBounds(30, 420, 200, 20);
+				
+				add(healthBarAtt);
+				
+				// Pokemon utente
+				
+				areaPokemonAtt = new JPanel();
+				Border bordo = new LineBorder(Color.WHITE);
+				areaPokemonAtt.setBackground(Color.BLACK);
+				areaPokemonAtt.setBounds(30, 390, 200, 30);
+				areaPokemonAtt.setBorder(bordo);
+				
+				labelPokemonAtt = new JLabel(attaccante.getNome()); 
+				labelPokemonAtt.setForeground(Color.WHITE);
+				
+				livelloPokemonAtt = new JLabel("Liv " + attaccante.getLivello());
+				livelloPokemonAtt.setForeground(Color.WHITE);
+				
+				areaPokemonAtt.add(labelPokemonAtt);
+				areaPokemonAtt.add(livelloPokemonAtt);
+				add(areaPokemonAtt);
+				
+				// Pokemon CPU
+				
+				areaPokemonDif = new JPanel();
+				Border bordo2 = new LineBorder(Color.WHITE);
+				areaPokemonDif.setBackground(Color.BLACK);
+				areaPokemonDif.setBounds(750, 80, 200, 30);
+				areaPokemonDif.setBorder(bordo2);
+				
+				labelPokemonDif = new JLabel(difensore.getNome());
+				labelPokemonDif.setForeground(Color.WHITE);
+				
+				livelloPokemonDif = new JLabel("Liv " + difensore.getLivello());
+				livelloPokemonDif.setForeground(Color.WHITE);
+				
+				areaPokemonDif.add(labelPokemonDif);
+				areaPokemonDif.add(livelloPokemonDif);
+				add(areaPokemonDif);
+				
+				// Area messaggi durante la lotta
+				
+				areaMessaggi = new JPanel();
+				areaMessaggi.setBackground(Color.BLACK);
+				areaMessaggi.setBounds(570, 450, 400, 100);
+				areaMessaggi.setBorder(new LineBorder(Color.WHITE, 3));
+				areaMessaggi.setLayout(null);
+				
+					// Testo Messaggi
+					
+					testoMessaggi = new JTextArea();
+					testoMessaggi.setEditable(false); // L'utente non può scrivere
+					testoMessaggi.setWrapStyleWord(true); // Mantiene parole intere quando va a capo
+					testoMessaggi.setBackground(Color.BLACK);
+					testoMessaggi.setForeground(Color.WHITE);
+					testoMessaggi.setFont(new Font("Arial", Font.BOLD, 12));
+					testoMessaggi.setText("INIZIA LA LOTTA!");
+					testoMessaggi.setBounds(80, 40, 300, 30);
+					
+				areaMessaggi.add(testoMessaggi);
+				add(areaMessaggi);
+				
+				// Panel area mosse
+				
+				Border bordoAreaMosse = new LineBorder(Color.BLACK, 3);
+				panelAreaMosse = new JPanel();
+				panelAreaMosse.setBackground(Color.GRAY);
+				panelAreaMosse.setBounds(20, 20, 400, 300);
+				panelAreaMosse.setBorder(bordoAreaMosse);
+				
+				panelAreaMosse.setLayout(null);
+				
+					// Pulsante Mosse
+					
+					listaMosseUtente = attaccante.getMosse();
+				
+					Border bordoMosse = new LineBorder(Color.WHITE, 3);
+					mosse = new JButton("Mosse");
+					mosse.setBackground(Color.RED);
+					mosse.setForeground(Color.WHITE);
+					mosse.setFont(new Font("Arial", Font.BOLD, 18));
+					mosse.setBorder(bordoMosse);
+					mosse.setBounds(15, 140, 370, 80);
+					
+					// Pulsanti delle mosse (inizialmente nascosti)
+					mossa1 = creaPulsanteMossa();
+					mossa2 = creaPulsanteMossa();
+					mossa3 = creaPulsanteMossa();
+					mossa4 = creaPulsanteMossa();
 		
-		healthBarAtt = new JProgressBar(0, 100);
-		aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-		healthBarAtt.setStringPainted(true); // Mostra il valore numerico
-        
-		healthBarAtt.setForeground(Color.GREEN);
-		healthBarAtt.setBorder(bordoHealthBar);
-        
-		healthBarAtt.setBackground(Color.WHITE);
-		healthBarAtt.setBounds(30, 420, 200, 20);
+					// Posizioni nei quattro angoli
+					mossa1.setBounds(10, 30, 180, 60);   // Alto sinistra
+					mossa2.setBounds(200, 30, 180, 60);  // Alto destra
+					mossa3.setBounds(10, 110, 180, 60);  // Basso sinistra
+					mossa4.setBounds(200, 110, 180, 60); // Basso destra
 		
-		add(healthBarAtt);
+					JButton[] pulsantiMosse = {mossa1, mossa2, mossa3, mossa4};
+					
+					for (JButton pulsante : pulsantiMosse) {
+						pulsante.setVisible(false); // Inizialmente nascosti
+						panelAreaMosse.add(pulsante);
+					}
+					
+					mosse.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							mosse.setVisible(false); // Nasconde il pulsante principale
 		
-		// Pokemon utente
-        
-        areaPokemonAtt = new JPanel();
-        Border bordo = new LineBorder(Color.WHITE);
-        areaPokemonAtt.setBackground(Color.BLACK);
-        areaPokemonAtt.setBounds(30, 390, 200, 30);
-        areaPokemonAtt.setBorder(bordo);
-        
-        labelPokemonAtt = new JLabel(attaccante.getNome()); 
-        labelPokemonAtt.setForeground(Color.WHITE);
-        
-        livelloPokemonAtt = new JLabel("Liv " + attaccante.getLivello());
-        livelloPokemonAtt.setForeground(Color.WHITE);
-        
-        areaPokemonAtt.add(labelPokemonAtt);
-        areaPokemonAtt.add(livelloPokemonAtt);
-        add(areaPokemonAtt);
-        
-        // Pokemon CPU
-        
-        areaPokemonDif = new JPanel();
-        Border bordo2 = new LineBorder(Color.WHITE);
-        areaPokemonDif.setBackground(Color.BLACK);
-        areaPokemonDif.setBounds(750, 80, 200, 30);
-        areaPokemonDif.setBorder(bordo2);
-        
-        labelPokemonDif = new JLabel(difensore.getNome());
-        labelPokemonDif.setForeground(Color.WHITE);
-        
-        livelloPokemonDif = new JLabel("Liv " + difensore.getLivello());
-        livelloPokemonDif.setForeground(Color.WHITE);
-        
-        areaPokemonDif.add(labelPokemonDif);
-        areaPokemonDif.add(livelloPokemonDif);
-        add(areaPokemonDif);
-        
-        // Area messaggi durante la lotta
-        
-        areaMessaggi = new JPanel();
-        areaMessaggi.setBackground(Color.BLACK);
-        areaMessaggi.setBounds(570, 450, 400, 100);
-        areaMessaggi.setBorder(new LineBorder(Color.WHITE, 3));
-        areaMessaggi.setLayout(null);
-        
-        	// Testo Messaggi
-        	
-	        testoMessaggi = new JTextArea();
-	        testoMessaggi.setEditable(false); // L'utente non può scrivere
-	        testoMessaggi.setWrapStyleWord(true); // Mantiene parole intere quando va a capo
-	        testoMessaggi.setBackground(Color.BLACK);
-	        testoMessaggi.setForeground(Color.WHITE);
-	        testoMessaggi.setFont(new Font("Arial", Font.BOLD, 12));
-	        testoMessaggi.setText("INIZIA LA LOTTA!");
-	        testoMessaggi.setBounds(80, 40, 300, 30);
-	       
-        areaMessaggi.add(testoMessaggi);
-        add(areaMessaggi);
-        
-        // Panel area mosse
-        
-        Border bordoAreaMosse = new LineBorder(Color.BLACK, 3);
-        panelAreaMosse = new JPanel();
-        panelAreaMosse.setBackground(Color.GRAY);
-        panelAreaMosse.setBounds(20, 20, 400, 300);
-        panelAreaMosse.setBorder(bordoAreaMosse);
-        
-        panelAreaMosse.setLayout(null);
-        
-        	// Pulsante Mosse
-        	
-        	listaMosseUtente = attaccante.getMosse();
-        
-        	Border bordoMosse = new LineBorder(Color.WHITE, 3);
-        	mosse = new JButton("Mosse");
-        	mosse.setBackground(Color.RED);
-        	mosse.setForeground(Color.WHITE);
-        	mosse.setFont(new Font("Arial", Font.BOLD, 18));
-        	mosse.setBorder(bordoMosse);
-        	mosse.setBounds(15, 140, 370, 80);
-        	
-        	// Pulsanti delle mosse (inizialmente nascosti)
-            mossa1 = creaPulsanteMossa();
-            mossa2 = creaPulsanteMossa();
-            mossa3 = creaPulsanteMossa();
-            mossa4 = creaPulsanteMossa();
-
-            // Posizioni nei quattro angoli
-            mossa1.setBounds(10, 30, 180, 60);   // Alto sinistra
-            mossa2.setBounds(200, 30, 180, 60);  // Alto destra
-            mossa3.setBounds(10, 110, 180, 60);  // Basso sinistra
-            mossa4.setBounds(200, 110, 180, 60); // Basso destra
-
-            JButton[] pulsantiMosse = {mossa1, mossa2, mossa3, mossa4};
-            
-            for (JButton pulsante : pulsantiMosse) {
-                pulsante.setVisible(false); // Inizialmente nascosti
-                panelAreaMosse.add(pulsante);
-            }
-            
-            mosse.addActionListener(new ActionListener() {
-                @Override
-            	public void actionPerformed(ActionEvent e) {
-                    mosse.setVisible(false); // Nasconde il pulsante principale
-
-                    // Assegna le mosse ai pulsanti e li rende visibili
-                    for (int i = 0; i < listaMosseUtente.size(); i++) {
-                        pulsantiMosse[i].setText(listaMosseUtente.get(i).getNomeMossa());
-                        pulsantiMosse[i].setVisible(true);
-                        
-                        // Rimuove tutti i vecchi listener prima di aggiungere il nuovo
-                        for (ActionListener al : pulsantiMosse[i].getActionListeners()) {
-                            pulsantiMosse[i].removeActionListener(al);
-                        }
-                        
-                        final int index = i; // Variabile finale per ActionListener
-                        pulsantiMosse[i].addActionListener(new ActionListener() {
-                            @Override
-                        	public void actionPerformed(ActionEvent e) {
-                                
-                            	// Disabilita i pulsanti delle mosse per evitare doppi input
-                                for (JButton pulsante : pulsantiMosse) {
-                                    pulsante.setEnabled(false);
-                                }
-                                
-                                next.setEnabled(false);
-                                borsa.setEnabled(false);
-                                buttonCambiaPokemon.setEnabled(false);                                                              
-                                
-                                // Controllo la velocità dei pokemon per stabilire chi attacca per primo
-                                if (attaccante.getVelocità() >= difensore.getVelocità()) {                                   
-                                	// Primo attacco: attaccante                               	
-									attaccante.usaMossa(difensore, listaMosseUtente.get(index));
-                                	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
-                                	
-                                	// Verifico se l'attacco è andato a segno
-                                	if(listaMosseUtente.get(index).getColpito() == false) {
-                                		avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"));                              
-                                	
-									} else {                             		
-                                		// Controllo se la mossa usata ha un effetto di tipo stato
-                                		if(!listaMosseUtente.get(index).getEffetto().equals("")) {
-                                    		avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto()));                                   		
-                                    	
-										} else {                                   		
-                                			// Timer per mostrare l'efficacia dell'attacco
-											if(listaMosseUtente.get(index).getModificatore() > 1) {
-												avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
-											}else if(listaMosseUtente.get(index).getModificatore() < 1){
-												avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
-											}
-                                    	}                                                                  		
-                                	
-	                                		// Controllo KO CPU
-		                                    if (difensore.esausto()) {		                                  
-		                                    	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-		                                    	attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);		                                    										
-
-												avviaTimerDoubleTask(3000, () -> mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!"), () -> next.setEnabled(true));
-		                                    		
-												// Controllo se l'attaccante è salito di livello
-												if(attaccante.saliDiLivello()){
-													avviaTimerDoubleTask(4000, () -> mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello()), () -> livelloPokemonAtt.setText("Liv " + attaccante.getLivello()));
-												}	                                    	
-												return;
-		                                    
-		                                    } else {
-		                                    	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-		                                    	avviaTimerSingleTask(4000, () -> next.setEnabled(true));
-		                                    }	                                	
-	                                	}
-	                                            
-	                                    // Dopo un piccolo ritardo, attacca la CPU
-	                                    Timer timer = new Timer(4000, new ActionListener() {
-											@Override
-											public void actionPerformed(ActionEvent e) { 
-												SwingUtilities.invokeLater(() -> {
-			                                        
-													next.setEnabled(false);
+							// Assegna le mosse ai pulsanti e li rende visibili
+							for (int i = 0; i < listaMosseUtente.size(); i++) {
+								pulsantiMosse[i].setText(listaMosseUtente.get(i).getNomeMossa());
+								pulsantiMosse[i].setVisible(true);
+								
+								// Rimuove tutti i vecchi listener prima di aggiungere il nuovo
+								for (ActionListener al : pulsantiMosse[i].getActionListeners()) {
+									pulsantiMosse[i].removeActionListener(al);
+								}
+								
+								final int index = i; // Variabile finale per ActionListener
+								pulsantiMosse[i].addActionListener(new ActionListener() {
+									@Override
+									public void actionPerformed(ActionEvent e) {
+										
+										// Disabilita i pulsanti delle mosse per evitare doppi input
+										for (JButton pulsante : pulsantiMosse) {
+											pulsante.setEnabled(false);
+										}
+										
+										// Disabilito i pulsanti non cliccabili durante l'esecuzione dell'attacco (next, borsa, cambiaPokemon)
+										next.setEnabled(false);
+										borsa.setEnabled(false);
+										buttonCambiaPokemon.setEnabled(false);                                                              
+										
+										// Controllo la velocità dei pokemon per stabilire chi attacca per primo
+										if (attaccante.getVelocità() >= difensore.getVelocità()) {                                   
+											
+											// Primo attacco: attaccante                               	
+											attaccante.usaMossa(difensore, listaMosseUtente.get(index));
+											mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
+											
+											// Verifico se l'attacco è andato a segno
+											if(listaMosseUtente.get(index).getColpito() == false) {
+												avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"));                              
+											
+											} else {                             		
+												// Controllo se la mossa usata ha un effetto di tipo stato
+												if(!listaMosseUtente.get(index).getEffetto().equals("")) {
+													avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto()));                                   		
+												
+												} else {                                   		
+													// Timer per mostrare l'efficacia dell'attacco
+													if(listaMosseUtente.get(index).getModificatore() > 1) {
+														avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+													}else if(listaMosseUtente.get(index).getModificatore() < 1){
+														avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+													}
+												}                                                                  		
+											
+													// Controllo KO CPU
+													if (difensore.esausto()) {		                                  
+														aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+														attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);		                                    										
+		
+														avviaTimerDoubleTask(3000, () -> mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!"), () -> next.setEnabled(true));
+															
+														// Controllo se l'attaccante è salito di livello
+														if(attaccante.saliDiLivello()){
+															avviaTimerDoubleTask(4000, () -> mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello()), () -> livelloPokemonAtt.setText("Liv " + attaccante.getLivello()));
+														}	                                    	
+														return;
 													
-			                                    	int indiceMossaCPU = attaccoCasuale(); // Salva l'indice della mossa
-			                                    	Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); // Recupera la mossa scelta
-			                                    	
-			                                    	difensore.usaMossa(attaccante, mossaCPU);
-			                                        mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());																																				
-
-			                                        // Verifico se l'attacco della CPU è andato a segno
-			                                        if(mossaCPU.getColpito() == false) {
-			                                    		avviaTimerDoubleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"), () -> next.setEnabled(true));	       		
-			                                    		return;
-			                                        
-			                                        } else {
-			                                    		// Controllo se la mossa usata ha un effetto di tipo stato
-			                                    		if(!mossaCPU.getEffetto().equals("")) {
-			                                        		avviaTimerSingleTask(2000, () -> mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto()));		                                        		
-			                                        	
-														} else {													
-															// Timer per mostrare l'efficacia dell'attacco
-															if(mossaCPU.getModificatore() > 1) {
-																avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
-															}else if(mossaCPU.getModificatore() < 1){
-																avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
-															}
-			                                        	}
-			                                    	
-			                                    		// Controllo KO utente dopo il contrattacco
-				                                        if (attaccante.esausto()) {
-				                                        	
-				                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());                                      
-				                                        	difensore.setXp(difensore.getXp() + attaccante.getLivello()+5);
-				                                        	
-				                                        	for (int i = 0; i < listaMosseUtente.size(); i++) {
-				    											pulsantiMosse[i].setVisible(false);
-				    										}
-				                                        	panelAreaMosse.setVisible(false);
-				                                        	mosse.setVisible(false);
-															next.setEnabled(false);
-				                                        	
-															Timer timerEsaustoDif = new Timer(3000, new ActionListener() {
-																@Override
-																public void actionPerformed(ActionEvent e) {
-																	mostraMessaggio(attaccante.getNome() + " è esausto!");
-						                                        	cambiaPokemonUtente(); 
-						                                        	for (JButton pulsante : pulsantiMosse) {
-						                                                pulsante.setEnabled(true);
-						                                            }
-																}
-															});
-															
-															timerEsaustoDif.setRepeats(false); // Il timer scatta solo una volta
-				                                            timerEsaustoDif.start();	
-															
-															
-
-															// Controllo se il pokemon è salito di livello
-				                                        	if(difensore.saliDiLivello()) {
-				                                        		avviaTimerDoubleTask(4000, () -> mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello()), () -> livelloPokemonDif.setText("Liv " + difensore.getLivello()));				                                                
-				                                        	}			                                        	
-				                                        	return;
-				                                        
-				                                        }else {
-				                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-				                                        	avviaTimerSingleTask(4000, () -> next.setEnabled(true));			                                        	
-				                                        }			                                    		
-			                                        }			                                        		                                        
-			                                    });
-											}
-										}); 
-                                
-	                                    timer.setRepeats(false); // Esegui solo una volta
-	                                    timer.start();
-	                                    
-                                } else {
-                                   
-                                	// Se la CPU è più veloce, attacca per prima
-                                	
-                                	next.setEnabled(false);
-                                	
-                                	int indiceMossaCPU = attaccoCasuale(); // Salva l'indice della mossa
-                                	Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); // Recupera la mossa scelta
-                                	
-                                	difensore.usaMossa(attaccante, mossaCPU);
-                                    mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
-                                    
-                                    // Verifico se l'attacco della CPU è andato a segno
-                                    if(mossaCPU.getColpito() == false) {
-                                		avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"));                               	
-                                    
-									} else {                            		
-                                    	// Controllo se la mossa usata ha un effetto di tipo stato
-                                		if(!mossaCPU.getEffetto().equals("")) {
-                                    		avviaTimerSingleTask(2000, () -> mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto()));		                                        		
-                                    	
-                                		} else {                                   		
-												// Timer per mostrare l'efficacia dell'attacco
-												if(mossaCPU.getModificatore() > 1) {
-													avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
-												}else if(mossaCPU.getModificatore() < 1){
-													avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+													} else {
+														aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+														avviaTimerSingleTask(4000, () -> next.setEnabled(true));
+													}	                                	
 												}
-                                    	}
-                                	
-	                                		// Controllo KO utente
-	                                        if (attaccante.esausto()) {	                                        	
-	                                        	difensore.setXp(difensore.getXp() + attaccante.getLivello()+5);
-	
-	                                        	for (int i = 0; i < listaMosseUtente.size(); i++) {
-	    											pulsantiMosse[i].setVisible(false);
-	    										}
-	                                        	
-	                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-	                                        	panelAreaMosse.setVisible(false);
-	    										next.setEnabled(false);	
-	                                        	
-	    										Timer timerEsaustoDif = new Timer(3000, new ActionListener() {
-	    											@Override
-	    											public void actionPerformed(ActionEvent e) {
-	    												mostraMessaggio(attaccante.getNome() + " è esausto!");
-	    	                                        	cambiaPokemonUtente();
-	    	                                        	for (JButton pulsante : pulsantiMosse) {
-	    	                                                pulsante.setEnabled(true);
-	    	                                            }
-	    											}
-	    										});
-	    										
-	    										timerEsaustoDif.setRepeats(false); // Il timer scatta solo una volta
-	    	                                	timerEsaustoDif.start();
-
-													
-
-	    											// Controllo se il pokemon è salito di livello
-	    	                                    	if(difensore.saliDiLivello()) {
-	    	                                    		avviaTimerDoubleTask(4000, () -> mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello()), () -> livelloPokemonDif.setText("Liv " + difensore.getLivello()));	    	                                            
-	    	                                    	}
-	                                    			return;
-	                                        
-	                                        } else {
-	                                        	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-	                                        	avviaTimerSingleTask(3000, () -> next.setEnabled(true));                               	
-	                                        }	                                		
-	                                    }                                                                                                                                     
-                                    
-										// Dopo un piccolo ritardo, attacca il giocatore
-                                    	Timer timer = new Timer(4000, new ActionListener() {
-										@Override
-										public void actionPerformed(ActionEvent e) {
-											SwingUtilities.invokeLater(() -> {
-		                                    	
-												attaccante.usaMossa(difensore, listaMosseUtente.get(index));
-			                                	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());			                                													
-
-			                                	// Verifico se l'attacco è andato a segno
-			                                	if(listaMosseUtente.get(index).getColpito() == false) {
-			                                		avviaTimerDoubleTask(2000, () -> mostraMessaggio(difensore.getNome() +  " evita l'attacco"), () -> next.setEnabled(true));			                                		
-			                                		return;
-			                                	
-			                                	} else {
-			                                		
-			                                		// Controllo se la mossa usata ha un effetto di tipo stato
-			                                		if(!listaMosseUtente.get(index).getEffetto().equals("")) {
-			                                    		avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto()));
-			                                    		
-			                                    	} else {			                                    	
+														
+												// Dopo un piccolo ritardo, attacca la CPU
+												Timer timer = new Timer(4000, new ActionListener() {
+													@Override
+													public void actionPerformed(ActionEvent e) { 
+														SwingUtilities.invokeLater(() -> {
+															
+															next.setEnabled(false);
+															
+															int indiceMossaCPU = attaccoCasuale(); // Salva l'indice della mossa
+															Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); // Recupera la mossa scelta
+															
+															difensore.usaMossa(attaccante, mossaCPU);
+															mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());																																				
+		
+															// Verifico se l'attacco della CPU è andato a segno
+															if(mossaCPU.getColpito() == false) {
+																avviaTimerDoubleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"), () -> next.setEnabled(true));	       		
+																return; // esce dal ciclo se la l'utente evita l'attacco
+															
+															} else {
+																// Controllo se la mossa usata ha un effetto di tipo stato
+																if(!mossaCPU.getEffetto().equals("")) {
+																	avviaTimerSingleTask(2000, () -> mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto()));		                                        		
+																
+																} else {													
+																	// Timer per mostrare l'efficacia dell'attacco
+																	if(mossaCPU.getModificatore() > 1) {
+																		avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+																	}else if(mossaCPU.getModificatore() < 1){
+																		avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+																	}
+																}
+															
+																// Controllo KO utente dopo il contrattacco
+																if (attaccante.esausto()) {
+																	
+																	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());                                      
+																	difensore.setXp(difensore.getXp() + attaccante.getLivello()+5);
+																	
+																	for(JButton pulsante : pulsantiMosse) {
+																		pulsante.setVisible(false);
+																	}
+		
+																	panelAreaMosse.setVisible(false);
+																	next.setEnabled(false);
+																	
+																	Timer timerEsaustoDif = new Timer(3000, new ActionListener() {
+																		@Override
+																		public void actionPerformed(ActionEvent e) {
+																			mostraMessaggio(attaccante.getNome() + " è esausto!");
+																			cambiaPokemonUtente(); 
+																			for (JButton pulsante : pulsantiMosse) {
+																				pulsante.setEnabled(true);
+																			}
+																		}
+																	});
+																	
+																	timerEsaustoDif.setRepeats(false); // Il timer scatta solo una volta
+																	timerEsaustoDif.start();	
+																	
+																	// Controllo se il pokemon è salito di livello
+																	if(difensore.saliDiLivello()) {
+																		avviaTimerDoubleTask(4000, () -> mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello()), () -> livelloPokemonDif.setText("Liv " + difensore.getLivello()));				                                                
+																	}			                                        	
+																	return;
+																
+																}else {
+																	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
+																	avviaTimerSingleTask(4000, () -> next.setEnabled(true));			                                        	
+																}			                                    		
+															}			                                        		                                        
+														});
+													}
+												}); 
+										
+												timer.setRepeats(false); // Esegui solo una volta
+												timer.start();
+												
+										} else {
+											
+											// Se la CPU è più veloce, attacca per prima
+											
+											next.setEnabled(false);
+											
+											int indiceMossaCPU = attaccoCasuale(); // Salva l'indice della mossa
+											Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); // Recupera la mossa scelta
+											
+											difensore.usaMossa(attaccante, mossaCPU);
+											mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
+											
+											// Verifico se l'attacco della CPU è andato a segno
+											if(mossaCPU.getColpito() == false) {
+												avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"));                               	
+											
+											} else {                            		
+												// Controllo se la mossa usata ha un effetto di tipo stato
+												if(!mossaCPU.getEffetto().equals("")) {
+													avviaTimerSingleTask(2000, () -> mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto()));		                                        		
+												
+												} else {                                   		
 														// Timer per mostrare l'efficacia dell'attacco
-														if(listaMosseUtente.get(index).getModificatore() > 1) {
+														if(mossaCPU.getModificatore() > 1) {
 															avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
-														}else if(listaMosseUtente.get(index).getModificatore() < 1){
+														}else if(mossaCPU.getModificatore() < 1){
 															avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
 														}
+												}
+											
+													// Controllo KO utente
+													if (attaccante.esausto()) {	                                        	
+														
+														aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
+														difensore.setXp(difensore.getXp() + attaccante.getLivello()+5);
+														
+														for(JButton pulsante : pulsantiMosse) {
+															pulsante.setVisible(false);
+														}
+		
+														panelAreaMosse.setVisible(false);
+														next.setEnabled(false);	
+														
+														Timer timerEsaustoDif = new Timer(3000, new ActionListener() {
+															@Override
+															public void actionPerformed(ActionEvent e) {
+																mostraMessaggio(attaccante.getNome() + " è esausto!");
+																cambiaPokemonUtente();
+																for (JButton pulsante : pulsantiMosse) {
+																	pulsante.setEnabled(true);
+																}
+															}
+														});
+														
+														timerEsaustoDif.setRepeats(false); // Il timer scatta solo una volta
+														timerEsaustoDif.start();
+		
+															
+		
+															// Controllo se il pokemon avversario è salito di livello
+															if(difensore.saliDiLivello()) {
+																avviaTimerDoubleTask(4000, () -> mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello()), () -> livelloPokemonDif.setText("Liv " + difensore.getLivello()));	    	                                            
+															}
+															return;
 													
-			                                    	}                                                                  		
-			                                	
-			                                		// Controllo KO CPU
-			                                        if (difensore.esausto()) {
-			                                       		                                        	
-			                                        	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-			                                        	attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);
-
-			                                        	avviaTimerDoubleTask(3000, () -> mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!"), () -> next.setEnabled(true));
-			                                        	
-				                                        	// Controllo se il pokemon è salito di livello
-				                                        	if(attaccante.saliDiLivello()) {
-				                                        		avviaTimerDoubleTask(4000, () -> mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello()), () -> livelloPokemonAtt.setText("Liv " + attaccante.getLivello()));				                                                
-				                                        	}
-		                                        			return;
-			                                        
-			                                        }else {			                                        	
-			                                        	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-			                                        	avviaTimerSingleTask(3000, () -> next.setEnabled(true));                                     	
-			                                        }			                                	
-			                                	}  		                                        
-		                                    });
+													} else {
+														aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
+														avviaTimerSingleTask(3000, () -> next.setEnabled(true));                               	
+													}	                                		
+												}                                                                                                                                     
+											
+												// Dopo un piccolo ritardo, attacca il giocatore
+												Timer timer = new Timer(4000, new ActionListener() {
+												@Override
+												public void actionPerformed(ActionEvent e) {
+													SwingUtilities.invokeLater(() -> {
+														
+														attaccante.usaMossa(difensore, listaMosseUtente.get(index));
+														mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());			                                													
+		
+														// Verifico se l'attacco è andato a segno
+														if(listaMosseUtente.get(index).getColpito() == false) {
+															avviaTimerDoubleTask(2000, () -> mostraMessaggio(difensore.getNome() +  " evita l'attacco"), () -> next.setEnabled(true));			                                		
+															return; // esce dal ciclo se il pokemon avversario evita l'attacco
+														
+														} else {
+															
+															// Controllo se la mossa usata ha un effetto di tipo stato
+															if(!listaMosseUtente.get(index).getEffetto().equals("")) {
+																avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto()));
+																
+															} else {			                                    	
+																// Timer per mostrare l'efficacia dell'attacco
+																if(listaMosseUtente.get(index).getModificatore() > 1) {
+																	avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+																}else if(listaMosseUtente.get(index).getModificatore() < 1){
+																	avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+																}
+															
+															}                                                                  		
+														
+															// Controllo KO CPU
+															if (difensore.esausto()) {
+																											
+																aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+																attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);
+		
+																avviaTimerDoubleTask(3000, () -> mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!"), () -> next.setEnabled(true));
+																
+																	// Controllo se il pokemon è salito di livello
+																	if(attaccante.saliDiLivello()) {
+																		avviaTimerDoubleTask(4000, () -> mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello()), () -> livelloPokemonAtt.setText("Liv " + attaccante.getLivello()));				                                                
+																	}
+																	return;
+															
+															}else {			                                        	
+																aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+																avviaTimerSingleTask(3000, () -> next.setEnabled(true));                                     	
+															}			                                	
+														}  		                                        
+													});
+												}
+											});
+											
+											timer.setRepeats(false);
+											timer.start();                                                                      
 										}
-									});
-                                    
-                                    timer.setRepeats(false);
-                                    timer.start();                                                                      
-                                }
-                            }
-                        });
-                    }
-                }
-                
-            });
-            
-            panelAreaMosse.add(mosse);
-        	
-        	// Pulsante next
-	        
-	    	next = new JButton("AVANTI");
-	    	Border bordoNext = new LineBorder(Color.WHITE, 3);
-	    	next.setBorder(bordoNext);
-	    	next.setForeground(Color.WHITE);
-	    	next.setBackground(Color.GRAY);
-	    	next.setBounds(340, 70, 50, 20);
-	    	
-	    	next.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if(difensore.esausto()) {
-						for (JButton pulsante : pulsantiMosse) {
-	                        pulsante.setEnabled(false);
-	                    }
+									}
+								});
+							}
+						}
 						
-						borsa.setEnabled(false);
-						buttonCambiaPokemon.setEnabled(false);
-						cambiaPokemonCPU();
-						next.setEnabled(false);						
-					} 
-						for (JButton pulsante : pulsantiMosse) {
-	                        pulsante.setEnabled(true);
-	                    				
-						borsa.setEnabled(true);
-						buttonCambiaPokemon.setEnabled(true);
-					}					
-				}					
-			});
-	    	
-	    	areaMessaggi.add(next);
-        	
-        	// Button borsa (solo estetico ma senza funzionalità)
-        	
-        	Border bordoBorsa = new LineBorder(Color.WHITE, 3);
-        	borsa = new JButton("Borsa");
-        	borsa.setBackground(Color.ORANGE);
-        	borsa.setForeground(Color.WHITE);
-        	borsa.setFont(new Font("Arial", Font.BOLD, 14));
-        	borsa.setBorder(bordoBorsa);
-        	borsa.setBounds(220, 230, 165, 50);
-        	
-        	panelAreaMosse.add(borsa);
-        	
-        	// Panel per il cambio Pokemon dell'utente
-        	
-			 panelCambiaPokemon = new JPanel();
-		     Border bordoCambioPokemon = new LineBorder(Color.WHITE, 3);
-		     panelCambiaPokemon.setBackground(Color.GRAY);
-		     panelCambiaPokemon.setForeground(Color.WHITE);
-		     panelCambiaPokemon.setBorder(bordoCambioPokemon);
-		     panelCambiaPokemon.setBounds(20, 20, 400, 300);
-		     panelCambiaPokemon.setVisible(false);
-		     panelCambiaPokemon.setLayout(null);
-		    
-		     add(panelCambiaPokemon);
-        	
-        	// Button cambia Pokemon
-        	
-        	Border bordoCambio = new LineBorder(Color.WHITE, 3);
-        	buttonCambiaPokemon = new JButton("Cambia Pokémon");
-        	buttonCambiaPokemon.setBackground(Color.GREEN);
-        	buttonCambiaPokemon.setForeground(Color.WHITE);
-        	buttonCambiaPokemon.setFont(new Font("Arial", Font.BOLD, 14));
-        	buttonCambiaPokemon.setBorder(bordoCambio);
-        	buttonCambiaPokemon.setBounds(15, 230, 160, 50);
-        	
-        	buttonCambiaPokemon.addActionListener(new ActionListener() {
-    			@Override
-    			public void actionPerformed(ActionEvent e) {
-    				for(JButton button: pulsantiMosse) {
-    					button.setVisible(false);
-    				}    				
-    				cambiaPokemonUtente();
-    			}
-    		});
-        	
-        	panelAreaMosse.add(buttonCambiaPokemon);
-        
-        	add(panelAreaMosse);
-
-        setComponentZOrder(labelSfondo, getComponentCount() - 1);
-              
-	}
-	
-	// Metodo per mostrare a piacimento un qualsiasi messaggio nell'area predisposta
-	public void mostraMessaggio(String messaggio) {
-	    testoMessaggi.setText(messaggio);
-	}
-	
-	// Metodo per creare un pulsante mossa con lo stile desiderato
-    private JButton creaPulsanteMossa() {
-        JButton button = new JButton();
-        button.setBackground(Color.RED);
-        button.setForeground(Color.WHITE);
-        button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setBorder(new LineBorder(Color.WHITE, 3));
-        return button;
-    }
-	
-    // Metodo per cambiare automaticamente i pokemon della CPU
-    public void cambiaPokemonCPU() {
-        if (!pokemonCPU.isEmpty()) { 
-            int startIndex = indicePokemonCPU; // Salva l'indice di partenza
-
-            do {
-                // Passa al Pokémon successivo, ciclando la lista
-                indicePokemonCPU = (indicePokemonCPU + 1) % pokemonCPU.size();
-                
-                // Se il Pokémon non è esausto, lo manda in campo
-                if (!pokemonCPU.get(indicePokemonCPU).esausto()) {
-                    difensore = pokemonCPU.get(indicePokemonCPU);
-                    listaMosseCPU = difensore.getMosse();
-                    mostraMessaggio("La CPU manda in campo " + difensore.getNome());
-
-                    // Aggiorna l'interfaccia grafica
-                    aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-                    labelPokemonDif.setText(difensore.getNome());
-                    livelloPokemonDif.setText("Liv " + difensore.getLivello());
-                    return; // Esce dalla funzione dopo aver trovato un Pokémon valido
-                }
-
-            } while (indicePokemonCPU != startIndex); // Se ha girato tutta la lista e non ha trovato Pokémon validi, termina.
-
-            // Se arriva qui significa che tutti i Pokémon sono esausti
-            mostraMessaggio("L'avversario non ha più Pokémon disponibili!");                    
-            panelAreaMosse.setVisible(false);
-            
-            // Aggiunta Pokemon alla squadra della CPU quando viene sconfitta (se non già presenti in squadra)
-            Pidgey pidgey = new Pidgey(); 
-            Pikachu pikachu = new Pikachu();
-            
-            boolean pidgeyPresente = false;
-            boolean pikachuPresente = false;
-        
-            // Controlliamo quali Pokémon sono già presenti nella lista
-            for (Pokemon p : pokemonCPU) {
-                if (p.getNome().equals(pidgey.getNome())) {
-                    pidgeyPresente = true;
-                }
-                if (p.getNome().equals(pikachu.getNome())) {
-                    pikachuPresente = true;
-                }
-            }
-
-            // Prima aggiungiamo Pidgey se non è presente
-            if (!pidgeyPresente) {
-                pokemonCPU.add(pidgey);
-            } 
-            
-            // Pikachu viene aggiunto solo **nella lotta successiva**, se Pidgey è già presente
-            else if (!pikachuPresente) {
-                pokemonCPU.add(pikachu);
-            }
-            
-            // Aumenta il livello della squadra CPU
-            aumentaLivelloCPU();
-                         
-            Timer timer = new Timer(4000, new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
+					});
 					
-					frame.dispose();	
-					audioPlayer.stopMusic();
+					panelAreaMosse.add(mosse);
 					
-					// Frame WIN
-		            
-		            frameWIN = new JFrame();
-		            frameWIN.setSize(new Dimension(300, 200));
-		            frameWIN.setLocationRelativeTo(null);
-		            frameWIN.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		            frameWIN.setVisible(true);
-		            
-		            	
-		            	// Panel WIN
-		            
-		            	panelWIN = new JPanel();
-		            	panelWIN.setSize(300, 200);
-		            	panelWIN.setLayout(null);
-		            	panelWIN.setBackground(Color.BLUE);
-		            	frameWIN.add(panelWIN);
-		            	
-		            		// Label youWin
-		            	
-		            		youWIN = new JLabel("HAI VINTO");
-		            		youWIN.setForeground(Color.YELLOW);
-		            		youWIN.setFont(new Font("Arial", Font.BOLD, 26));
-		            		youWIN.setBounds(75, 40, 150, 80);
-		            		panelWIN.add(youWIN);
-		            		
-		            		// Button menu
-		            		
-		            		JButton menu = new JButton("menu");
-		            		menu.setForeground(Color.YELLOW);
-		            		menu.setBackground(Color.BLACK);
-		            		menu.setFont(new Font("Arial", Font.BOLD, 11));
-		            		menu.setBounds(230, 130, 50, 20);
-		            		
-		            		Border bordoMenu = new LineBorder(Color.WHITE, 2);
-		            		menu.setBorder(bordoMenu);
-		            		
-		            		menu.addActionListener(new ActionListener() {								
+					// Pulsante next
+					
+					next = new JButton("AVANTI");
+					Border bordoNext = new LineBorder(Color.WHITE, 3);
+					next.setBorder(bordoNext);
+					next.setForeground(Color.WHITE);
+					next.setBackground(Color.GRAY);
+					next.setBounds(340, 70, 50, 20);
+					
+					next.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							if(difensore.esausto()) {
+								for (JButton pulsante : pulsantiMosse) {
+									pulsante.setEnabled(false);
+								}
+								
+								borsa.setEnabled(false);
+								buttonCambiaPokemon.setEnabled(false);
+								cambiaPokemonCPU();
+								next.setEnabled(false);						
+							} 
+								for (JButton pulsante : pulsantiMosse) {
+									pulsante.setEnabled(true);
+								}					
+								
+								borsa.setEnabled(true);
+								buttonCambiaPokemon.setEnabled(true);
+							}					
+					});
+					
+					areaMessaggi.add(next);
+					
+					// Button borsa (solo estetico ma senza funzionalità)
+					
+					Border bordoBorsa = new LineBorder(Color.WHITE, 3);
+					borsa = new JButton("Borsa");
+					borsa.setBackground(Color.ORANGE);
+					borsa.setForeground(Color.WHITE);
+					borsa.setFont(new Font("Arial", Font.BOLD, 14));
+					borsa.setBorder(bordoBorsa);
+					borsa.setBounds(220, 230, 165, 50);
+					
+					panelAreaMosse.add(borsa);
+					
+					// Panel per il cambio Pokemon dell'utente
+					
+						panelCambiaPokemon = new JPanel();
+						Border bordoCambioPokemon = new LineBorder(Color.WHITE, 3);
+						panelCambiaPokemon.setBackground(Color.GRAY);
+						panelCambiaPokemon.setForeground(Color.WHITE);
+						panelCambiaPokemon.setBorder(bordoCambioPokemon);
+						panelCambiaPokemon.setBounds(20, 20, 400, 300);
+						panelCambiaPokemon.setVisible(false);
+						panelCambiaPokemon.setLayout(null);
+					
+						add(panelCambiaPokemon);
+					
+					// Button cambia Pokemon
+					
+					Border bordoCambio = new LineBorder(Color.WHITE, 3);
+					buttonCambiaPokemon = new JButton("Cambia Pokémon");
+					buttonCambiaPokemon.setBackground(Color.GREEN);
+					buttonCambiaPokemon.setForeground(Color.WHITE);
+					buttonCambiaPokemon.setFont(new Font("Arial", Font.BOLD, 14));
+					buttonCambiaPokemon.setBorder(bordoCambio);
+					buttonCambiaPokemon.setBounds(15, 230, 160, 50);
+					
+					buttonCambiaPokemon.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							for(JButton button: pulsantiMosse) {
+								button.setVisible(false);
+							}    				
+							cambiaPokemonUtente();
+						}
+					});
+					
+					panelAreaMosse.add(buttonCambiaPokemon);
+					
+					// Leaderboard miglior score
+
+					frameLeaderboard = new JFrame();
+					frameLeaderboard.setSize(new Dimension(200, 300));
+					frameLeaderboard.setLocationRelativeTo(null);
+					frameLeaderboard.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frameLeaderboard.setVisible(false);
+					
+						panelLeaderboard = new JPanel();
+						panelLeaderboard.setBounds(300, 200, 200, 300);
+						panelLeaderboard.setBackground(Color.GRAY);
+						panelLeaderboard.setForeground(Color.WHITE);
+						panelLeaderboard.setBorder(new LineBorder(Color.WHITE, 3));
+						panelLeaderboard.setLayout(null);
+						panelLeaderboard.setVisible(true);
+												
+							labelLaderboard = new JLabel();
+							labelLaderboard.setText("Miglior Score");
+							labelLaderboard.setForeground(Color.WHITE);
+							labelLaderboard.setFont(new Font("Arial", Font.BOLD, 18));
+							labelLaderboard.setBounds(30, 10, 120, 20);
+							panelLeaderboard.add(labelLaderboard);
+	
+							leaderboard = new JTextArea();
+							leaderboard.setEditable(false);
+							leaderboard.setWrapStyleWord(true);
+							leaderboard.setBackground(Color.GRAY);
+							leaderboard.setForeground(Color.WHITE);
+							leaderboard.setFont(new Font("Arial", Font.BOLD, 14));
+							leaderboard.setBounds(5, 40, 150, 200);
+
+							// Button chiudi frame leaderboard
+							buttonChiudi = new JButton("Chiudi");
+							buttonChiudi.setForeground(Color.WHITE);
+							buttonChiudi.setBackground(Color.BLACK);
+							buttonChiudi.setFont(new Font("Arial", Font.BOLD, 11));
+							buttonChiudi.setBounds(50, 220, 100, 40);
+
+							buttonChiudi.addActionListener(new ActionListener() {
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									frameWIN.dispose();									
+									frameLeaderboard.dispose();
+									audioPlayer.stopMusic();
 								}
-							});								
-										            		
-		            		panelWIN.add(menu);
-		            		
-		            	frameWIN.add(panelWIN);
-		            	
-				}
-			});
-            
-            timer.setRepeats(false);
-            timer.start();
-        }
-    }
+							});
+
+						panelLeaderboard.add(buttonChiudi);
+						panelLeaderboard.add(leaderboard);
+						
+					frameLeaderboard.add(panelLeaderboard);
+
+		add(panelAreaMosse);
+
+	setComponentZOrder(labelSfondo, getComponentCount() - 1);
+			
+}
+
+// Metodo per mostrare a piacimento un qualsiasi messaggio nell'area predisposta
+public void mostraMessaggio(String messaggio) {
+	testoMessaggi.setText(messaggio);
+}
+
+// Metodo per creare un pulsante mossa con lo stile desiderato
+private JButton creaPulsanteMossa() {
+	JButton button = new JButton();
+	button.setBackground(Color.RED);
+	button.setForeground(Color.WHITE);
+	button.setFont(new Font("Arial", Font.BOLD, 14));
+	button.setBorder(new LineBorder(Color.WHITE, 3));
+	return button;
+}
+
+// Metodo per cambiare automaticamente i pokemon della CPU
+public void cambiaPokemonCPU() {
+	serieVittorie ++;
+	if (!pokemonCPU.isEmpty()) { 
+		int startIndex = indicePokemonCPU; // Salva l'indice di partenza
+
+		do {
+			// Passa al Pokémon successivo, ciclando la lista
+			indicePokemonCPU = (indicePokemonCPU + 1) % pokemonCPU.size();
+			
+			// Se il Pokémon non è esausto, lo manda in campo
+			if (!pokemonCPU.get(indicePokemonCPU).esausto()) {
+				difensore = pokemonCPU.get(indicePokemonCPU);
+				listaMosseCPU = difensore.getMosse();
+				mostraMessaggio("La CPU manda in campo " + difensore.getNome());
+
+				// Aggiorna l'interfaccia grafica
+				aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+				labelPokemonDif.setText(difensore.getNome());
+				livelloPokemonDif.setText("Liv " + difensore.getLivello());
+				return; // Esce dalla funzione dopo aver trovato un Pokémon valido
+			}
+
+		} while (indicePokemonCPU != startIndex); // Se ha girato tutta la lista e non ha trovato Pokémon validi, termina.
+
+		// Se arriva qui significa che tutti i Pokémon sono esausti
+		mostraMessaggio("L'avversario non ha più Pokémon disponibili!");                    
+		panelAreaMosse.setVisible(false);
+	
+		// Aggiunta Pokemon alla squadra della CPU quando viene sconfitta (se non già presenti in squadra)
+		Pidgey pidgey = new Pidgey(); 
+		Pikachu pikachu = new Pikachu();
+		
+		boolean pidgeyPresente = false;
+		boolean pikachuPresente = false;
+	
+		// Controlliamo quali Pokémon sono già presenti nella lista
+		for (Pokemon p : pokemonCPU) {
+			if (p.getNome().equals(pidgey.getNome())) {
+				pidgeyPresente = true;
+			}
+			if (p.getNome().equals(pikachu.getNome())) {
+				pikachuPresente = true;
+			}
+		}
+
+		// Prima aggiungiamo Pidgey se non è presente
+		if (!pidgeyPresente) {
+			pokemonCPU.add(pidgey);
+		} 
+		
+		// Pikachu viene aggiunto solo **nella lotta successiva**, se Pidgey è già presente
+		else if (!pikachuPresente) {
+			pokemonCPU.add(pikachu);
+		}
+		
+		// Aumenta il livello della squadra CPU
+		aumentaLivelloCPU();
+		
+		// Timer per chiudere la finestra di sconfitta
+		Timer timer = new Timer(4000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				frame.dispose();	
+				audioPlayer.stopMusic();
+				
+				// Frame WIN
+				
+				frameWIN = new JFrame();
+				frameWIN.setSize(new Dimension(300, 200));
+				frameWIN.setLocationRelativeTo(null);
+				frameWIN.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				frameWIN.setVisible(true);
+				
+					
+					// Panel WIN
+				
+					panelWIN = new JPanel();
+					panelWIN.setSize(300, 200);
+					panelWIN.setLayout(null);
+					panelWIN.setBackground(Color.BLUE);
+					frameWIN.add(panelWIN);
+					
+						// Label youWin
+					
+						youWIN = new JLabel("HAI VINTO");
+						youWIN.setForeground(Color.YELLOW);
+						youWIN.setFont(new Font("Arial", Font.BOLD, 26));
+						youWIN.setBounds(75, 40, 150, 80);
+						panelWIN.add(youWIN);
+						
+						// Button menu
+						
+						JButton menu = new JButton("menu");
+						menu.setForeground(Color.YELLOW);
+						menu.setBackground(Color.BLACK);
+						menu.setFont(new Font("Arial", Font.BOLD, 11));
+						menu.setBounds(230, 130, 50, 20);
+						
+						Border bordoMenu = new LineBorder(Color.WHITE, 2);
+						menu.setBorder(bordoMenu);
+						
+						menu.addActionListener(new ActionListener() {								
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								frameWIN.dispose();	
+								leaderboard.setText("1) " + "Serie di vittorie: " + serieVittorie);
+								frameLeaderboard.setVisible(true);							
+							}
+						});								
+														
+						panelWIN.add(menu);
+						
+					frameWIN.add(panelWIN);
+					
+			}
+		});
+		
+		timer.setRepeats(false);
+		timer.start();
+	}
+}
  
     // Metodo per permettere la sotituzione di un pokemon quando l'utente lo desidera
     public void cambiaPokemonUtente() {
@@ -795,21 +861,18 @@ public class CampoDiBattaglia extends JPanel{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                 	
-                	panelAreaMosse.setVisible(true);
-                	
-                	panelCambiaPokemon.setVisible(false);                    
+                  	panelCambiaPokemon.setVisible(false);                    
                     
-                    mosse.setVisible(true);
-                    
-                    next.setEnabled(false);
- 
-                    borsa.setVisible(true);
-                	borsa.setEnabled(true);
-                	
+					next.setEnabled(false);
+                   
+					borsa.setVisible(true);
+                  	mosse.setVisible(true);
+					panelAreaMosse.setVisible(true);
                 	buttonCambiaPokemon.setVisible(true);
-                	buttonCambiaPokemon.setEnabled(true);
-                	
                 	chiudiButton.setVisible(true);
+
+					buttonCambiaPokemon.setEnabled(true);
+					borsa.setEnabled(true);
                 	
                 	attaccante = i;
                     labelPokemonAtt.setText(i.getNome());
@@ -823,7 +886,7 @@ public class CampoDiBattaglia extends JPanel{
                         panelAreaMosse.add(mossa);
                     }
                      
-                    mostraMessaggio("Coraggio " + i.getNome() + " scelgo te!");
+                    mostraMessaggio("Coraggio " + i.getNome() + " SCELGO TE!");
                     aggiornaHealthBar(healthBarAtt, (int) i.getHp(), (int) i.getHpMax());
                     
                     aggiornaStatoPulsanti(); 
@@ -836,11 +899,20 @@ public class CampoDiBattaglia extends JPanel{
             panelCambiaPokemon.add(pokemonButton);
             y += 55; // Sposta i pulsanti in basso
             
+			// Verifico se tutti i pokemon dell'utente sono esausti
             if (pokemonUtente.stream().allMatch(Pokemon::esausto)) {
                 mostraMessaggio("Tutti i tuoi Pokémon sono esausti.");
                 next.setEnabled(false);
                 chiudiButton.setEnabled(false);
-                Timer timer = new Timer(4000, new ActionListener() {
+                
+				for(Pokemon pokemon:pokemonCPU){
+					pokemon.setHp(pokemon.getHpMax());
+					for(Mossa mossa:pokemon.getMosse()){
+						mossa.setPP(mossa.getPPmax());
+					}
+				}
+
+				Timer timer = new Timer(4000, new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						
@@ -900,7 +972,7 @@ public class CampoDiBattaglia extends JPanel{
             timer.setRepeats(false);
             timer.start();
             
-            }
+			}
             
         }
         

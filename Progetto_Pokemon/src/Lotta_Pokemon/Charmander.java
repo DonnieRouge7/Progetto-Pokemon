@@ -27,10 +27,10 @@ public class Charmander extends Pokemon {
 		
 		List<Mossa> mosse = new ArrayList<>();
 		
-		Mossa braciere = new MossaAttacco("Braciere", 1, "speciale", 25, 100, 40);
-		Mossa graffio = new MossaAttacco("Graffio", 0, "fisico", 35, 100, 40);
-		Mossa colpocoda = new MossaStato("Colpocoda", 0, "stato", 30, 100, "Diminuisce Difesa");
-		Mossa ruggito = new MossaStato("Ruggito", 0, "stato", 40, 100, "Diminuisce Attacco"); 
+		Mossa braciere = new MossaAttacco("Braciere", 1, "speciale", 25, 25,  100, 40);
+		Mossa graffio = new MossaAttacco("Graffio", 0, "fisico", 35, 25, 100, 40);
+		Mossa colpocoda = new MossaStato("Colpocoda", 0, "stato", 30, 30, 100, "Diminuisce Difesa");
+		Mossa ruggito = new MossaStato("Ruggito", 0, "stato", 40, 40, 100, "Diminuisce Attacco"); 
 		
 		mosse.add(braciere);
 		mosse.add(graffio);

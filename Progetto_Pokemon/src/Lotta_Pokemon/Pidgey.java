@@ -28,10 +28,10 @@ public class Pidgey extends Pokemon{
 		
 		List<Mossa> mosse = new ArrayList<>();
 		
-		Mossa attacco_rapido = new MossaAttacco("Attacco rapido", 1, "fisico", 30, 100, 40);
-		Mossa doppioteam = new MossaStato("Doppioteam", 1, "stato", 15, 100, "Aumenta Elusione");
-		Mossa agilità = new MossaStato("Agilità", 10, "stato", 30, 100, "Aumenta Velocità");
-		Mossa volo = new MossaAttacco("Volo", 9, "fisico", 15, 95, 70);
+		Mossa attacco_rapido = new MossaAttacco("Attacco rapido", 1, "fisico", 30, 30, 100, 40);
+		Mossa doppioteam = new MossaStato("Doppioteam", 1, "stato", 15, 15, 100, "Aumenta Elusione");
+		Mossa agilità = new MossaStato("Agilità", 10, "stato", 30, 30,100, "Aumenta Velocità");
+		Mossa volo = new MossaAttacco("Volo", 9, "fisico", 15, 15, 95, 70);
 		
 		mosse.add(attacco_rapido);
 		mosse.add(doppioteam);
