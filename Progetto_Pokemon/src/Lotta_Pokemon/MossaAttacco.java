@@ -1,60 +1,97 @@
 package Lotta_Pokemon;
 
-public class MossaAttacco extends Mossa{
-	
-	private int potenzaMossa;
+/**
+ * La classe {@code MossaAttacco} rappresenta una mossa offensiva che infligge danno
+ * a un Pokémon avversario. Estende la classe {@code Mossa} e aggiunge il parametro
+ * della potenza della mossa per calcolare il danno inflitto.
+ */
 
-	public MossaAttacco(String nomeMossa, int elementoMossa, String tipo, int PP, int precisioneMossa, int potenzaMossa) {
-		super(nomeMossa, elementoMossa, tipo, PP, precisioneMossa);
-		this.potenzaMossa = potenzaMossa;
-	}
+public class MossaAttacco extends Mossa {
+    
+    private int potenzaMossa; // Potenza della mossa, usata nel calcolo del danno
+    
+    /**
+     * Costruttore della classe {@code MossaAttacco}.
+     * 
+     * @param nomeMossa Nome della mossa.
+     * @param elementoMossa Tipo elementale della mossa.
+     * @param tipo Tipo della mossa ("fisico" o "speciale").
+     * @param PP Numero iniziale di utilizzi della mossa.
+     * @param PPmax Numero massimo di utilizzi della mossa.
+     * @param precisioneMossa Precisione della mossa (valore percentuale tra 0 e 100).
+     * @param potenzaMossa Potenza dell'attacco, utilizzata nel calcolo del danno.
+     */
+    
+    public MossaAttacco(String nomeMossa, int elementoMossa, String tipo, int PP, int PPmax, int precisioneMossa, int potenzaMossa) {
+        super(nomeMossa, elementoMossa, tipo, PP, PPmax, precisioneMossa);
+        this.potenzaMossa = potenzaMossa;
+    }
 
-	
-	
-	// Per il calcolo del danno una volta che l'attacco va a segno
-	
-	public void Danno(Pokemon att, Pokemon dif) { 
-	    int danno = 0;
-	    
-	    System.out.println(dif.getHp());
-	    
-	    if(getTipo().equals("speciale")) {
-	        danno = (int) (((potenzaMossa * (double) att.getAttaccoSpeciale()) / dif.getDifesaSpeciale()) * modificatore(dif));
-	    } else if(getTipo().equals("fisico")) {
-	        danno = (int) (((potenzaMossa * (double) att.getAttacco()) / dif.getDifesa()) * modificatore(dif));
-	    }	   
-	    
-	    danno = Math.max(danno, 0); // Assicura che il danno non sia negativo
-	    
-	    dif.setHp(dif.getHp()-danno);
-	}
+    /**
+     * Determina se l'attacco va a segno in base alla precisione della mossa e all'elusione del Pokémon avversario.
+     * Se la mossa colpisce, viene calcolato il danno inflitto.
+     * 
+     * @param att Il Pokémon attaccante.
+     * @param dif Il Pokémon difensore.
+     */
+    
+    public void attaccaDanno(Pokemon att, Pokemon dif) {
+        int precisione = getPrecisioneMossa();
+        double elusione = dif.getElusione();
+        int a = generaInteroCasuale(0, 100);
+        double probabilitaSuccesso = precisione / elusione;
+        
+        if (probabilitaSuccesso * 100 > a) {
+            setColpito(true);
+            Danno(att, dif);
+        } else {
+            setColpito(false);
+        }
+        setPP(getPP() - 1);
+    }
 
-	
-	@Override
-	public boolean noPP() {
-		return super.noPP();
-	}
-	
-	// Per verificare se l'attacco va a segno o meno
-	
-	public void attaccaDanno(Pokemon att, Pokemon dif) {
-		int precisione = getPrecisioneMossa();
-		double elusione = dif.getElusione();
-		int a = generaInteroCasuale(0, 100);
-		double probabilitaSuccesso = precisione / elusione;
-		if (probabilitaSuccesso * 100 > a) {
-			setColpito(true);
-			Danno(att, dif);
-			setPP(getPP()-1);
-		}else {
-			setColpito(false);
-			setPP(getPP() - 1);
-		}
-	}
-	
-	@Override
-	public String getEffetto() {
-	    return ""; // Restituisce null
-	}
-	
+    /**
+     * Calcola il danno inflitto al Pokémon avversario se l'attacco va a segno.
+     * Il calcolo del danno dipende dalla potenza della mossa, dalle statistiche
+     * dell'attaccante e del difensore, e dal modificatore di efficacia del tipo.
+     * 
+     * @param att Il Pokémon attaccante.
+     * @param dif Il Pokémon difensore.
+     */
+    
+    public void Danno(Pokemon att, Pokemon dif) { 
+        int danno = 0;
+        
+        if (getTipo().equals("speciale")) {
+            danno = (int) (((potenzaMossa * (double) att.getAttaccoSpeciale()) / dif.getDifesaSpeciale()) * modificatore(dif));
+        } else if (getTipo().equals("fisico")) {
+            danno = (int) (((potenzaMossa * (double) att.getAttacco()) / dif.getDifesa()) * modificatore(dif));
+        }
+        
+        danno = Math.max(danno, 0); // Assicura che il danno non sia negativo
+        dif.setHp(dif.getHp() - danno);
+    }
+
+    /**
+     * Override del metodo {@code noPP} della classe base.
+     * 
+     * @return {@code true} se i PP della mossa sono esauriti, altrimenti {@code false}.
+     */
+    
+    @Override
+    public boolean noPP() {
+        return super.noPP();
+    }
+    
+    /**
+     * Override del metodo {@code getEffetto}.
+     * Le mosse di attacco non hanno effetti speciali oltre al danno.
+     * 
+     * @return Stringa vuota, indicando nessun effetto aggiuntivo.
+     */
+    
+    @Override
+    public String getEffetto() {
+        return "";
+    }
 }
