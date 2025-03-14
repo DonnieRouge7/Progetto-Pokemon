@@ -314,7 +314,6 @@ public class Pokemon {
 	 */
 	public void usaMossa(Pokemon bersaglio, Mossa mossa) {
 	    mossa.noPP();
-	    System.out.println(this.getNome() + " usa " + mossa.getNomeMossa() + " su " + bersaglio.getNome());
 	    
 	    if (mossa instanceof MossaAttacco) {
 	        ((MossaAttacco) mossa).attaccaDanno(this, bersaglio);

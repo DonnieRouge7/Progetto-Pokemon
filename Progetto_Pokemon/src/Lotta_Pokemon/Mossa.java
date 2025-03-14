@@ -198,7 +198,6 @@ public class Mossa {
      */
     public boolean noPP() {
         if (getPP() <= 0) {
-            System.out.println("Hai finito i PP!");
             return true;
         }
         return false;
@@ -230,12 +229,6 @@ public class Mossa {
             modificatore *= efficacia[getElementoMossa()][difensore.getTipo2()];
         }
         modificatore *= efficacia[getElementoMossa()][difensore.getTipo1()];
-
-        if (modificatore > 1) {
-            System.out.println("È superefficace!");
-        } else if (modificatore < 1) {
-            System.out.println("Non è molto efficace...");
-        }
         return modificatore;
     }
 

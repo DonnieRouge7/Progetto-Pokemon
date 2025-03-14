@@ -119,8 +119,9 @@ public class MenuSceltaSquadra extends JPanel {
         // ActionListener per il pulsante di conferma
         confirm.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!ordineSelezione.isEmpty()) {
+            public void actionPerformed(ActionEvent e) {                  
+            	
+            	if (!ordineSelezione.isEmpty()) {
                     
                     // Creazione della squadra dell'utente
                     List<Pokemon> pokemonUtente = new ArrayList<>();

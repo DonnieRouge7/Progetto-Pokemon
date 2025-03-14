@@ -8,7 +8,7 @@ import java.util.List;
  * Classe della Leaderboard per l'inserimento degli score delle lotte
  */
 public class LeaderboardManager {
-    private static final String FILE_PATH = "Progetto-Pokemon/Progetto_Pokemon/src/GUI_Pokemon/leaderboard";
+    private static final String FILE_PATH = "C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git-finale/Progetto_Pokemon/src/GUI_Pokemon/leaderboard/";
 
     /**
      * Per salvare la serie di vittorie

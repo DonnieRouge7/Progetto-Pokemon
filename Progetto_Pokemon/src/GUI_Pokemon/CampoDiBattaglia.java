@@ -346,6 +346,13 @@ public class CampoDiBattaglia extends JPanel{
 											
 											/* Primo attacco: attaccante */                      	
 											attaccante.usaMossa(difensore, listaMosseUtente.get(index));
+											
+											/* Verifico se la mossa non ha esaurito i PP*/
+											if(listaMosseUtente.get(index).noPP()) {
+												mostraMessaggio("hai finito i PP");
+												return;
+											}
+											
 											mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
 											
 											/* Verifico se l'attacco è andato a segno */
@@ -404,6 +411,13 @@ public class CampoDiBattaglia extends JPanel{
 															
 															/* il pokemon della CPU attacca */
 															difensore.usaMossa(attaccante, mossaCPU);
+															
+															/* Verifico se la mossa del pokemom ha avversario non ha esaurito i PP */
+															if(mossaCPU.noPP()) {
+																mostraMessaggio("ha esaurito i PP");
+																return;
+															}
+															
 															mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());																																				
 		
 															/* Verifico se l'attacco della CPU è andato a segno */
@@ -485,6 +499,13 @@ public class CampoDiBattaglia extends JPanel{
 											Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); /* Recupera la mossa scelta */
 											
 											difensore.usaMossa(attaccante, mossaCPU);
+											
+											/* Verifico se la mossa del pokemom ha avversario non ha esaurito i PP */
+											if(mossaCPU.noPP()) {
+												mostraMessaggio("ha esaurito i PP");
+												return;
+											}
+											
 											mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
 											
 											/* Verifico se l'attacco della CPU è andato a segno */
@@ -559,6 +580,13 @@ public class CampoDiBattaglia extends JPanel{
 														
 														/* il pokemon dell'utente attacca */
 														attaccante.usaMossa(difensore, listaMosseUtente.get(index));
+														
+														/* Verifico se la mossa non ha esaurito i PP*/
+														if(listaMosseUtente.get(index).noPP()) {
+															mostraMessaggio("hai finito i PP");
+															return;
+														}
+														
 														mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());			                                													
 		
 														/* Verifico se l'attacco è andato a segno */
@@ -623,7 +651,7 @@ public class CampoDiBattaglia extends JPanel{
 					
 					panelAreaMosse.add(mosse);
 					
-					/* Pulsante next */
+					/* Pulsante next per avanzare al prossimo turno */
 					
 					next = new JButton("AVANTI");
 					Border bordoNext = new LineBorder(Color.WHITE, 3);
