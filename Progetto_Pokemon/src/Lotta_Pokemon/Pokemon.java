@@ -17,12 +17,12 @@ public class Pokemon {
 	private int difesa; 
 	private int attaccoSpeciale;
 	private int difesaSpeciale;
-	private int velocità; 
+	private int velocita; 
 	private double elusione = 30; 
 	private List<Mossa> mosse;
 	
 	
-	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attacco, int difesa, int attaccoSpeciale, int difesaSpeciale, int velocità, double elusione) {
+	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attacco, int difesa, int attaccoSpeciale, int difesaSpeciale, int velocita, double elusione) {
 		this.tipo1 = tipo1;
 		this.tipo2 = tipo2;
 		this.nome = nome;
@@ -34,7 +34,7 @@ public class Pokemon {
 		this.difesa = difesa;
 		this.attaccoSpeciale = attaccoSpeciale;
 		this.difesaSpeciale = difesaSpeciale;
-		this.velocità = velocità;
+		this.velocita = velocita;
 		this.elusione = 30;
 	}
 	
@@ -43,7 +43,7 @@ public class Pokemon {
 		return "Pokemon [codice=" + codice + ", tipo1=" + tipo1 + ", tipo2=" + tipo2 + ", nome=" + nome + ", xp=" + xp
 				+ ", livello=" + livello + ", hp=" + hp + ", attaccoPokemon=" + attacco + ", difesaPokemon="
 				+ difesa + ", attaccoSpecialePokemon=" + attaccoSpeciale + ", difesaSpecialePokemon="
-				+ difesaSpeciale + ", velocitàPokemon=" + velocità + ", elusionePokemon="
+				+ difesaSpeciale + ", velocitàPokemon=" + velocita + ", elusionePokemon="
 				+ elusione;
 	}
 
@@ -113,11 +113,11 @@ public class Pokemon {
 	public void setDifesaSpeciale(int difesaSpeciale) {
 		this.difesaSpeciale = difesaSpeciale;
 	}
-	public int getVelocità() {
-		return velocità;
+	public int getVelocita() {
+		return velocita;
 	}
-	public void setVelocità(int velocità) {
-		this.velocità = velocità;
+	public void setVelocita(int velocità) {
+		this.velocita = velocita;
 	}
 	public double getElusione() {
 		return elusione;
@@ -148,7 +148,7 @@ public class Pokemon {
 			setAttaccoSpeciale(attaccoSpeciale + 3);
 			setDifesa(difesa + 3);
 			setDifesaSpeciale(difesaSpeciale + 3);
-			setVelocità(velocità + 3);
+			setVelocita(velocita + 3);
 			setElusione(elusione + 3);
 			setHpMax(hpMax + 3);
 			saliDiLivello = true;

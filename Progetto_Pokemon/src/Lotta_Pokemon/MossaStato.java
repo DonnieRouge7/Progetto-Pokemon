@@ -29,7 +29,7 @@ public class MossaStato extends Mossa{
 	            bersaglio.setAttaccoSpeciale((int) Math.max(1, bersaglio.getAttaccoSpeciale() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
 	            break;
 	        case "Aumenta Velocità", "Diminuisce Velocità":
-	            bersaglio.setVelocità((int) Math.max(1, bersaglio.getVelocità() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
+	            bersaglio.setVelocita((int) Math.max(1, bersaglio.getVelocita() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
 	            break;
 	        case "Aumenta Elusione", "Diminuisce Elusione":	        	
 	        	bersaglio.setElusione((int) Math.max(1, bersaglio.getElusione() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));	        

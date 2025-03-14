@@ -19,61 +19,141 @@ import javax.swing.border.LineBorder;
 
 public class CampoDiBattaglia extends JPanel{
 	
-	private JFrame frame;
-	
-	private AudioPlayer audioPlayer;
-	
-	private List<Pokemon> pokemonUtente; // Contiene la lista dei pokemon selezionati dall'utente
-	private List<Pokemon> pokemonCPU; // Contiene la lista dei pokemon selezionati dalla CPU
-	
-	private List<Mossa> listaMosseCPU; // Contiene la lista delle mosse dei Pokemon della CPU
-	
-	private ImageIcon sfondo;
-	private JLabel labelSfondo;
-	
-	private Pokemon attaccante;
-	private Pokemon difensore;
-	
-	private JProgressBar healthBarAtt;
-	private JProgressBar healthBarDif;
+    /** Il frame principale della finestra di gioco */
+    private JFrame frame;
+    
+    /** Il gestore della musica di sottofondo */
+    private AudioPlayer audioPlayer;
+    
+    /** Lista dei Pokémon selezionati dall'utente */
+    private List<Pokemon> pokemonUtente;
+    
+    /** Lista dei Pokémon selezionati dalla CPU */
+    private List<Pokemon> pokemonCPU;
+    
+    /** Lista delle mosse disponibili per i Pokémon della CPU */
+    private List<Mossa> listaMosseCPU;
+    
+    /** Icona dell'immagine di sfondo */
+    private ImageIcon sfondo;
+    
+    /** Etichetta che mostra l'immagine di sfondo */
+    private JLabel labelSfondo;
+    
+    /** Pokémon attuale dell'utente in battaglia */
+    private Pokemon attaccante;
+    
+    /** Pokémon attuale della CPU in battaglia */
+    private Pokemon difensore;
+    
+    /** Barra della salute del Pokémon dell'utente */
+    private JProgressBar healthBarAtt;
+    
+    /** Barra della salute del Pokémon della CPU */
+    private JProgressBar healthBarDif;
+    
+    /** Bordo delle barre della salute */
+    private Border bordoHealthBar;
+    
+    /** Pannello contenente le informazioni del Pokémon dell'utente */
+    private JPanel areaPokemonAtt;
+    
+        /** Etichetta per il nome del Pokémon dell'utente */
+        private JLabel labelPokemonAtt;
+        
+        /** Etichetta per il livello del Pokémon dell'utente */
+        private JLabel livelloPokemonAtt;
+    
+    /** Pannello contenente le informazioni del Pokémon della CPU */
+    private JPanel areaPokemonDif;
+    
+        /** Etichetta per il nome del Pokémon della CPU */
+        private JLabel labelPokemonDif;
+        
+        /** Etichetta per il livello del Pokémon della CPU */
+        private JLabel livelloPokemonDif;
+    
+    /** Pannello per visualizzare i messaggi durante la lotta */
+    private JPanel areaMessaggi;
+    
+        /** Area di testo per visualizzare i messaggi della battaglia */
+        private JTextArea testoMessaggi;
+        
+        /** Pulsante per avanzare al turno successivo */
+        private JButton next;
+    
+    /** Pannello che contiene le mosse, il cambio Pokémon e la borsa */
+    private JPanel panelAreaMosse;
+    
+        /** Lista delle mosse disponibili per il Pokémon dell'utente */
+        private List<Mossa> listaMosseUtente;
+        
+        /** Pulsante per visualizzare le mosse disponibili */
+        private JButton mosse;
+        
+            /** Pulsante per selezionare la prima mossa */
+            private JButton mossa1;
+            
+            /** Pulsante per selezionare la seconda mossa */
+            private JButton mossa2;
+            
+            /** Pulsante per selezionare la terza mossa */
+            private JButton mossa3;
+            
+            /** Pulsante per selezionare la quarta mossa */
+            private JButton mossa4;
+        
+        /** Pannello per il cambio Pokémon */
+        private JPanel panelCambiaPokemon;
+        
+        /** Pulsante per cambiare il Pokémon attuale dell'utente */
+        private JButton buttonCambiaPokemon;
+        
+        /** Pulsante per aprire la borsa degli oggetti */
+        private JButton borsa;
+    
+    /** Indice del Pokémon attuale della CPU */
+    private int indicePokemonCPU = 0;
+    
+    /** Frame della finestra di vittoria */
+    private JFrame frameWIN;
+    
+        /** Pannello della finestra di vittoria */
+        private JPanel panelWIN;
+        
+            /** Etichetta che mostra il messaggio di vittoria */
+            private JLabel youWIN;
+    
+    /** Frame della finestra di sconfitta */
+    private JFrame frameLOSE;
+    
+        /** Pannello della finestra di sconfitta */
+        private JPanel panelLOSE;
+        
+            /** Etichetta che mostra il messaggio di sconfitta */
+            private JLabel youLOSE;
+    
+    /** Frame della finestra della leaderboard */
+    private JFrame frameLeaderboard;
+    
+        /** Pannello della finestra della leaderboard */
+        private JPanel panelLeaderboard;
+        
+            /** Area di testo per mostrare la leaderboard */
+            private JTextArea leaderboard;
+            
+                /** Etichetta per la leaderboard */
+                private JLabel labelLaderboard;
+                
+                /** Pulsante per chiudere la finestra della leaderboard */
+                private JButton buttonChiudi;
+    
+                /** Lista delle serie di vittorie dell'utente */
+                private List<Integer> serieVittorieList;
+                
+                /** Serie di vittorie attuale dell'utente */
+                private int serieVittorie;
 
-	private Border bordoHealthBar;
-	
-	private JPanel areaPokemonAtt;
-		private JLabel labelPokemonAtt;
-		private JLabel livelloPokemonAtt;
-	
-	private JPanel areaPokemonDif;
-		private JLabel labelPokemonDif;
-		private JLabel livelloPokemonDif;
-	
-	private JPanel areaMessaggi;
-		private JTextArea testoMessaggi;
-		private JButton next;
-	
-	private JPanel panelAreaMosse;
-		
-		private List<Mossa> listaMosseUtente;
-		private JButton mosse;
-			private JButton mossa1;
-			private JButton mossa2;
-			private JButton mossa3;
-			private JButton mossa4;
-		
-		private JPanel panelCambiaPokemon;
-		private JButton buttonCambiaPokemon;
-		
-		private JButton borsa;
-	
-	private int indicePokemonCPU = 0; // Tiene traccia del Pokémon attuale
-	
-	private JFrame frameWIN;
-		private JPanel panelWIN;
-			private JLabel youWIN;
-			
-	private JFrame frameLOSE;
-		private JPanel panelLOSE;
-			private JLabel youLOSE;
 	
 	CampoDiBattaglia(JFrame frame, List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
 		
@@ -261,7 +341,7 @@ public class CampoDiBattaglia extends JPanel{
                                 buttonCambiaPokemon.setEnabled(false);                                                              
                                 
                                 // Controllo la velocità dei pokemon per stabilire chi attacca per primo
-                                if (attaccante.getVelocità() >= difensore.getVelocità()) {
+                                if (attaccante.getVelocita() >= difensore.getVelocita()) {
                                     
                                 	// Primo attacco: attaccante
                                 	attaccante.usaMossa(difensore, listaMosseUtente.get(index));
@@ -1162,7 +1242,7 @@ public class CampoDiBattaglia extends JPanel{
     		p.setDifesa(p.getDifesa()+3);
     		p.setAttaccoSpeciale(p.getAttaccoSpeciale()+3);
     		p.setDifesaSpeciale(p.getDifesaSpeciale()+3);
-    		p.setVelocità(p.getVelocità()+3);
+    		p.setVelocita(p.getVelocita()+3);
     		p.setElusione(p.getElusione()+3);
     		p.setHpMax(p.getHpMax()+3);
     		p.setHp(p.getHpMax());

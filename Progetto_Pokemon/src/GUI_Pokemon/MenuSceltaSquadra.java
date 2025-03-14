@@ -159,7 +159,7 @@ public class MenuSceltaSquadra extends JPanel{
 			}
 		});
 		
-		// Layout Lotta
+		/* Layout Lotta */
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		
