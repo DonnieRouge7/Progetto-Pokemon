@@ -46,10 +46,6 @@ public class Pokemon {
 	
 	/** Difesa speciale del Pokémon */
 	private int difesaSpeciale;
-<<<<<<< HEAD
-	private int velocita; 
-	private double elusione = 30; 
-=======
 	
 	/** Velocità del Pokémon */
 	private int velocita;
@@ -58,7 +54,6 @@ public class Pokemon {
 	private double elusione = 30;
 	
 	/** Lista delle mosse disponibili del Pokémon */
->>>>>>> 9ccb2dfefe5bdb0ad0937017e02b4abd8e6e246e
 	private List<Mossa> mosse;
 
 	/**
@@ -80,15 +75,9 @@ public class Pokemon {
 	 * @param elusione Percentuale di elusione del Pokémon.
 	 */
 	
-<<<<<<< HEAD
-	
-	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attacco, int difesa, int attaccoSpeciale, int difesaSpeciale, int velocita, double elusione) {
-		this.tipo1 = tipo1;
-=======
 	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attacco, int difesa, int attaccoSpeciale, int difesaSpeciale, int velocita, double elusione) {
 		this.codice = codice;
 		this.tipo1 = tipo1; 
->>>>>>> 9ccb2dfefe5bdb0ad0937017e02b4abd8e6e246e
 		this.tipo2 = tipo2;
 		this.nome = nome;
 		this.xp = xp;
@@ -109,102 +98,7 @@ public class Pokemon {
 				+ ", livello=" + livello + ", hp=" + hp + ", attaccoPokemon=" + attacco + ", difesaPokemon="
 				+ difesa + ", attaccoSpecialePokemon=" + attaccoSpeciale + ", difesaSpecialePokemon="
 				+ difesaSpeciale + ", velocitàPokemon=" + velocita + ", elusionePokemon="
-<<<<<<< HEAD
-				+ elusione;
-	}
-
-	public String getCodice() {
-		return codice;
-	}
-	public void setCodice(String codice) {
-		this.codice = codice;
-	}
-	public int getTipo1() {
-		return tipo1;
-	}
-	public void setTipo1(int tipo1) {
-		this.tipo1 = tipo1;
-	}
-	public int getTipo2() {
-		return tipo2;
-	}
-	public void setTipo2(int tipo2) {
-		this.tipo2 = tipo2;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public int getLivello() {
-		return livello;
-	}
-	public void setLivello(int livello) {
-		this.livello = livello;
-	}
-	public double getHp() {
-		return hp;
-	}
-	public void setHp(double hp) {
-		this.hp = hp;
-	}
-	public double getHpMax() {
-		return hpMax;
-	}
-	public void setHpMax(double hpMax) {
-		this.hpMax = hpMax;
-	}
-	public int getAttacco() {
-		return attacco;
-	}
-	public void setAttacco(int attacco) {
-		this.attacco = attacco;
-	}
-	public int getDifesa() {
-		return difesa;
-	}
-	public void setDifesa(int difesa) {
-		this.difesa = difesa;
-	}
-	public int getAttaccoSpeciale() {
-		return attaccoSpeciale;
-	}
-	public void setAttaccoSpeciale(int attaccoSpeciale) {
-		this.attaccoSpeciale = attaccoSpeciale;
-	}
-	public int getDifesaSpeciale() {
-		return difesaSpeciale;
-	}
-	public void setDifesaSpeciale(int difesaSpeciale) {
-		this.difesaSpeciale = difesaSpeciale;
-	}
-	public int getVelocita() {
-		return velocita;
-	}
-	public void setVelocita(int velocità) {
-		this.velocita = velocita;
-	}
-	public double getElusione() {
-		return elusione;
-	}
-	public void setElusione(double elusione) {
-		this.elusione = elusione;
-	}
-	public List<Mossa> getMosse() {
-		return mosse;
-	}
-	public void setMosse(List<Mossa> mosse) {
-		this.mosse = mosse;
-	}
-	public int getXp() {
-		return xp;
-	}
-	public void setXp(int xp) {
-		this.xp = xp;
-=======
 				+ elusione + "]";
->>>>>>> 9ccb2dfefe5bdb0ad0937017e02b4abd8e6e246e
 	}
 	
 	/**

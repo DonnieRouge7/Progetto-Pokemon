@@ -152,10 +152,6 @@ public class CampoDiBattaglia extends JPanel{
                 /** Serie di vittorie attuale dell'utente */
                 private int serieVittorie;
 
-<<<<<<< HEAD
-	
-	CampoDiBattaglia(JFrame frame, List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
-=======
 		/**
 		 * Costruttore della classe CampoDiBattaglia 
 		 * @param frame il frame principale dove avviene la lotta
@@ -298,7 +294,6 @@ public class CampoDiBattaglia extends JPanel{
 					mossa2 = creaPulsanteMossa();
 					mossa3 = creaPulsanteMossa();
 					mossa4 = creaPulsanteMossa();
->>>>>>> 9ccb2dfefe5bdb0ad0937017e02b4abd8e6e246e
 		
 					/* Posizioni nei quattro angoli */
 					mossa1.setBounds(10, 30, 180, 60);   // Alto sinistra
@@ -306,112 +301,6 @@ public class CampoDiBattaglia extends JPanel{
 					mossa3.setBounds(10, 110, 180, 60);  // Basso sinistra
 					mossa4.setBounds(200, 110, 180, 60); // Basso destra
 
-<<<<<<< HEAD
-            // Posizioni nei quattro angoli
-            mossa1.setBounds(10, 30, 180, 60);   // Alto sinistra
-            mossa2.setBounds(200, 30, 180, 60);  // Alto destra
-            mossa3.setBounds(10, 110, 180, 60);  // Basso sinistra
-            mossa4.setBounds(200, 110, 180, 60); // Basso destra
-
-            JButton[] pulsantiMosse = {mossa1, mossa2, mossa3, mossa4};
-            
-            for (JButton pulsante : pulsantiMosse) {
-                pulsante.setVisible(false); // Inizialmente nascosti
-                panelAreaMosse.add(pulsante);
-            }
-            
-            mosse.addActionListener(new ActionListener() {
-                @Override
-            	public void actionPerformed(ActionEvent e) {
-                    mosse.setVisible(false); // Nasconde il pulsante principale
-
-                    // Assegna le mosse ai pulsanti e li rende visibili
-                    for (int i = 0; i < listaMosseUtente.size(); i++) {
-                        pulsantiMosse[i].setText(listaMosseUtente.get(i).getNomeMossa());
-                        pulsantiMosse[i].setVisible(true);
-                        
-                        // Rimuove tutti i vecchi listener prima di aggiungere il nuovo
-                        for (ActionListener al : pulsantiMosse[i].getActionListeners()) {
-                            pulsantiMosse[i].removeActionListener(al);
-                        }
-                        
-                        final int index = i; // Variabile finale per ActionListener
-                        pulsantiMosse[i].addActionListener(new ActionListener() {
-                            @Override
-                        	public void actionPerformed(ActionEvent e) {
-                                
-                            	// Disabilita i pulsanti delle mosse per evitare doppi input
-                                for (JButton pulsante : pulsantiMosse) {
-                                    pulsante.setEnabled(false);
-                                }
-                                
-                                next.setEnabled(false);
-                                borsa.setEnabled(false);
-                                buttonCambiaPokemon.setEnabled(false);                                                              
-                                
-                                // Controllo la velocità dei pokemon per stabilire chi attacca per primo
-                                if (attaccante.getVelocita() >= difensore.getVelocita()) {
-                                    
-                                	// Primo attacco: attaccante
-                                	attaccante.usaMossa(difensore, listaMosseUtente.get(index));
-                                	mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
-                                	
-                                	// Verifico se l'attacco è andato a segno
-                                	if(listaMosseUtente.get(index).getColpito() == false) {
-                                		Timer timer = new Timer(2000, new ActionListener() {											
-											@Override
-											public void actionPerformed(ActionEvent e) {
-												mostraMessaggio(difensore.getNome() +  " evita l'attacco");
-											}
-										});
-                                		
-                                		timer.setRepeats(false);
-                                		timer.start();
-                                	
-                                	} else {
-                                		
-                                		// Controllo se la mossa usata ha un effetto di tipo stato
-                                		if(!listaMosseUtente.get(index).getEffetto().equals("")) {
-                                    		Timer timerEffetto = new Timer(2000, new ActionListener() {										
-    											@Override
-    											public void actionPerformed(ActionEvent e) {												
-    												mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto());
-    											}
-    										});
-                                    		
-                                    		timerEffetto.setRepeats(false);
-                                    		timerEffetto.start();
-                                    		
-                                    	} else {
-                                    		
-                                		// Timer per mostrare l'efficacia dell'attacco
-                                       	 Timer timerAtt = new Timer(2000, new ActionListener() {    											
-       											@Override
-       											public void actionPerformed(ActionEvent e) {
-       												if(listaMosseUtente.get(index).getModificatore() > 1) {
-       													mostraMessaggio("è superefficace");
-       												}else if(listaMosseUtente.get(index).getModificatore() < 1) {
-       													mostraMessaggio("non è molto efficace...");
-       												}
-       											}
-       										});
-                                            
-                                            timerAtt.setRepeats(false);
-                                            timerAtt.start();
-                                    	}                                                                  		
-                                	
-	                                		// Controllo KO CPU
-		                                    if (difensore.esausto()) {
-		                                  
-		                                    	aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-		                                    	attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);
-		                                    	
-		                                    	Timer timerEsausto = new Timer(4000, new ActionListener() {
-													@Override
-													public void actionPerformed(ActionEvent e) {	
-														mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!");
-														next.setEnabled(true);
-=======
 					/* Array di pulsanti per le mosse */
 					JButton[] pulsantiMosse = {mossa1, mossa2, mossa3, mossa4};
 					
@@ -474,7 +363,6 @@ public class CampoDiBattaglia extends JPanel{
 														avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
 													}else if(listaMosseUtente.get(index).getModificatore() < 1){
 														avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
->>>>>>> 9ccb2dfefe5bdb0ad0937017e02b4abd8e6e246e
 													}
 												}                                                                  		
 											

@@ -57,4 +57,11 @@ public class LeaderboardManager {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Metodo per azzerare la leaderboard alla chiusura del progetto
+     */
+    public static void shutdown() {
+        azzeraLeaderboard();
+    }
 }
