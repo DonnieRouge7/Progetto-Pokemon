@@ -347,9 +347,14 @@ public class CampoDiBattaglia extends JPanel{
 											/* Primo attacco: attaccante */                      	
 											attaccante.usaMossa(difensore, listaMosseUtente.get(index));
 											
-											/* Verifico se la mossa non ha esaurito i PP*/
+											/* Verifico se la mossa non ha esaurito i PP */
 											if(listaMosseUtente.get(index).noPP()) {
-												mostraMessaggio("hai finito i PP");
+												mostraMessaggio("hai finito i PP, usa un'altra mossa");
+												for(JButton pulsante:pulsantiMosse) {
+													pulsante.setEnabled(true);
+												}
+												buttonCambiaPokemon.setEnabled(true);
+												borsa.setEnabled(true);
 												return;
 											}
 											
@@ -496,15 +501,16 @@ public class CampoDiBattaglia extends JPanel{
 											next.setEnabled(false);
 											
 											int indiceMossaCPU = attaccoCasuale(); /* Salva l'indice della mossa */
+																						
 											Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); /* Recupera la mossa scelta */
 											
-											difensore.usaMossa(attaccante, mossaCPU);
-											
-											/* Verifico se la mossa del pokemom ha avversario non ha esaurito i PP */
+											/* Verifico se la mossa scelta dalla CPU non ha esaurito i PP, altrimenti ne seleziona un'altra casuale */
 											if(mossaCPU.noPP()) {
-												mostraMessaggio("ha esaurito i PP");
-												return;
+												indiceMossaCPU = attaccoCasuale();
+												mossaCPU = listaMosseCPU.get(indiceMossaCPU);
 											}
+																							
+											difensore.usaMossa(attaccante, mossaCPU);																						
 											
 											mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
 											
@@ -581,9 +587,14 @@ public class CampoDiBattaglia extends JPanel{
 														/* il pokemon dell'utente attacca */
 														attaccante.usaMossa(difensore, listaMosseUtente.get(index));
 														
-														/* Verifico se la mossa non ha esaurito i PP*/
+														/* Verifico se la mossa non ha esaurito i PP */
 														if(listaMosseUtente.get(index).noPP()) {
-															mostraMessaggio("hai finito i PP");
+															mostraMessaggio("hai finito i PP, usa un'altra mossa");
+															for(JButton pulsante:pulsantiMosse) {
+																pulsante.setEnabled(true);
+															}
+															buttonCambiaPokemon.setEnabled(true);
+															borsa.setEnabled(true);
 															return;
 														}
 														

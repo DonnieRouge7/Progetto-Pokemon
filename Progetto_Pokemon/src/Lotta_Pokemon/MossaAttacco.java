@@ -1,5 +1,7 @@
 package Lotta_Pokemon;
 
+import java.util.Random;
+
 /**
  * La classe {@code MossaAttacco} rappresenta una mossa offensiva che infligge danno
  * a un Pokémon avversario. Estende la classe {@code Mossa} e aggiunge il parametro
@@ -37,18 +39,20 @@ public class MossaAttacco extends Mossa {
     
     public void attaccaDanno(Pokemon att, Pokemon dif) {
         int precisione = getPrecisioneMossa();
-        double elusione = dif.getElusione();
-        int a = generaInteroCasuale(0, 100);
-        double probabilitaSuccesso = precisione / elusione;
-        
-        if (probabilitaSuccesso * 100 > a) {
+        double elusione = Math.max(dif.getElusione(), 1); // Evita la divisione per 0
+        int casuale = new Random().nextInt(101); // Numero casuale tra 0 e 100
+        double probabilitaSuccesso = (precisione / elusione) * 100;
+
+        if (probabilitaSuccesso >= casuale) {
             setColpito(true);
             Danno(att, dif);
         } else {
             setColpito(false);
         }
+        
         setPP(getPP() - 1);
     }
+
 
     /**
      * Calcola il danno inflitto al Pokémon avversario se l'attacco va a segno.

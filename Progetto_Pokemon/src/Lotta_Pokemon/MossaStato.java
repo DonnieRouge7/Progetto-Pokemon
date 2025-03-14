@@ -1,5 +1,7 @@
 package Lotta_Pokemon;
 
+import java.util.Random;
+
 /**
 
 La classe MossaStato rappresenta una mossa di stato nei combattimenti Pokémon.
@@ -36,19 +38,19 @@ public MossaStato(String nomeMossa, int elementoMossa, String tipo, int PP, int 
  */
 
 public void attaccaStato(Pokemon att, Pokemon dif) {
-    int precisione = getPrecisioneMossa();
-    double elusione = dif.getElusione();
-    int a = generaInteroCasuale(0, 100);
-    double probabilitaSuccesso = precisione / elusione;
-    
-    if (probabilitaSuccesso * 100 > a) {
+	int precisione = getPrecisioneMossa();
+    double elusione = Math.max(dif.getElusione(), 1); // Evita la divisione per 0
+    int casuale = new Random().nextInt(101); // Numero casuale tra 0 e 100
+    double probabilitaSuccesso = (precisione / elusione) * 100;
+
+    if (probabilitaSuccesso >= casuale) {
         setColpito(true);
         usaMossaStato(att, dif);
-        setPP(getPP() - 1);
     } else {
         setColpito(false);
-        setPP(getPP() - 1);
     }
+    
+    setPP(getPP() - 1);
 }
 
 /**
