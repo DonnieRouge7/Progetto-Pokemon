@@ -42,6 +42,7 @@ public class JPokeBattle extends JFrame {
 
 	/**
 	 * Metodo principale per avviare l'applicazione.
+	 * @param args per avviare l'applicazione
 	 */
 	
 	public static void main(String[] args) {	

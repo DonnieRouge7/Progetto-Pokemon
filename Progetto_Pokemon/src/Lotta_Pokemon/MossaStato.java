@@ -2,31 +2,7 @@ package Lotta_Pokemon;
 
 /**
 
-<<<<<<< HEAD
-	    switch (effetto) {
-	        case "Aumenta Difesa", "Diminuisce Difesa":	     
-	        	bersaglio.setDifesa((int) Math.max(1, bersaglio.getDifesa() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));	        	
-	        	break;
-	        case "Aumenta Attacco", "Diminuisce Attacco":	      
-	        	bersaglio.setAttacco((int) Math.max(1, bersaglio.getAttacco() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));	        	
-	        	break;
-	        case "Aumenta Difesa Speciale", "Diminuisce Difesa Speciale":
-	            bersaglio.setDifesaSpeciale((int) Math.max(1, bersaglio.getDifesaSpeciale() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
-	            break;
-	        case "Aumenta Attacco Speciale", "Diminuisce Attacco Speciale":
-	            bersaglio.setAttaccoSpeciale((int) Math.max(1, bersaglio.getAttaccoSpeciale() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
-	            break;
-	        case "Aumenta Velocità", "Diminuisce Velocità":
-	            bersaglio.setVelocita((int) Math.max(1, bersaglio.getVelocita() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));
-	            break;
-	        case "Aumenta Elusione", "Diminuisce Elusione":	        	
-	        	bersaglio.setElusione((int) Math.max(1, bersaglio.getElusione() * (effetto.startsWith("Aumenta") ? 1 + valoreModifica : 1 - valoreModifica)));	        
-	        	break;
-	    }
-	}
-=======
 La classe MossaStato rappresenta una mossa di stato nei combattimenti Pokémon.
->>>>>>> 9ccb2dfefe5bdb0ad0937017e02b4abd8e6e246e
 
 Le mosse di stato non infliggono danno, ma modificano le caratteristiche dei Pokémon in battaglia.
 */
