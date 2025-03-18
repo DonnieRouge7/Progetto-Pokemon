@@ -17,19 +17,19 @@ public class Charmander extends Pokemon {
      */
     
 	public Charmander() {
-        super( "001",  // Codice identificativo
-               1,      // Codice tipo (Fuoco)
-               -1,     // Codice del secondo tipo (non presente)
-               "Charmander",  // Nome
-               0,      // Esperienza attuale
-               1,      // Livello
-               39,     // Punti Vita attuali
-               39,     // Punti Vita massimi
-               52,     // Attacco
-               43,     // Difesa
-               50,     // Attacco Speciale
-               50,     // Difesa Speciale
-               65);     // Velocità        		    
+        super( "001",  			// Codice identificativo
+               1,      			// Codice tipo (Fuoco)
+               -1,     			// Codice del secondo tipo (non presente)
+               "Charmander",  	// Nome
+               0,      			// Esperienza attuale
+               1,      			// Livello
+               39,     			// Punti Vita attuali
+               39,     			// Punti Vita massimi
+               52,     			// Attacco
+               43,    			// Difesa
+               50,     			// Attacco Speciale
+               50,     			// Difesa Speciale
+               65);     		// Velocità        		    
 
         // Creazione delle mosse e aggiunta alla lista
         List<Mossa> mosse = new ArrayList<>();
@@ -44,7 +44,7 @@ public class Charmander extends Pokemon {
         mosse.add(ruggito);
         mosse.add(colpocoda);
 
-        // Assegna le mosse al Pokémon
+        // Assegnazione delle mosse
         super.setMosse(mosse);
     }
 }

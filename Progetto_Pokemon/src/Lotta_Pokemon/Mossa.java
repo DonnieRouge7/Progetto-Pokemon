@@ -82,112 +82,96 @@ public class Mossa {
 
     /**
      * Restituisce il nome della mossa.
-     * 
      * @return Nome della mossa.
      */
     public String getNomeMossa() { return nomeMossa; }
 
     /**
      * Imposta il nome della mossa.
-     * 
      * @param nomeMossa Nome della mossa.
      */
     public void setNomeMossa(String nomeMossa) { this.nomeMossa = nomeMossa; }
 
     /**
      * Restituisce il tipo elementale della mossa.
-     * 
      * @return Tipo elementale della mossa.
      */
     public int getElementoMossa() { return elementoMossa; }
 
     /**
      * Imposta il tipo elementale della mossa.
-     * 
      * @param elementoMossa Tipo elementale della mossa.
      */
     public void setElementoMossa(int elementoMossa) { this.elementoMossa = elementoMossa; }
 
     /**
      * Restituisce la categoria della mossa.
-     * 
      * @return Categoria della mossa.
      */
     public String getTipo() { return tipo; }
 
     /**
      * Imposta la categoria della mossa.
-     * 
      * @param tipo Categoria della mossa.
      */
     public void setTipo(String tipo) { this.tipo = tipo; }
 
     /**
      * Restituisce il numero di utilizzi rimanenti della mossa.
-     * 
      * @return Numero di utilizzi rimanenti della mossa.
      */
     public int getPP() { return PP; }
 
     /**
      * Imposta il numero di utilizzi rimanenti della mossa.
-     * 
      * @param PP Numero di utilizzi rimanenti della mossa.
      */
     public void setPP(int PP) { this.PP = PP; }
 
     /**
      * Restituisce il numero massimo di utilizzi della mossa.
-     * 
      * @return Numero massimo di utilizzi della mossa.
      */
     public int getPPmax() { return PPmax; }
 
     /**
      * Imposta il numero massimo di utilizzi della mossa.
-     * 
      * @param PPmax Numero massimo di utilizzi della mossa.
      */
     public void setPPmax(int PPmax) { this.PPmax = PPmax; }
 
     /**
      * Restituisce la precisione della mossa.
-     * 
      * @return Precisione della mossa.
      */
     public int getPrecisioneMossa() { return precisioneMossa; }
 
     /**
      * Imposta la precisione della mossa.
-     * 
      * @param precisioneMossa Precisione della mossa.
      */
     public void setPrecisioneMossa(int precisioneMossa) { this.precisioneMossa = precisioneMossa; }
 
     /**
      * Restituisce il modificatore del danno.
-     * 
      * @return Modificatore del danno.
      */
     public double getModificatore() { return modificatore; }
 
     /**
      * Imposta il modificatore del danno.
-     * 
      * @param modificatore Modificatore del danno.
      */
     public void setModificatore(double modificatore) { this.modificatore = modificatore; }
 
     /**
-     * Restituisce se la mossa ha colpito l'avversario.
-     * 
+     * Restituisce se la mossa ha colpito l'avversario. 
      * @return {@code true} se la mossa ha colpito l'avversario, altrimenti {@code false}.
      */
     public boolean getColpito() { return colpito; }
 
     /**
      * Imposta se la mossa ha colpito l'avversario.
-     * 
      * @param colpito {@code true} se la mossa ha colpito l'avversario, altrimenti {@code false}.
      */
     public void setColpito(boolean colpito) { this.colpito = colpito; }

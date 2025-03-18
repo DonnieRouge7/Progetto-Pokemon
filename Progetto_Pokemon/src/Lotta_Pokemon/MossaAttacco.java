@@ -83,7 +83,6 @@ public class MossaAttacco extends Mossa {
 
     /**
      * Override del metodo {@code noPP} della classe base.
-     * 
      * @return {@code true} se i PP della mossa sono esauriti, altrimenti {@code false}.
      */
     

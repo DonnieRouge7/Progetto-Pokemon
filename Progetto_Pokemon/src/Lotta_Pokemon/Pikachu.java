@@ -19,19 +19,19 @@ public class Pikachu extends Pokemon {
 	
 	public Pikachu() {
 	    super(
-	        "004",     /* codice */
-	        3,         /* codice tipo (Elettrico) */
-	        -1,        /* codice secondo tipo (non presente) */
-	        "Pikachu", /* nome */
-	        0,         /* XP attuali */
-	        1,         /* livello */
-	        35,        /* HP attuali */    
-	        35,        /* HP massimi */
-	        55,        /* attacco */
-	        40,        /* difesa */
-	        50,        /* attacco speciale */
-	        50,        /* difesa speciale */    
-	        90);       /* velocità */	                
+	        "004",     // codice
+	        3,         // codice tipo (Elettrico)
+	        -1,        // codice secondo tipo (non presente)
+	        "Pikachu", // nome
+	        0,         // XP attuali
+	        1,         // livello
+	        35,        // HP attuali     
+	        35,        // HP massimi 
+	        55,        // attacco 
+	        40,        // difesa 
+	        50,        // attacco speciale 
+	        50,        // difesa speciale     
+	        90);       // velocità 	                
     			    
 	    // Creazione delle mosse e aggiunta alla lista
 	    List<Mossa> mosse = new ArrayList<>();
@@ -46,7 +46,7 @@ public class Pikachu extends Pokemon {
 	    mosse.add(fulmine);
 	    mosse.add(doppioteam);
 	    
-	    // Imposta la lista delle mosse di Pikachu
+	    // Assegnazione delle mosse
 	    super.setMosse(mosse);
 	}
 	

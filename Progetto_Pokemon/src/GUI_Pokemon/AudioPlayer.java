@@ -5,10 +5,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
-
 Questa classe gestisce la riproduzione di file audio.
 Permette di avviare e fermare la riproduzione musicale in loop continuo.
-
 */
 
 public class AudioPlayer {
@@ -16,7 +14,6 @@ public class AudioPlayer {
 
     /**
      * Metodo per riprodurre la musica.
-     * 
      * @param filePath Percorso del file audio da riprodurre.
      */
     

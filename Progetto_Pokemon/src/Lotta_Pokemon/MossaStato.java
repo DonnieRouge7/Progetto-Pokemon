@@ -5,7 +5,6 @@ import java.util.Random;
 /**
 
 La classe MossaStato rappresenta una mossa di stato nei combattimenti Pokémon.
-
 Le mosse di stato non infliggono danno, ma modificano le caratteristiche dei Pokémon in battaglia.
 */
 
@@ -99,7 +98,6 @@ public void usaMossaStato(Pokemon attaccante, Pokemon difensore) {
 
 /**
  * Metodo che verifica se la mossa ha esaurito i suoi Punti Potenza (PP).
- *
  * @return true se la mossa non ha più PP disponibili, false altrimenti.
  */
 
@@ -110,7 +108,6 @@ public boolean noPP() {
 
 /**
  * Metodo per ottenere l'effetto specifico della mossa di stato.
- *
  * @return Stringa contenente la descrizione dell'effetto.
  */
 

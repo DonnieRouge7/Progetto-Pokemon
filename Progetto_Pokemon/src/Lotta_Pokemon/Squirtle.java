@@ -18,19 +18,20 @@ public class Squirtle extends Pokemon {
 	 */
 	public Squirtle() {
 		
-		super(	"002" 			/* codice */, 
-				2 				/* codice tipo */, 
-				-1 				/* codice 2 tipo, se presente */, 
-			"Squirtle", 		/* nome */
-				0, 				/* xp attuali */
-				1, 	 			/* livello */
-				44, 			/* xp attuali */	
-				44, 			/* xp massimi */
-				48, 			/* attacco */
-				65, 			/* difesa */
-				50, 			/* attacco speciale */
-				50, 			/* difesa speciale */	
-				43);			/* velocità */
+		super( 
+			  "002", 			// codice  
+				2, 				// codice tipo 
+			   -1, 				// codice 2 tipo, se presente 
+			"Squirtle", 		// nome 
+				0, 				// xp attuali 
+				1, 	 			// livello 
+				44, 			// xp attuali 	
+				44, 			// xp massimi 
+				48, 			// attacco 
+				65, 			// difesa 
+				50, 			// attacco speciale 
+				50, 			// difesa speciale 	
+				43);			// velocità 
 									
 		// Creazione delle mosse ed aggiunta alla lista 
 		List<Mossa> mosse = new ArrayList<>();	

@@ -339,7 +339,6 @@ public class Pokemon {
 	
 	/**
 	 * Controlla se il Pokemon è esausto (ha 0 HP).
-	 * 
 	 * @return true se il Pokemon è esausto, false altrimenti.
 	 */
 	public boolean esausto() {

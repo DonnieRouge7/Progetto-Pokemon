@@ -45,7 +45,7 @@ public class Pidgey extends Pokemon {
         mosse.add(agilita);
         mosse.add(volo);
         
-        // Assegna le mosse al Pokémon
+        // Assegnazione delle mosse
         super.setMosse(mosse);
     }
 }

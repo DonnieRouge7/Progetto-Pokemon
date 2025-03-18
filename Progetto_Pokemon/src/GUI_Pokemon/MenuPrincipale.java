@@ -48,11 +48,11 @@ public class MenuPrincipale extends JPanel {
     public MenuPrincipale() {    
         setLayout(null);
         
-        /* Audio */
+        // Audio 
         audioPlayer = new AudioPlayer();
         audioPlayer.playMusic("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/Pokemon [Gotta Catch Em All] - Giorgio Vanni (Sigla Completa).wav");
         
-        /* Sfondo Pannello */
+        // Sfondo Pannello 
         sfondo = new ImageIcon("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/sfondo schermata principale.jpg");
         Image sfondoScalato = sfondo.getImage();
         Image immagineScalata = sfondoScalato.getScaledInstance(1200, 1000, Image.SCALE_SMOOTH);
@@ -60,12 +60,12 @@ public class MenuPrincipale extends JPanel {
         labelSfondo.setBounds(0, 0, 1000, 1000);
         add(labelSfondo);
         
-        /* Bordi */
+        // Bordi 
         Border bordoFieldBenvenuto = new LineBorder(Color.WHITE, 2, true);
         Border bordoStart = new LineBorder(Color.WHITE, 2, true);
         Border bordoEsc = new LineBorder(Color.WHITE, 2, true);
         
-        /* Button Start */
+        // Button Start 
         buttonStart = new JButton("START");
         buttonStart.setBackground(Color.BLUE);
         buttonStart.setForeground(Color.YELLOW);
@@ -98,7 +98,7 @@ public class MenuPrincipale extends JPanel {
         
         add(buttonStart);
         
-        /* Button Esc */
+        // Button Esc 
         buttonEsc = new JButton("ESCI");
         buttonEsc.setBackground(Color.BLUE);
         buttonEsc.setForeground(Color.YELLOW);
@@ -121,14 +121,14 @@ public class MenuPrincipale extends JPanel {
         
         add(buttonEsc);
         
-        /* Label Benvenuto */
+        // Label Benvenuto 
         labelBenvenuto = new JLabel("Welcome to Pokémon Fight!");
         labelBenvenuto.setForeground(Color.YELLOW);
         labelBenvenuto.setFont(new Font("Times New Roman", Font.PLAIN, 50));
         labelBenvenuto.setBounds(110, 10, 600, 100);
         add(labelBenvenuto);
         
-        /* TextField Benvenuto */
+        // TextField Benvenuto 
         fieldBenvenuto = new JTextArea();
         fieldBenvenuto.setEditable(false);
         fieldBenvenuto.setBounds(100, 10, 600, 100);
@@ -136,10 +136,10 @@ public class MenuPrincipale extends JPanel {
         fieldBenvenuto.setBorder(bordoFieldBenvenuto);
         add(fieldBenvenuto);
         
-        /* Porta il JLabel dello sfondo in fondo */
+        // Porta il JLabel dello sfondo in fondo 
         setComponentZOrder(labelSfondo, getComponentCount() - 1);
         
-        /* Revalidate e Repaint */
+        // Revalidate e Repaint 
         revalidate();
         repaint();
     }
