@@ -5,18 +5,19 @@ import java.io.File;
 import java.io.IOException;
 
 /**
-Questa classe gestisce la riproduzione di file audio.
-Permette di avviare e fermare la riproduzione musicale in loop continuo.
-*/
+ * Questa classe gestisce la riproduzione di file audio.
+ * Permette di avviare e fermare la riproduzione musicale in loop continuo.
+ */
 
 public class AudioPlayer {
     private Clip clip;
 
     /**
      * Metodo per riprodurre la musica.
+     * 
      * @param filePath Percorso del file audio da riprodurre.
      */
-    
+
     public void playMusic(String filePath) {
         try {
             File audioFile = new File(filePath);
@@ -31,10 +32,10 @@ public class AudioPlayer {
     }
 
     /**
-     * Metodo per fermare la musica 
+     * Metodo per fermare la musica
      * 
      */
-    
+
     public void stopMusic() {
         if (clip != null && clip.isRunning()) {
             clip.stop();
@@ -42,4 +43,3 @@ public class AudioPlayer {
         }
     }
 }
-
