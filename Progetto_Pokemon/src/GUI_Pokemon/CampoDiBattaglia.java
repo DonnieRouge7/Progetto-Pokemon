@@ -1240,7 +1240,7 @@ public class CampoDiBattaglia extends JPanel {
 	 * @param task;  task da eseguire
 	 */
 	private void timerTask(int delay, Runnable task) {
-		Timer timer = new Timer(delay, _ -> task.run());
+		Timer timer = new Timer(delay, e -> task.run());
 		timer.setRepeats(false);
 		timer.start();
 	}
