@@ -73,9 +73,9 @@ public class MenuSceltaSquadra extends JPanel {
         // Creazione della squadra della CPU
         List<Pokemon> pokemonCPU = new ArrayList<>();
         pokemonCPU.add(new Charmander());
-		pokemonCPU.add(new Squirtle());
+	/*	pokemonCPU.add(new Squirtle());
 		pokemonCPU.add(new Bulbasaur());
-        
+     */   
         // Etichetta per la selezione della squadra
         labelLotta = new JLabel("Scegli i Pokémon con cui lottare:");
         labelLotta.setFont(new Font("Arial", Font.PLAIN, 30));

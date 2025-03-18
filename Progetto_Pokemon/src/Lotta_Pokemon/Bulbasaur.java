@@ -30,9 +30,7 @@ public class Bulbasaur extends Pokemon {
             49,        /* difesa */
             65,        /* attacco speciale */
             65,        /* difesa speciale */
-            45,        /* velocità */
-            30         /* elusione */
-        );        
+            45);       /* velocità */                           	        
         
         // Creazione delle mosse ed aggiunta alla lista
         List<Mossa> mosse = new ArrayList<>();    

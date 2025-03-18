@@ -198,7 +198,8 @@ public class Mossa {
      */
     public boolean noPP() {
         if (getPP() <= 0) {
-            return true;
+            setPP(0);
+        	return true;
         }
         return false;
     }

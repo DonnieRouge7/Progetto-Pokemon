@@ -30,9 +30,8 @@ public class Squirtle extends Pokemon {
 				65, 			/* difesa */
 				50, 			/* attacco speciale */
 				50, 			/* difesa speciale */	
-				43, 			/* velocità */
-				30);			/* elusione */
-		
+				43);			/* velocità */
+									
 		// Creazione delle mosse ed aggiunta alla lista 
 		List<Mossa> mosse = new ArrayList<>();	
 		

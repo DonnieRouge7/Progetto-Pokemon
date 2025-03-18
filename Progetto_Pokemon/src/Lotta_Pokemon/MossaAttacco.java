@@ -37,23 +37,27 @@ public class MossaAttacco extends Mossa {
      * @param dif Il Pokémon difensore.
      */
     
-    public void attaccaDanno(Pokemon att, Pokemon dif) {
-        int precisione = getPrecisioneMossa();
-        double elusione = Math.max(dif.getElusione(), 1); // Evita la divisione per 0
-        int casuale = new Random().nextInt(101); // Numero casuale tra 0 e 100
-        double probabilitaSuccesso = (precisione / elusione) * 100;
+    public void attaccaDanno(Pokemon attaccante, Pokemon difensore, Mossa mossa) {
+        int precisioneMossa = mossa.getPrecisioneMossa(); // Valore tra 1 e 100
+        double modificatorePrecisione = attaccante.getPrecisione(); // Da 0.33 a 3.00
+        double modificatoreElusione = difensore.getElusione(); // Da 0.33 a 3.00
 
-        if (probabilitaSuccesso >= casuale) {
-            setColpito(true);
-            Danno(att, dif);
-        } else {
-            setColpito(false);
-        }
-        
+        // Calcolo della probabilità finale
+        double hitRate = precisioneMossa * (modificatorePrecisione / modificatoreElusione);
+
+        // Generazione numero casuale tra 0 e 99
+        int casuale = new Random().nextInt(100);
+
+        // Se il numero casuale è inferiore a hitRate, la mossa colpisce
+        if(casuale < hitRate) {
+        	 setColpito(true);
+             Danno(attaccante, difensore);
+        }else {
+        	setColpito(false);  
+        }        
         setPP(getPP() - 1);
     }
-
-
+    
     /**
      * Calcola il danno inflitto al Pokémon avversario se l'attacco va a segno.
      * Il calcolo del danno dipende dalla potenza della mossa, dalle statistiche
@@ -74,6 +78,7 @@ public class MossaAttacco extends Mossa {
         
         danno = Math.max(danno, 0); // Assicura che il danno non sia negativo
         dif.setHp(dif.getHp() - danno);
+        System.out.println("danno: " + danno);
     }
 
     /**

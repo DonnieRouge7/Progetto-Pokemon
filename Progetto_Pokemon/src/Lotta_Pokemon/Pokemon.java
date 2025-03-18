@@ -51,7 +51,10 @@ public class Pokemon {
 	private int velocita;
 	
 	/** Percentuale di elusione del Pokemon */
-	private double elusione = 30;
+	private double elusione = 1.0;
+	
+	/** Percentuale di precisione del Pokemon*/
+	private double precisione = 1.0;
 	
 	/** Lista delle mosse disponibili del Pokemon */
 	private List<Mossa> mosse;
@@ -75,7 +78,7 @@ public class Pokemon {
 	 * @param elusione Percentuale di elusione del Pokemon.
 	 */
 	
-	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attacco, int difesa, int attaccoSpeciale, int difesaSpeciale, int velocita, double elusione) {
+	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax, int attacco, int difesa, int attaccoSpeciale, int difesaSpeciale, int velocita) {
 		this.codice = codice;
 		this.tipo1 = tipo1; 
 		this.tipo2 = tipo2;
@@ -89,7 +92,6 @@ public class Pokemon {
 		this.attaccoSpeciale = attaccoSpeciale;
 		this.difesaSpeciale = difesaSpeciale;
 		this.velocita = velocita;
-		this.elusione = 30;
 	}
 	
 	// Getters e Setters 
@@ -251,6 +253,18 @@ public class Pokemon {
 		public void setElusione(double elusione) { this.elusione = elusione; }
 		
 		/**
+		 * Restituisce il valore della precisione del Pokemon.
+		 * @return precisione Il valore della precisione
+		 */
+		public double getPrecisione() { return precisione; }
+			
+		/**
+		 * Imposta il valore della precisione del Pokemon
+		 * @param precisione il valore della precisione
+		 */
+		public void setPrecisione(double precisione) { this.precisione = precisione; }
+
+		/**
 		 * Restituisce il valore degli xp del Pokemon.
 		 * @return Il valore degli xp.
 		 */
@@ -309,16 +323,17 @@ public class Pokemon {
 	 * Permette al Pokémon di usare una mossa su un bersaglio.
 	 * Se la mossa è di attacco, infligge danno; se è di stato, modifica statistiche.
 	 * 
-	 * @param bersaglio Il Pokemon bersaglio dell'attacco.
+	 * @param attaccante Il Pokemon utilizzatore della mossa.
+	 * @param bersaglio Il Pokemon bersagliato dalla mossa.
 	 * @param mossa La mossa da utilizzare.
 	 */
-	public void usaMossa(Pokemon bersaglio, Mossa mossa) {
+	public void usaMossa(Pokemon attaccante, Pokemon bersaglio, Mossa mossa) {
 	    mossa.noPP();
 	    
 	    if (mossa instanceof MossaAttacco) {
-	        ((MossaAttacco) mossa).attaccaDanno(this, bersaglio);
+	        ((MossaAttacco) mossa).attaccaDanno(this, bersaglio, mossa);
 	    } else if (mossa instanceof MossaStato) {
-	        ((MossaStato) mossa).attaccaStato(this, bersaglio);
+	        ((MossaStato) mossa).attaccaStato(this, bersaglio, mossa);
 	    }
 	}
 	

@@ -37,19 +37,24 @@ public MossaStato(String nomeMossa, int elementoMossa, String tipo, int PP, int 
  * @param dif Pokémon difensore.
  */
 
-public void attaccaStato(Pokemon att, Pokemon dif) {
-	int precisione = getPrecisioneMossa();
-    double elusione = Math.max(dif.getElusione(), 1); // Evita la divisione per 0
-    int casuale = new Random().nextInt(101); // Numero casuale tra 0 e 100
-    double probabilitaSuccesso = (precisione / elusione) * 100;
+public void attaccaStato(Pokemon attaccante, Pokemon difensore, Mossa mossa) {
+    int precisioneMossa = mossa.getPrecisioneMossa(); // Valore tra 1 e 100
+    double modificatorePrecisione = attaccante.getPrecisione(); // Da 0.33 a 3.00
+    double modificatoreElusione = difensore.getElusione(); // Da 0.33 a 3.00
 
-    if (probabilitaSuccesso >= casuale) {
-        setColpito(true);
-        usaMossaStato(att, dif);
-    } else {
-        setColpito(false);
-    }
-    
+    // Calcolo della probabilità finale
+    double hitRate = precisioneMossa * (modificatorePrecisione / modificatoreElusione);
+
+    // Generazione numero casuale tra 0 e 99
+    int casuale = new Random().nextInt(100);
+
+    // Se il numero casuale è inferiore a hitRate, la mossa colpisce
+    if(casuale < hitRate) {
+    	 setColpito(true);
+         usaMossaStato(attaccante, difensore);
+    }else {
+    	setColpito(false);  
+    }        
     setPP(getPP() - 1);
 }
 

@@ -15,6 +15,7 @@ import javax.swing.border.LineBorder;
  * Classe principale CampoDiBttaglia dove avviene la lotta 
  */
 
+
 public class CampoDiBattaglia extends JPanel{
 	
     /** Il frame principale della finestra di gioco */
@@ -23,53 +24,56 @@ public class CampoDiBattaglia extends JPanel{
     /** Il gestore della musica di sottofondo */
     private AudioPlayer audioPlayer;
     
-    /** Lista dei Pokémon selezionati dall'utente */
-    private List<Pokemon> pokemonUtente;
-    
-    /** Lista dei Pokémon selezionati dalla CPU */
-    private List<Pokemon> pokemonCPU;
-    
-    /** Lista delle mosse disponibili per i Pokémon della CPU */
-    private List<Mossa> listaMosseCPU;
-    
     /** Icona dell'immagine di sfondo */
     private ImageIcon sfondo;
     
     /** Etichetta che mostra l'immagine di sfondo */
     private JLabel labelSfondo;
     
+    /** Lista dei Pokémon selezionati dall'utente */
+    private List<Pokemon> listaPokemonUtente;
+    
+    /** Lista delle mosse disponibili per il Pokémon dell'utente */
+    private List<Mossa> listaMosseUtente;
+    
+    /** Lista dei Pokémon selezionati dalla CPU */
+    private List<Pokemon> listaPokemonCPU;
+    
+    /** Lista delle mosse disponibili per i Pokémon della CPU */
+    private List<Mossa> listaMosseCPU;
+     
     /** Pokémon attuale dell'utente in battaglia */
-    private Pokemon attaccante;
+    private Pokemon pokemonUtente;
     
     /** Pokémon attuale della CPU in battaglia */
-    private Pokemon difensore;
+    private Pokemon pokemonCPU;
     
     /** Barra della salute del Pokémon dell'utente */
-    private JProgressBar healthBarAtt;
+    private JProgressBar healthBarUtente;
     
     /** Barra della salute del Pokémon della CPU */
-    private JProgressBar healthBarDif;
+    private JProgressBar healthBarCPU;
     
     /** Bordo delle barre della salute */
     private Border bordoHealthBar;
     
     /** Pannello contenente le informazioni del Pokémon dell'utente */
-    private JPanel areaPokemonAtt;
+    private JPanel areaPokemonUtente;
     
         /** Etichetta per il nome del Pokémon dell'utente */
-        private JLabel labelPokemonAtt;
+        private JLabel labelPokemonUtente;
         
         /** Etichetta per il livello del Pokémon dell'utente */
-        private JLabel livelloPokemonAtt;
+        private JLabel livelloPokemonUtente;
     
     /** Pannello contenente le informazioni del Pokémon della CPU */
-    private JPanel areaPokemonDif;
+    private JPanel areaPokemonCPU;
     
         /** Etichetta per il nome del Pokémon della CPU */
-        private JLabel labelPokemonDif;
+        private JLabel labelPokemonCPU;
         
         /** Etichetta per il livello del Pokémon della CPU */
-        private JLabel livelloPokemonDif;
+        private JLabel livelloPokemonCPU;
     
     /** Pannello per visualizzare i messaggi durante la lotta */
     private JPanel areaMessaggi;
@@ -82,9 +86,6 @@ public class CampoDiBattaglia extends JPanel{
     
     /** Pannello che contiene le mosse, il cambio Pokémon e la borsa */
     private JPanel panelAreaMosse;
-    
-        /** Lista delle mosse disponibili per il Pokémon dell'utente */
-        private List<Mossa> listaMosseUtente;
         
         /** Pulsante per visualizzare le mosse disponibili */
         private JButton mosse;
@@ -100,15 +101,18 @@ public class CampoDiBattaglia extends JPanel{
             
             /** Pulsante per selezionare la quarta mossa */
             private JButton mossa4;
-        
-        /** Pannello per il cambio Pokémon */
-        private JPanel panelCambiaPokemon;
-        
+                    
         /** Pulsante per cambiare il Pokémon attuale dell'utente */
         private JButton buttonCambiaPokemon;
         
+	        /** Pannello per il cambio Pokémon */
+	        private JPanel panelCambiaPokemon;
+        
         /** Pulsante per aprire la borsa degli oggetti */
         private JButton borsa;
+    
+    /** Mossa della CPU*/
+    private Mossa mossaCPU;
     
     /** Indice del Pokémon attuale della CPU */
     private int indicePokemonCPU = 0;
@@ -151,6 +155,9 @@ public class CampoDiBattaglia extends JPanel{
                 
                 /** Serie di vittorie attuale dell'utente */
                 private int serieVittorie;
+    
+    /** Mossa di default quando un pokemon ha esaurito i PP di tutte le mosse*/        
+    private Mossa scontro = new MossaAttacco("Scontro", 0, "fisico", 100, 100, 100, 50);
 
 		/**
 		 * Costruttore della classe CampoDiBattaglia 
@@ -159,11 +166,11 @@ public class CampoDiBattaglia extends JPanel{
 		 * @param pokemonCPU; la lista dei pokemon della CPU
 		 */
 		
-        CampoDiBattaglia(JFrame frame, List<Pokemon> pokemonUtente, List<Pokemon> pokemonCPU){
+        CampoDiBattaglia(JFrame frame, List<Pokemon> listaPokemonUtente, List<Pokemon> listaPokemonCPU){
 			
 			this.frame = frame;
-			this.pokemonUtente = pokemonUtente;
-			this.pokemonCPU = pokemonCPU;
+			this.listaPokemonUtente = listaPokemonUtente;
+			this.listaPokemonCPU = listaPokemonCPU;
 			this.serieVittorieList = LeaderboardManager.caricaLeaderboard();
 			this.serieVittorie = 0;
 									
@@ -174,12 +181,12 @@ public class CampoDiBattaglia extends JPanel{
 				audioPlayer = new AudioPlayer();
 				audioPlayer.playMusic("C:/Users/megam/eclipse-workspace/Progetto-Pokemon-Git/Progetto-Pokemon/Pokémon Battle Music - Anime Version.wav");
 				
-				if (!pokemonUtente.isEmpty() && !pokemonCPU.isEmpty()) { /* Controllo se le liste non sono vuote */
-					this.attaccante = pokemonUtente.get(0);  /* Seleziono il primo Pokémon dell'utente */
-					this.difensore = pokemonCPU.get(pokemonCasuale());  /* Primo Pokémon della CPU selezionato casualemente tra quelli disponibili nella sua squadra */
+				if (!listaPokemonUtente.isEmpty() && !listaPokemonCPU.isEmpty()) { /* Controllo se le liste non sono vuote */
+					this.pokemonUtente = listaPokemonUtente.get(0);  /* Seleziono il primo Pokémon dell'utente */
+					this.pokemonCPU = listaPokemonCPU.get(pokemonCasuale());  /* Primo Pokémon della CPU selezionato casualemente tra quelli disponibili nella sua squadra */
 				}  
 				
-				listaMosseCPU = difensore.getMosse(); /* Setting delle mosse del primo pokemon avversario */
+				listaMosseCPU = pokemonCPU.getMosse(); /* Setting delle mosse del primo pokemon avversario */
 				
 				bordoHealthBar = new LineBorder(Color.BLACK); /* Bordo delle healthBar */
 				
@@ -191,64 +198,64 @@ public class CampoDiBattaglia extends JPanel{
 				add(labelSfondo);
 				
 				/* HealthBar Cpu */
-				healthBarDif = new JProgressBar(0, 100);
-				aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-				healthBarDif.setStringPainted(true); /* Mostra il valore numerico */
+				healthBarCPU = new JProgressBar(0, 100);
+				aggiornaHealthBar(healthBarCPU, (int) pokemonCPU.getHp(), (int) pokemonCPU.getHpMax());
+				healthBarCPU.setStringPainted(true); /* Mostra il valore numerico */
 				
-				healthBarDif.setForeground(Color.GREEN);
-				healthBarDif.setBorder(bordoHealthBar);
-				healthBarDif.setBackground(Color.WHITE);
+				healthBarCPU.setForeground(Color.GREEN);
+				healthBarCPU.setBorder(bordoHealthBar);
+				healthBarCPU.setBackground(Color.WHITE);
 				
-				healthBarDif.setBounds(750, 110, 200, 20);
+				healthBarCPU.setBounds(750, 110, 200, 20);
 			
-				add(healthBarDif);
+				add(healthBarCPU);
 				
 				/* HealthBar Utente */
-				healthBarAtt = new JProgressBar(0, 100);
-				aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-				healthBarAtt.setStringPainted(true); /* Mostra il valore numerico */
+				healthBarUtente = new JProgressBar(0, 100);
+				aggiornaHealthBar(healthBarUtente, (int) pokemonUtente.getHp(), (int) pokemonUtente.getHpMax());
+				healthBarUtente.setStringPainted(true); /* Mostra il valore numerico */
 				
-				healthBarAtt.setForeground(Color.GREEN);
-				healthBarAtt.setBorder(bordoHealthBar);
-				healthBarAtt.setBackground(Color.WHITE);
+				healthBarUtente.setForeground(Color.GREEN);
+				healthBarUtente.setBorder(bordoHealthBar);
+				healthBarUtente.setBackground(Color.WHITE);
 				
-				healthBarAtt.setBounds(30, 420, 200, 20);
+				healthBarUtente.setBounds(30, 420, 200, 20);
 				
-				add(healthBarAtt);
+				add(healthBarUtente);
 				
 				/* Pokemon utente */
-				areaPokemonAtt = new JPanel();
+				areaPokemonUtente = new JPanel();
 				Border bordo = new LineBorder(Color.WHITE);
-				areaPokemonAtt.setBackground(Color.BLACK);
-				areaPokemonAtt.setBounds(30, 390, 200, 30);
-				areaPokemonAtt.setBorder(bordo);
+				areaPokemonUtente.setBackground(Color.BLACK);
+				areaPokemonUtente.setBounds(30, 390, 200, 30);
+				areaPokemonUtente.setBorder(bordo);
 				
-				labelPokemonAtt = new JLabel(attaccante.getNome()); 
-				labelPokemonAtt.setForeground(Color.WHITE);
+				labelPokemonUtente = new JLabel(pokemonUtente.getNome()); 
+				labelPokemonUtente.setForeground(Color.WHITE);
 				
-				livelloPokemonAtt = new JLabel("Liv " + attaccante.getLivello());
-				livelloPokemonAtt.setForeground(Color.WHITE);
+				livelloPokemonUtente = new JLabel("Liv " + pokemonUtente.getLivello());
+				livelloPokemonUtente.setForeground(Color.WHITE);
 				
-				areaPokemonAtt.add(labelPokemonAtt);
-				areaPokemonAtt.add(livelloPokemonAtt);
-				add(areaPokemonAtt);
+				areaPokemonUtente.add(labelPokemonUtente);
+				areaPokemonUtente.add(livelloPokemonUtente);
+				add(areaPokemonUtente);
 				
 				/* Pokemon CPU */
-				areaPokemonDif = new JPanel();
+				areaPokemonCPU = new JPanel();
 				Border bordo2 = new LineBorder(Color.WHITE);
-				areaPokemonDif.setBackground(Color.BLACK);
-				areaPokemonDif.setBounds(750, 80, 200, 30);
-				areaPokemonDif.setBorder(bordo2);
+				areaPokemonCPU.setBackground(Color.BLACK);
+				areaPokemonCPU.setBounds(750, 80, 200, 30);
+				areaPokemonCPU.setBorder(bordo2);
 				
-				labelPokemonDif = new JLabel(difensore.getNome());
-				labelPokemonDif.setForeground(Color.WHITE);
+				labelPokemonCPU = new JLabel(pokemonCPU.getNome());
+				labelPokemonCPU.setForeground(Color.WHITE);
 				
-				livelloPokemonDif = new JLabel("Liv " + difensore.getLivello());
-				livelloPokemonDif.setForeground(Color.WHITE);
+				livelloPokemonCPU = new JLabel("Liv " + pokemonCPU.getLivello());
+				livelloPokemonCPU.setForeground(Color.WHITE);
 				
-				areaPokemonDif.add(labelPokemonDif);
-				areaPokemonDif.add(livelloPokemonDif);
-				add(areaPokemonDif);
+				areaPokemonCPU.add(labelPokemonCPU);
+				areaPokemonCPU.add(livelloPokemonCPU);
+				add(areaPokemonCPU);
 				
 				/* Area messaggi durante la lotta */
 				areaMessaggi = new JPanel();
@@ -280,7 +287,7 @@ public class CampoDiBattaglia extends JPanel{
 				panelAreaMosse.setLayout(null);
 				
 					/* Pulsante Mosse */
-					listaMosseUtente = attaccante.getMosse();
+					listaMosseUtente = pokemonUtente.getMosse();
 					Border bordoMosse = new LineBorder(Color.WHITE, 3);
 					mosse = new JButton("Mosse");
 					mosse.setBackground(Color.RED);
@@ -342,10 +349,11 @@ public class CampoDiBattaglia extends JPanel{
 										buttonCambiaPokemon.setEnabled(false);                                                              
 										
 										/* Controllo la velocità dei pokemon per stabilire chi attacca per primo */
-										if (attaccante.getVelocita() >= difensore.getVelocita()) {                                   
+										if (pokemonUtente.getVelocita() >= pokemonCPU.getVelocita()) {                                   
 											
 											/* Primo attacco: attaccante */                      	
-											attaccante.usaMossa(difensore, listaMosseUtente.get(index));
+											pokemonUtente.usaMossa(pokemonUtente, pokemonCPU, listaMosseUtente.get(index));
+											System.out.println(pokemonUtente.getElusione());
 											
 											/* Verifico se la mossa non ha esaurito i PP */
 											if(listaMosseUtente.get(index).noPP()) {
@@ -358,48 +366,53 @@ public class CampoDiBattaglia extends JPanel{
 												return;
 											}
 											
-											mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
+											mostraMessaggio(pokemonUtente.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());
 											
 											/* Verifico se l'attacco è andato a segno */
 											if(listaMosseUtente.get(index).getColpito() == false) {
-												avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"));                              
-											
+												timerTask(2000, () -> mostraMessaggio(pokemonUtente.getNome() +  " evita l'attacco"));                              											
 											} else {                             		
 												/* Controllo se la mossa usata ha un effetto di tipo stato */
 												if(!listaMosseUtente.get(index).getEffetto().equals("")) {
-													avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto()));                                   		
+													timerTask(2000, () -> mostraMessaggio(pokemonUtente.getNome() + " " + listaMosseUtente.get(index).getEffetto()));                                   		
 												
 												} else {                                   		
 													/* Timer per mostrare l'efficacia dell'attacco */
 													if(listaMosseUtente.get(index).getModificatore() > 1) {
-														avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+														timerTask(2000, () -> mostraMessaggio("è superefficace"));
 													}else if(listaMosseUtente.get(index).getModificatore() < 1){
-														avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+														timerTask(2000, () -> mostraMessaggio("non è molto efficace..."));
 													}
 												}                                                                  		
 											
 													/* Controllo se la CPU è KO dopo l'attacco */
-													if (difensore.esausto()) {		                                  
+													if (pokemonCPU.esausto()) {		                                  
 														
 														/* Aggiorna la healthBar della CPU */
-														aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+														aggiornaHealthBar(healthBarCPU, (int) pokemonCPU.getHp(), (int) pokemonCPU.getHpMax());
 														/* Aggiorna l'esperienza del pokemon dell'utente */
-														attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);		                                    										
+														pokemonUtente.setXp(pokemonUtente.getXp() + pokemonCPU.getLivello()+5);		                                    										
 														
 														/* Mostra il messaggio di KO */
-														avviaTimerDoubleTask(3000, () -> mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!"), () -> next.setEnabled(true));
+														timerTask(3000, () -> {
+															mostraMessaggio(pokemonCPU.getNome() + " avversario " + " è esausto!"); 
+															next.setEnabled(true);
+														});
 															
 														/* Controllo se l'attaccante è salito di livello */
-														if(attaccante.saliDiLivello()){
-															avviaTimerDoubleTask(4000, () -> mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello()), () -> livelloPokemonAtt.setText("Liv " + attaccante.getLivello()));
+														if(pokemonUtente.saliDiLivello()){
+															timerTask(4000, () -> {
+															mostraMessaggio(pokemonUtente.getNome() + " è salito di livello, ora è al " + pokemonUtente.getLivello()); 
+															livelloPokemonUtente.setText("Liv " + pokemonUtente.getLivello());
+															});
 														}	                                    	
 														return;
 													
 													} else {
 														/* Aggiorna la healthBar della CPU */
-														aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+														aggiornaHealthBar(healthBarCPU, (int) pokemonCPU.getHp(), (int) pokemonCPU.getHpMax());
 														/* Abilita il pulsante next */
-														avviaTimerSingleTask(4000, () -> next.setEnabled(true));
+														timerTask(4000, () -> next.setEnabled(true));
 													}	                                	
 												}
 														
@@ -412,82 +425,82 @@ public class CampoDiBattaglia extends JPanel{
 															next.setEnabled(false);
 															
 															int indiceMossaCPU = attaccoCasuale(); /* Salva l'indice della mossa */
-															Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); /* Recupera la mossa scelta */
+															mossaCPU = listaMosseCPU.get(indiceMossaCPU); /* Recupera la mossa scelta */
 															
-															/* il pokemon della CPU attacca */
-															difensore.usaMossa(attaccante, mossaCPU);
-															
-															/* Verifico se la mossa del pokemom ha avversario non ha esaurito i PP */
+															/* Verifico se la mossa ha ancora dei PP e può essere utilizzata regoalarmente */
 															if(mossaCPU.noPP()) {
-																mostraMessaggio("ha esaurito i PP");
-																return;
-															}
-															
-															mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());																																				
-		
-															/* Verifico se l'attacco della CPU è andato a segno */
-															if(mossaCPU.getColpito() == false) {
-																avviaTimerDoubleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"), () -> next.setEnabled(true));	       		
-																return; /* esce dal ciclo se la l'utente evita l'attacco */
-															
+																mossaNoPP();
+																timerTask(3000, () -> next.setEnabled(true));
 															} else {
-																/* Controllo se la mossa usata ha un effetto di tipo stato */
-																if(!mossaCPU.getEffetto().equals("")) {
-																	avviaTimerSingleTask(2000, () -> mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto()));		                                        		
 																
-																} else {													
-																	/* Timer per mostrare l'efficacia dell'attacco */
-																	if(mossaCPU.getModificatore() > 1) {
-																		avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
-																	}else if(mossaCPU.getModificatore() < 1){
-																		avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+																/* il pokemon della CPU attacca */
+																pokemonCPU.usaMossa(pokemonCPU, pokemonUtente, mossaCPU);																																																			
+																mostraMessaggio(pokemonCPU.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());																																				
+			
+																/* Verifico se l'attacco della CPU è andato a segno */
+																if(mossaCPU.getColpito() == false) {
+																	timerTask(2000, () -> {
+																	mostraMessaggio(pokemonUtente.getNome() +  " evita l'attacco"); 
+																	next.setEnabled(true);	       		
+																	});
+																	return; /* esce dal ciclo se la l'utente evita l'attacco */
+																
+																} else {
+																	/* Controllo se la mossa usata ha un effetto di tipo stato */
+																	if(!mossaCPU.getEffetto().equals("")) {
+																		timerTask(2000, () -> mostraMessaggio(pokemonCPU.getNome() + " " + mossaCPU.getEffetto()));		                                        		
+																	
+																	} else {													
+																		/* Timer per mostrare l'efficacia dell'attacco */
+																		if(mossaCPU.getModificatore() > 1) {
+																			timerTask(2000, () -> mostraMessaggio("è superefficace"));
+																		}else if(mossaCPU.getModificatore() < 1){
+																			timerTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+																		}
 																	}
-																}
-															
-																/* Controllo KO utente dopo il contrattacco della CPU */
-																if (attaccante.esausto()) {
-																	
-																	/* Aggiorna la healthBar dell'utente */
-																	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());                                      
-																	/* Aggiorna l'esperienza del pokemon della CPU */
-																	difensore.setXp(difensore.getXp() + attaccante.getLivello()+5);
-																	
-																	/* Nasconde i pulsanti delle mosse */
-																	for(JButton pulsante : pulsantiMosse) {
-																		pulsante.setVisible(false);
-																	}
-		
-																	panelAreaMosse.setVisible(false);
-																	next.setEnabled(false);
-																	
-																	/* Timer per far vedere il messaggio di esaustione */
-																	Timer timerEsaustoDif = new Timer(3000, new ActionListener() {
-																		@Override
-																		public void actionPerformed(ActionEvent e) {
-																			mostraMessaggio(attaccante.getNome() + " è esausto!");
+																
+																	/* Controllo KO utente dopo il contrattacco della CPU */
+																	if (pokemonUtente.esausto()) {
+																		
+																		/* Aggiorna la healthBar dell'utente */
+																		aggiornaHealthBar(healthBarUtente, (int) pokemonUtente.getHp(), (int) pokemonUtente.getHpMax());                                      
+																		/* Aggiorna l'esperienza del pokemon della CPU */
+																		pokemonCPU.setXp(pokemonCPU.getXp() + pokemonUtente.getLivello()+5);
+																		
+																		/* Nasconde i pulsanti delle mosse */
+																		for(JButton pulsante : pulsantiMosse) {
+																			pulsante.setVisible(false);
+																		}
+			
+																		panelAreaMosse.setVisible(false);
+																		next.setEnabled(false);
+																		
+																		/* Timer per far vedere il messaggio di esaustione */																		
+																		timerTask(3000, () -> {
+																			mostraMessaggio(pokemonUtente.getNome() + " è esausto!");
 																			cambiaPokemonUtente(); 
 																			for (JButton pulsante : pulsantiMosse) {
 																				pulsante.setEnabled(true);
-																			}
-																		}
-																	});
+																			}																				
+																		});																																																																																													
+																		
+																		/* Controllo se il pokemon è salito di livello */
+																		if(pokemonCPU.saliDiLivello()) {
+																			timerTask(4000, () -> {
+																			mostraMessaggio(pokemonCPU.getNome() + " avversario " + "è salito di livello, ora è al " + pokemonCPU.getLivello()); 
+																			livelloPokemonCPU.setText("Liv " + pokemonCPU.getLivello());				                                                
+																			});
+																		}			                                        	
+																		return;
 																	
-																	timerEsaustoDif.setRepeats(false); /* Il timer scatta solo una volta */
-																	timerEsaustoDif.start();	
-																	
-																	/* Controllo se il pokemon è salito di livello */
-																	if(difensore.saliDiLivello()) {
-																		avviaTimerDoubleTask(4000, () -> mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello()), () -> livelloPokemonDif.setText("Liv " + difensore.getLivello()));				                                                
-																	}			                                        	
-																	return;
-																
-																}else {
-																	/* Aggiorna la healthBar dell'utente */
-																	aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-																	/* Abilita il pulsante next */
-																	avviaTimerSingleTask(4000, () -> next.setEnabled(true));			                                        	
-																}			                                    		
-															}			                                        		                                        
+																	}else {
+																		/* Aggiorna la healthBar dell'utente */
+																		aggiornaHealthBar(healthBarUtente, (int) pokemonUtente.getHp(), (int) pokemonUtente.getHpMax());
+																		/* Abilita il pulsante next */
+																		timerTask(4000, () -> next.setEnabled(true));			                                        	
+																	}			                                    		
+																}
+															}																																														                                        		                                        
 														});
 													}
 												}); 
@@ -500,92 +513,85 @@ public class CampoDiBattaglia extends JPanel{
 											/* Se la CPU è più veloce, attacca per prima */
 											next.setEnabled(false);
 											
-											int indiceMossaCPU = attaccoCasuale(); /* Salva l'indice della mossa */
-																						
-											Mossa mossaCPU = listaMosseCPU.get(indiceMossaCPU); /* Recupera la mossa scelta */
+											int indiceMossaCPU = attaccoCasuale(); // Salva l'indice della mossa				
+											mossaCPU = listaMosseCPU.get(indiceMossaCPU); // Recupera la mossa scelta
+											System.out.println(mossaCPU.getPP());
 											
-											/* Verifico se la mossa scelta dalla CPU non ha esaurito i PP, altrimenti ne seleziona un'altra casuale */
+											/* Verifico se la mossa selezionata ha ancora dei PP e può essere utilizzata regoalarmente */
 											if(mossaCPU.noPP()) {
-												indiceMossaCPU = attaccoCasuale();
-												mossaCPU = listaMosseCPU.get(indiceMossaCPU);
-											}
-																							
-											difensore.usaMossa(attaccante, mossaCPU);																						
-											
-											mostraMessaggio(difensore.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
-											
-											/* Verifico se l'attacco della CPU è andato a segno */
-											if(mossaCPU.getColpito() == false) {
-												avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() +  " evita l'attacco"));                               	
-											
-											} else {                            		
-												/* Controllo se la mossa usata ha un effetto di tipo stato */
-												if(!mossaCPU.getEffetto().equals("")) {
-													avviaTimerSingleTask(2000, () -> mostraMessaggio(difensore.getNome() + " " + mossaCPU.getEffetto()));		                                        		
+												mossaNoPP();
+											} else {
+												/* il Pokemon della CPU attacca*/
+												pokemonCPU.usaMossa(pokemonCPU, pokemonUtente, mossaCPU);										
+												mostraMessaggio(pokemonCPU.getNome() + " avversario " + " usa " + mossaCPU.getNomeMossa());
 												
-												} else {                                   		
-														/* Timer per mostrare l'efficacia dell'attacco */
-														if(mossaCPU.getModificatore() > 1) {
-															avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
-														}else if(mossaCPU.getModificatore() < 1){
-															avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
-														}
-												}
-											
-													/* Controllo se l'utente è KO dopo l'attacco della CPU */
-													if (attaccante.esausto()) {	                                        	
-														
-														/* Aggiorna la healthBar */
-														aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-														difensore.setXp(difensore.getXp() + attaccante.getLivello()+5); // Aggiorna l'esperienza del pokemon avversario
-														
-														/* Nasconde i pulsanti delle mosse */
-														for(JButton pulsante : pulsantiMosse) {
-															pulsante.setVisible(false);
-														}
-		
-														panelAreaMosse.setVisible(false);
-														next.setEnabled(false);	
-														
-														/* Timer per far vedere il messaggio di esaustione */
-														Timer timerEsaustoDif = new Timer(3000, new ActionListener() {
-															@Override
-															public void actionPerformed(ActionEvent e) {
-																mostraMessaggio(attaccante.getNome() + " è esausto!");
+												/* Verifico se l'attacco della CPU è andato a segno */
+												if(mossaCPU.getColpito() == false) {
+													timerTask(2000, () -> mostraMessaggio(pokemonUtente.getNome() +  " evita l'attacco"));                               	
+												
+												} else {                            		
+													/* Controllo se la mossa usata ha un effetto di tipo stato */
+													if(!mossaCPU.getEffetto().equals("")) {
+														timerTask(2000, () -> mostraMessaggio(pokemonCPU.getNome() + " " + mossaCPU.getEffetto()));		                                        		
+													
+													} else {                                   		
+															/* Timer per mostrare l'efficacia dell'attacco */
+															if(mossaCPU.getModificatore() > 1) {
+																timerTask(2000, () -> mostraMessaggio("è superefficace"));
+															}else if(mossaCPU.getModificatore() < 1){
+																timerTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+															}
+													}
+												
+														/* Controllo se l'utente è KO dopo l'attacco della CPU */
+														if (pokemonUtente.esausto()) {	                                        	
+															
+															/* Aggiorna la healthBar */
+															aggiornaHealthBar(healthBarUtente, (int) pokemonUtente.getHp(), (int) pokemonUtente.getHpMax());
+															pokemonCPU.setXp(pokemonCPU.getXp() + pokemonUtente.getLivello()+5); // Aggiorna l'esperienza del pokemon avversario
+															
+															/* Nasconde i pulsanti delle mosse */
+															for(JButton pulsante : pulsantiMosse) {
+																pulsante.setVisible(false);
+															}
+			
+															panelAreaMosse.setVisible(false);
+															next.setEnabled(false);	
+															
+															/* Timer per far vedere il messaggio di esaustione */																															
+															timerTask(3000, () -> {
+																mostraMessaggio(pokemonUtente.getNome() + " è esausto!");
 																cambiaPokemonUtente();
 																for (JButton pulsante : pulsantiMosse) {
 																	pulsante.setEnabled(true);
 																}
-															}
-														});
-														
-														timerEsaustoDif.setRepeats(false); /* Il timer scatta solo una volta */
-														timerEsaustoDif.start();
-		
-															
-		
+															});																	
+																																																													
 															/* Controllo se il pokemon avversario è salito di livello */
-															if(difensore.saliDiLivello()) {
-																avviaTimerDoubleTask(4000, () -> mostraMessaggio(difensore.getNome() + " avversario " + "è salito di livello, ora è al " + difensore.getLivello()), () -> livelloPokemonDif.setText("Liv " + difensore.getLivello()));	    	                                            
+															if(pokemonCPU.saliDiLivello()) {
+																timerTask(4000, () -> {
+																mostraMessaggio(pokemonCPU.getNome() + " avversario " + "è salito di livello, ora è al " + pokemonCPU.getLivello()); livelloPokemonCPU.setText("Liv " + pokemonCPU.getLivello());	    	                                            
+																});
 															}
 															return;
-													
-													} else {
-														/* Aggiorna la healthBar dell'utente */
-														aggiornaHealthBar(healthBarAtt, (int) attaccante.getHp(), (int) attaccante.getHpMax());
-														/* Abilita il pulsante next */
-														avviaTimerSingleTask(3000, () -> next.setEnabled(true));                               	
-													}	                                		
-												}                                                                                                                                     
-											
-												/* Dopo un piccolo ritardo, attacca il giocatore */
+														
+														} else {
+															/* Aggiorna la healthBar dell'utente */
+															aggiornaHealthBar(healthBarUtente, (int) pokemonUtente.getHp(), (int) pokemonUtente.getHpMax());
+															/* Abilita il pulsante next */
+															timerTask(3000, () -> next.setEnabled(true));                               	
+														}	                                		
+													}
+											}
+																					                                                                                                                                  
+										     	/* Dopo un piccolo ritardo, attacca il giocatore */
 												Timer timer = new Timer(4000, new ActionListener() {
 												@Override
 												public void actionPerformed(ActionEvent e) {
 													SwingUtilities.invokeLater(() -> {
 														
 														/* il pokemon dell'utente attacca */
-														attaccante.usaMossa(difensore, listaMosseUtente.get(index));
+														pokemonUtente.usaMossa(pokemonCPU, pokemonUtente, listaMosseUtente.get(index));
 														
 														/* Verifico se la mossa non ha esaurito i PP */
 														if(listaMosseUtente.get(index).noPP()) {
@@ -598,51 +604,60 @@ public class CampoDiBattaglia extends JPanel{
 															return;
 														}
 														
-														mostraMessaggio(attaccante.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());			                                													
+														mostraMessaggio(pokemonUtente.getNome() + " usa " + listaMosseUtente.get(index).getNomeMossa());			                                													
 		
 														/* Verifico se l'attacco è andato a segno */
 														if(listaMosseUtente.get(index).getColpito() == false) {
-															avviaTimerDoubleTask(2000, () -> mostraMessaggio(difensore.getNome() +  " evita l'attacco"), () -> next.setEnabled(true));			                                		
+															timerTask(2000, () -> {
+															mostraMessaggio(pokemonCPU.getNome() +  " evita l'attacco"); next.setEnabled(true);			                                		
+															});
+															
 															return; /* esce dal ciclo se il pokemon avversario evita l'attacco */
 														
 														} else {
 															
 															/* Controllo se la mossa usata ha un effetto di tipo stato */
 															if(!listaMosseUtente.get(index).getEffetto().equals("")) {
-																avviaTimerSingleTask(2000, () -> mostraMessaggio(attaccante.getNome() + " " + listaMosseUtente.get(index).getEffetto()));
+																timerTask(2000, () -> mostraMessaggio(pokemonUtente.getNome() + " " + listaMosseUtente.get(index).getEffetto()));
 																
 															} else {			                                    	
 																/* Timer per mostrare l'efficacia dell'attacco */
 																if(listaMosseUtente.get(index).getModificatore() > 1) {
-																	avviaTimerSingleTask(2000, () -> mostraMessaggio("è superefficace"));
+																	timerTask(2000, () -> mostraMessaggio("è superefficace"));
 																}else if(listaMosseUtente.get(index).getModificatore() < 1){
-																	avviaTimerSingleTask(2000, () -> mostraMessaggio("non è molto efficace..."));
+																	timerTask(2000, () -> mostraMessaggio("non è molto efficace..."));
 																}
 															
 															}                                                                  		
 														
 															/* Controllo KO CPU */
-															if (difensore.esausto()) {
+															if (pokemonCPU.esausto()) {
 																
 																/* Aggiorna la healthBar del pokemon della CPU */
-																aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+																aggiornaHealthBar(healthBarCPU, (int) pokemonCPU.getHp(), (int) pokemonCPU.getHpMax());
 																/* Aggiorna l'esperienza del pokemon dell'utente */
-																attaccante.setXp(attaccante.getXp() + difensore.getLivello()+5);
+																pokemonUtente.setXp(pokemonUtente.getXp() + pokemonCPU.getLivello()+5);
 																
 																/* Mostra il messaggio di KO */
-																avviaTimerDoubleTask(3000, () -> mostraMessaggio(difensore.getNome() + " avversario " + " è esausto!"), () -> next.setEnabled(true));
+																timerTask(3000, () -> {
+																	mostraMessaggio(pokemonCPU.getNome() + " avversario " + " è esausto!"); next.setEnabled(true);
+																});
 																
 																	/* Controllo se il pokemon è salito di livello */
-																	if(attaccante.saliDiLivello()) {
-																		avviaTimerDoubleTask(4000, () -> mostraMessaggio(attaccante.getNome() + " è salito di livello, ora è al " + attaccante.getLivello()), () -> livelloPokemonAtt.setText("Liv " + attaccante.getLivello()));				                                                
+																	if(pokemonUtente.saliDiLivello()) {
+																		timerTask(4000, () -> {																	
+																		mostraMessaggio(pokemonUtente.getNome() + " è salito di livello, ora è al " + pokemonUtente.getLivello()); 
+																		livelloPokemonUtente.setText("Liv " + pokemonUtente.getLivello());	
+																		});
+																	
 																	}
 																	return;
 															
 															}else {			                                        	
 																/* Aggiorna la healthBar */
-																aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
+																aggiornaHealthBar(healthBarCPU, (int) pokemonCPU.getHp(), (int) pokemonCPU.getHpMax());
 																// Abilita il pulsante next
-																avviaTimerSingleTask(4000, () -> next.setEnabled(true));                                     	
+																timerTask(4000, () -> next.setEnabled(true));                                     	
 															}			                                	
 														}  		                                        
 													});
@@ -674,7 +689,7 @@ public class CampoDiBattaglia extends JPanel{
 					next.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							if(difensore.esausto()) {
+							if(pokemonCPU.esausto()) {
 								for (JButton pulsante : pulsantiMosse) {
 									pulsante.setEnabled(false);
 								}
@@ -828,23 +843,23 @@ private JButton creaPulsanteMossa() {
  */
 public void cambiaPokemonCPU() {
 	serieVittorie++; /* Aumenta il contatore delle vittorie */
-	if (!pokemonCPU.isEmpty()) { 
+	if (!listaPokemonCPU.isEmpty()) { 
 		int startIndex = indicePokemonCPU; /* Salva l'indice di partenza */
 
 		do {
 			/* Passa al Pokémon successivo, ciclando la lista */
-			indicePokemonCPU = (indicePokemonCPU + 1) % pokemonCPU.size();
+			indicePokemonCPU = (indicePokemonCPU + 1) % listaPokemonCPU.size();
 			
 			/* Se il Pokémon non è esausto, lo manda in campo */
-			if (!pokemonCPU.get(indicePokemonCPU).esausto()) {
-				difensore = pokemonCPU.get(indicePokemonCPU);
-				listaMosseCPU = difensore.getMosse();
-				mostraMessaggio("La CPU manda in campo " + difensore.getNome());
+			if (!listaPokemonCPU.get(indicePokemonCPU).esausto()) {
+				pokemonCPU = listaPokemonCPU.get(indicePokemonCPU);
+				listaMosseCPU = pokemonCPU.getMosse();
+				mostraMessaggio("La CPU manda in campo " + pokemonCPU.getNome());
 
 				/* Aggiorna l'interfaccia grafica */
-				aggiornaHealthBar(healthBarDif, (int) difensore.getHp(), (int) difensore.getHpMax());
-				labelPokemonDif.setText(difensore.getNome());
-				livelloPokemonDif.setText("Liv " + difensore.getLivello());
+				aggiornaHealthBar(healthBarCPU, (int) pokemonCPU.getHp(), (int) pokemonCPU.getHpMax());
+				labelPokemonCPU.setText(pokemonCPU.getNome());
+				livelloPokemonCPU.setText("Liv " + pokemonCPU.getLivello());
 				return; /* Esce dalla funzione dopo aver trovato un Pokémon valido */
 			}
 
@@ -864,7 +879,7 @@ public void cambiaPokemonCPU() {
 		boolean pikachuPresente = false;
 	
 		/* Controlliamo quali Pokémon sono già presenti nella lista */
-		for (Pokemon p : pokemonCPU) {
+		for (Pokemon p : listaPokemonCPU) {
 			if (p.getNome().equals(pidgey.getNome())) {
 				pidgeyPresente = true;
 			}
@@ -875,12 +890,12 @@ public void cambiaPokemonCPU() {
 
 		/* Prima aggiungiamo Pidgey se non è presente */
 		if (!pidgeyPresente) {
-			pokemonCPU.add(pidgey);
+			listaPokemonCPU.add(pidgey);
 		} 
 		
 		/* Pikachu viene aggiunto solo **nella lotta successiva**, se Pidgey è già presente */
 		else if (!pikachuPresente) {
-			pokemonCPU.add(pikachu);
+			listaPokemonCPU.add(pikachu);
 		}
 		
 		/* Aumenta il livello della squadra CPU */
@@ -972,7 +987,7 @@ public void cambiaPokemonCPU() {
         int x = 20;
         int y = 10;          
         
-        for (Pokemon i : pokemonUtente) {
+        for (Pokemon i : listaPokemonUtente) {
         	JButton pokemonButton = new JButton(i.getNome());
             pokemonButton.setForeground(Color.WHITE);
             pokemonButton.setBackground(Color.ORANGE);
@@ -988,7 +1003,7 @@ public void cambiaPokemonCPU() {
             chiudiButton.setBounds(250, 230, 120, 50);
             chiudiButton.setVisible(true);
             
-            if(attaccante.esausto()) chiudiButton.setEnabled(false);
+            if(pokemonUtente.esausto()) chiudiButton.setEnabled(false);
             
             chiudiButton.addActionListener(new ActionListener() {
                 @Override
@@ -1005,7 +1020,7 @@ public void cambiaPokemonCPU() {
 
             panelCambiaPokemon.add(chiudiButton);
             
-            if (i.equals(attaccante) || i.esausto()) {
+            if (i.equals(pokemonUtente) || i.esausto()) {
                 pokemonButton.setEnabled(false);
             } else {
             	pokemonButton.setEnabled(true);
@@ -1028,10 +1043,10 @@ public void cambiaPokemonCPU() {
 					buttonCambiaPokemon.setEnabled(true);
 					borsa.setEnabled(true);
                 	
-                	attaccante = i;
-                    labelPokemonAtt.setText(i.getNome());
+					pokemonUtente = i;
+                    labelPokemonUtente.setText(i.getNome());
                     listaMosseUtente = i.getMosse();
-                    livelloPokemonAtt.setText("Liv " + i.getLivello());
+                    livelloPokemonUtente.setText("Liv " + i.getLivello());
 
                     /* Crea i nuovi pulsanti delle mosse */
                     for (Mossa m : listaMosseUtente) {
@@ -1041,7 +1056,7 @@ public void cambiaPokemonCPU() {
                     }
                      
                     mostraMessaggio("Coraggio " + i.getNome() + " SCELGO TE!");
-                    aggiornaHealthBar(healthBarAtt, (int) i.getHp(), (int) i.getHpMax());
+                    aggiornaHealthBar(healthBarUtente, (int) i.getHp(), (int) i.getHpMax());
                     
                     aggiornaStatoPulsanti(); 
                     
@@ -1054,12 +1069,12 @@ public void cambiaPokemonCPU() {
             y += 55; /* Sposta i pulsanti in basso */
             
 			/* Verifico se tutti i pokemon dell'utente sono esausti */
-            if (pokemonUtente.stream().allMatch(Pokemon::esausto)) {
+            if (listaPokemonUtente.stream().allMatch(Pokemon::esausto)) {
 				mostraMessaggio("Tutti i tuoi Pokémon sono esausti.");
                 next.setEnabled(false);
                 chiudiButton.setEnabled(false);
                 
-				for(Pokemon pokemon:pokemonCPU){
+				for(Pokemon pokemon:listaPokemonCPU){
 					pokemon.setHp(pokemon.getHpMax());
 					for(Mossa mossa:pokemon.getMosse()){
 						mossa.setPP(mossa.getPPmax());
@@ -1154,26 +1169,11 @@ public void cambiaPokemonCPU() {
 	 * @param delay; ritardo impostato
 	 * @param task; task da eseguire 
 	 */
-	private void avviaTimerSingleTask(int delay, Runnable task) {
+	private void timerTask(int delay, Runnable task) {
         Timer timer = new Timer(delay, e -> task.run());
         timer.setRepeats(false);
         timer.start();
     }
-	
-	/**
-	 * Metodo per far partire due timer con due compiti da svolgere dopo un certo ritardo
-	 * @param delay; il ritardo impostato
-	 * @param task; la prima task da eseguire
-	 * @param task2; la seconda task da eseguire
-	 */
-	private void avviaTimerDoubleTask(int delay, Runnable task, Runnable task2){
-		Timer timer = new Timer(delay, e -> task.run());
-		timer.setRepeats(false);
-		timer.start();
-		Timer timer2 = new Timer(delay, e -> task2.run());
-		timer2.setRepeats(false);
-		timer2.start();
-	}
     
 	/**
 	 * Metodo per far attaccare il pokemon della CPU con una mossa a scelta tra quelle disponibili
@@ -1191,7 +1191,7 @@ public void cambiaPokemonCPU() {
     
     public int pokemonCasuale() {
     	Random interoCasuale = new Random(); 
-		return interoCasuale.nextInt(pokemonCPU.size());
+		return interoCasuale.nextInt(listaPokemonCPU.size());
 	}
     
     /**
@@ -1225,9 +1225,9 @@ public void cambiaPokemonCPU() {
         for (Component c : panelCambiaPokemon.getComponents()) {
             if (c instanceof JButton) {
                 JButton btn = (JButton) c;
-                for (Pokemon p : pokemonUtente) {
+                for (Pokemon p : listaPokemonUtente) {
                     if (btn.getText().equals(p.getNome())) {
-                        btn.setEnabled(!(p.equals(attaccante) || p.esausto()));
+                        btn.setEnabled(!(p.equals(pokemonUtente) || p.esausto()));
                     }
                 }
             }
@@ -1240,7 +1240,7 @@ public void cambiaPokemonCPU() {
      */
     
     public void aumentaLivelloCPU() { 
-    	for (Pokemon p : pokemonCPU) {
+    	for (Pokemon p : listaPokemonCPU) {
     		p.setLivello(p.getLivello()+1);
     		p.setAttacco(p.getAttacco()+3);
     		p.setDifesa(p.getDifesa()+3);
@@ -1252,5 +1252,59 @@ public void cambiaPokemonCPU() {
     		p.setHp(p.getHpMax());
     	}
     }
+    
+    /**
+     * Metodo per verificare se la CPU ha ancora delle mosse da poter utilizzare, altrimenti usa la mossa base SCONTRO
+     * 
+     */
+    public void mossaNoPP() {        
+        boolean tutteLeMosseEsaurite = true;
+
+        // Cerca una nuova mossa con PP disponibili
+        for (Mossa mossa : listaMosseCPU) {
+            if (!mossa.noPP()) {
+                tutteLeMosseEsaurite = false; 
+                pokemonCPU.usaMossa(pokemonUtente, pokemonCPU, mossa); // Se trovo la mossa, il pokemon usa quella 
+                timerTask(2000, () -> {               	
+                mostraMessaggio(pokemonCPU.getNome() + " avversario" + " usa " + mossa.getNomeMossa()); aggiornaHealthBar(healthBarUtente, (int)pokemonUtente.getHp(), (int)pokemonUtente.getHpMax());
+                });
+                
+                if(mossa.getColpito() == false) {
+                	timerTask(3000, () -> {              		
+                	mostraMessaggio(pokemonUtente.getNome() + " evita l'attacco");               	
+                	});
+                	return;
+                }else {
+                	// Verifico se la mossa ha un effetto di stato o meno
+                    if(!mossa.getEffetto().equals("")) {
+                    	timerTask(3000, () -> mostraMessaggio(pokemonCPU.getNome() + " avversario " + mossa.getEffetto()));		                                        						
+    				}else {
+    					if(mossa.getModificatore() > 1) {
+    						timerTask(3000, () -> mostraMessaggio("è superefficace"));
+    					}else if(mossa.getModificatore() < 1){
+    						timerTask(3000, () -> mostraMessaggio("non è molto efficace..."));
+    					}
+    				}                                                                                
+                    break; // Trovata la mossa, esce dal ciclo
+                }                               
+            }
+        }
+         
+        // Se non ha trovato alcuna mossa con PP, usa Scontro
+        if (tutteLeMosseEsaurite) {
+        	mostraMessaggio("L'avversario ha esaurito tutte le mosse!");           
+
+        	timerTask(2000, () -> {
+            mostraMessaggio(pokemonCPU.getNome() + " usa " + scontro.getNomeMossa()); pokemonCPU.usaMossa(pokemonUtente, pokemonCPU, scontro); aggiornaHealthBar(healthBarUtente, (int)pokemonUtente.getHp(), (int)pokemonUtente.getHpMax());
+            });            
+        	timerTask(3000, () -> {
+                int dannoContraccolpo = (int) (pokemonCPU.getHp() / 4); // Contraccolpo del 25% degli HP massimi
+                pokemonCPU.setHp(pokemonCPU.getHp() - dannoContraccolpo);
+                mostraMessaggio(pokemonCPU.getNome() + " subisce " + dannoContraccolpo + " danni dal contraccolpo!");                
+            });    
+        }
+    }
+
+
 }
 

@@ -16,21 +16,20 @@ public class Pidgey extends Pokemon {
      */
     
 	public Pidgey() {
-        super("005", // codice
-              0, // codice tipo (Normale)
-              9, // codice secondo tipo (Volante)
-              "Pidgey", // nome
-              0, // XP attuali
-              1, // livello
-              40, // HP attuali
-              40, // HP massimi
-              45, // attacco
-              40, // difesa
-              35, // attacco speciale
-              35, // difesa speciale
-              56, // velocità
-              30); // elusione
-
+        super("005", 		// codice
+              0, 			// codice tipo (Normale)
+              9, 			// codice secondo tipo (Volante)
+              "Pidgey", 	// nome
+              0, 			// XP attuali
+              1, 			// livello
+              40, 			// HP attuali
+              40, 			// HP massimi
+              45, 			// attacco
+              40, 			// difesa
+              35, 			// attacco speciale
+              35, 			// difesa speciale
+              56);			// velocità
+        		 
         // Creazione della lista di mosse del Pokémon
         List<Mossa> mosse = new ArrayList<>();
         

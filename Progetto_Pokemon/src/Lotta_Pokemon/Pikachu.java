@@ -31,10 +31,8 @@ public class Pikachu extends Pokemon {
 	        40,        /* difesa */
 	        50,        /* attacco speciale */
 	        50,        /* difesa speciale */    
-	        90,        /* velocità */
-	        30         /* elusione */
-	    );
-	    
+	        90);       /* velocità */	                
+    			    
 	    // Creazione delle mosse e aggiunta alla lista
 	    List<Mossa> mosse = new ArrayList<>();
 	    
