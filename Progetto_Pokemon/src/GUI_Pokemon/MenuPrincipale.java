@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
  * Il menu permette di avviare una nuova lotta o uscire dal gioco.
  */
 public class MenuPrincipale extends JPanel {
-
+    
     /** Bottone per avviare la partita */
     private JButton buttonStart;
 
@@ -45,10 +45,12 @@ public class MenuPrincipale extends JPanel {
 
     /**
      * Costruttore della classe {@code MenuPrincipale}.
-     * Inizializza i componenti grafici del menu principale e avvia la musica di
-     * sottofondo.
+     * 
+     * @param frameMenuPrincipale Il frame che contiene il menu principale.
      */
     public MenuPrincipale() {
+
+        // Imposta il layout del pannello
         setLayout(null);
 
         // Audio
@@ -136,17 +138,13 @@ public class MenuPrincipale extends JPanel {
                 labelBenvenuto.setFont(new Font("Times New Roman", Font.PLAIN, height / 15));
 
                 // Riposiziona e ridimensiona il campo di testo di benvenuto
-                fieldBenvenuto.setBounds(labelBenvenutoX - 10, labelBenvenutoY - 10, labelBenvenutoWidth + 20,
-                        labelBenvenutoHeight + 20);
+                fieldBenvenuto.setBounds(labelBenvenutoX - 10, labelBenvenutoY - 10, labelBenvenutoWidth + 20, labelBenvenutoHeight + 20);
             }
         });
 
         buttonStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buttonEsc.setEnabled(false);
-                buttonStart.setEnabled(false);
-
                 menuLotta = new JFrame("Menù di Lotta");
                 menuSceltaSquadra = new MenuSceltaSquadra(menuLotta, audioPlayer);
                 menuLotta.add(menuSceltaSquadra);
@@ -154,6 +152,7 @@ public class MenuPrincipale extends JPanel {
                 menuLotta.setLocationRelativeTo(null);
                 menuLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 menuLotta.setVisible(true);
+           
             }
         });
 

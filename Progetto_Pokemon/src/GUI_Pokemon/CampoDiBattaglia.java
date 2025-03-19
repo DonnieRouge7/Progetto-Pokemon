@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.List;
 import java.util.Random;
 import javax.swing.border.Border;
@@ -196,6 +198,8 @@ public class CampoDiBattaglia extends JPanel {
 
 		bordoHealthBar = new LineBorder(Color.BLACK); /* Bordo delle healthBar */
 
+		
+
 		/* Sfondo pannello */
 		java.net.URL imgURL = getClass().getClassLoader().getResource("assets/sfondoLotta.jpg");
 		sfondo = new ImageIcon(imgURL);
@@ -213,8 +217,6 @@ public class CampoDiBattaglia extends JPanel {
 		healthBarCPU.setBorder(bordoHealthBar);
 		healthBarCPU.setBackground(Color.WHITE);
 
-		healthBarCPU.setBounds(750, 110, 200, 20);
-
 		add(healthBarCPU);
 
 		/* HealthBar Utente */
@@ -226,15 +228,12 @@ public class CampoDiBattaglia extends JPanel {
 		healthBarUtente.setBorder(bordoHealthBar);
 		healthBarUtente.setBackground(Color.WHITE);
 
-		healthBarUtente.setBounds(30, 420, 200, 20);
-
 		add(healthBarUtente);
 
 		/* Pokemon utente */
 		areaPokemonUtente = new JPanel();
 		Border bordo = new LineBorder(Color.WHITE);
 		areaPokemonUtente.setBackground(Color.BLACK);
-		areaPokemonUtente.setBounds(30, 390, 200, 30);
 		areaPokemonUtente.setBorder(bordo);
 
 		labelPokemonUtente = new JLabel(pokemonUtente.getNome());
@@ -251,7 +250,6 @@ public class CampoDiBattaglia extends JPanel {
 		areaPokemonCPU = new JPanel();
 		Border bordo2 = new LineBorder(Color.WHITE);
 		areaPokemonCPU.setBackground(Color.BLACK);
-		areaPokemonCPU.setBounds(750, 80, 200, 30);
 		areaPokemonCPU.setBorder(bordo2);
 
 		labelPokemonCPU = new JLabel(pokemonCPU.getNome());
@@ -267,7 +265,6 @@ public class CampoDiBattaglia extends JPanel {
 		/* Area messaggi durante la lotta */
 		areaMessaggi = new JPanel();
 		areaMessaggi.setBackground(Color.BLACK);
-		areaMessaggi.setBounds(570, 450, 400, 100);
 		areaMessaggi.setBorder(new LineBorder(Color.WHITE, 3));
 		areaMessaggi.setLayout(null);
 
@@ -275,11 +272,10 @@ public class CampoDiBattaglia extends JPanel {
 		testoMessaggi = new JTextArea();
 		testoMessaggi.setEditable(false); /* L'utente non può scrivere */
 		testoMessaggi.setWrapStyleWord(true); /* Mantiene parole intere quando va a capo */
-		testoMessaggi.setBackground(Color.BLACK);
+		testoMessaggi.setBackground(Color.YELLOW);
 		testoMessaggi.setForeground(Color.WHITE);
 		testoMessaggi.setFont(new Font("Arial", Font.BOLD, 12));
 		testoMessaggi.setText("INIZIA LA LOTTA!");
-		testoMessaggi.setBounds(80, 40, 300, 30);
 
 		areaMessaggi.add(testoMessaggi);
 		add(areaMessaggi);
@@ -740,7 +736,6 @@ public class CampoDiBattaglia extends JPanel {
 		next.setBorder(bordoNext);
 		next.setForeground(Color.WHITE);
 		next.setBackground(Color.GRAY);
-		next.setBounds(340, 70, 50, 20);
 
 		next.addActionListener(new ActionListener() {
 			@Override
@@ -867,6 +862,92 @@ public class CampoDiBattaglia extends JPanel {
 		frameLeaderboard.add(panelLeaderboard);
 
 		add(panelAreaMosse);
+
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				int width = getWidth();
+				int height = getHeight();
+		
+				// Ridimensiona e riposiziona lo sfondo
+				Image sfondoScalato = sfondo.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+				labelSfondo.setIcon(new ImageIcon(sfondoScalato));
+				labelSfondo.setBounds(0, 0, width, height);
+		
+				// Riposiziona la barra della salute della CPU
+				int healthBarCPUWidth = width / 5;
+				int healthBarCPUHeight = height / 20;
+				int healthBarCPUX = (width - healthBarCPUWidth) - 50;
+				int healthBarCPUY = (height/6) - healthBarCPUHeight - 5;
+				healthBarCPU.setBounds(healthBarCPUX, healthBarCPUY, healthBarCPUWidth, healthBarCPUHeight);
+				
+				// Riposiziona la barra della salute dell'utente
+				int healthBarUtenteWidth = width / 5;
+				int healthBarUtenteHeight = height / 20;
+				int healthBarUtenteX = (width/4) - healthBarUtenteWidth;
+				int healthBarUtenteY = (height - healthBarUtenteHeight) - 45;
+				healthBarUtente.setBounds(healthBarUtenteX, healthBarUtenteY, healthBarUtenteWidth, healthBarUtenteHeight);
+		
+				// Riposiziona l'area del Pokémon della CPU
+				int areaPokemonCPUWidth = width / 5;
+				int areaPokemonCPUHeight = height / 20;
+				int areaPokemonCPUX = (width - areaPokemonCPUWidth) - 50;
+				int areaPokemonCPUY = (height / 6) - areaPokemonCPUHeight - 40;
+				labelPokemonCPU.setFont(new Font("Arial", Font.BOLD, height / 40));
+				labelPokemonCPU.setBounds(10, 10, areaPokemonCPUWidth - 20, areaPokemonCPUHeight - 20);
+				livelloPokemonCPU.setFont(new Font("Arial", Font.BOLD, height / 40));
+				livelloPokemonCPU.setBounds(10, 30, areaPokemonCPUWidth - 20, areaPokemonCPUHeight - 20);
+				areaPokemonCPU.setBounds(areaPokemonCPUX, areaPokemonCPUY, areaPokemonCPUWidth, areaPokemonCPUHeight);
+				
+				// Riposiziona l'area del Pokémon dell'utente
+				int areaPokemonUtenteWidth = width / 5;
+				int areaPokemonUtenteHeight = height / 20;
+				int areaPokemonUtenteX = (width / 4) - areaPokemonUtenteWidth;
+				int areaPokemonUtenteY = (height - areaPokemonUtenteHeight) - 80;
+				labelPokemonUtente.setFont(new Font("Arial", Font.BOLD, height / 40));
+				labelPokemonUtente.setBounds(10, 10, areaPokemonUtenteWidth - 20, areaPokemonUtenteHeight - 20);
+				livelloPokemonUtente.setFont(new Font("Arial", Font.BOLD, height / 40));
+				livelloPokemonUtente.setBounds(10, 30, areaPokemonUtenteWidth - 20, areaPokemonUtenteHeight - 20);
+				areaPokemonUtente.setBounds(areaPokemonUtenteX, areaPokemonUtenteY, areaPokemonUtenteWidth, areaPokemonUtenteHeight);
+
+				// Riposiziona l'area dei messaggi
+				int areaMessaggiWidth = width / 3;
+				int areaMessaggiHeight = height / 6;
+				int areaMessaggiX = (width - areaMessaggiWidth) - 20;
+				int areaMessaggiY = (height - areaMessaggiHeight) - 10;
+				areaMessaggi.setBounds(areaMessaggiX, areaMessaggiY, areaMessaggiWidth, areaMessaggiHeight);
+				
+				// Riposizione il testo dei messaggi
+				int testoMessaggiWidth = (int) (areaMessaggiWidth / 1.2);
+				int testoMessaggiHeight = (int )(areaMessaggiHeight / 1.5);
+				int testoMessaggiX = (areaMessaggiWidth - testoMessaggiWidth) - 30;
+				int testoMessaggiY = (areaMessaggiHeight - testoMessaggiHeight) - 10;
+				testoMessaggi.setBounds(testoMessaggiX, testoMessaggiY, testoMessaggiWidth, testoMessaggiHeight);
+				testoMessaggi.setFont(new Font("Arial", Font.BOLD, height / 40));
+				
+				// Riposiziona il pulsante next
+				int nextWidth = areaMessaggiWidth / 5;
+				int nextHeight = areaMessaggiHeight / 5;
+				int nextX = (areaMessaggiWidth - nextWidth) - 20;
+				int nextY = (areaMessaggiHeight - nextHeight) - 10;
+				next.setBounds(nextX, nextY, nextWidth, nextHeight);
+				next.setFont(getFont().deriveFont(Font.BOLD, height / 5));
+			
+				// Riposiziona il pannello delle mosse
+				panelAreaMosse.setBounds(20, height - 550, width - 550, 200);
+		
+				// Riposiziona il pannello per cambiare Pokémon
+				panelCambiaPokemon.setBounds(20, height - 300, width - 40, 200);
+		
+				// Riposiziona i pulsanti
+				borsa.setBounds(width - 180, height - 150, 165, 50);
+				buttonCambiaPokemon.setBounds(15, height - 150, 160, 50);
+				buttonChiudi.setBounds(width / 2 - 50, height - 150, 100, 40);
+		
+				// Riposiziona la finestra della leaderboard
+				frameLeaderboard.setBounds(width / 2 - 100, height / 2 - 150, 200, 300);
+			}
+		});
 
 		setComponentZOrder(labelSfondo, getComponentCount() - 1);
 

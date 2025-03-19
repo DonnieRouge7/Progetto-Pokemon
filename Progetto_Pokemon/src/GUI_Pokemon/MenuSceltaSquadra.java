@@ -3,6 +3,8 @@ package GUI_Pokemon;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -178,6 +180,36 @@ public class MenuSceltaSquadra extends JPanel {
             }
         });
         
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e){
+                int width = getWidth();
+                int height = getHeight();
+                
+                // Ridimensiona e riposiziona l'etichetta
+                labelLotta.setBounds(0, 0, width, height / 10);
+                labelLotta.setFont(new Font("Arial", Font.PLAIN, height / 20));
+                
+                // Ridimensiona e riposiziona le checkbox
+                for (int i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].setBounds(width / 10, height / 10 + (i * height / 10), width / 5, height / 10);
+                    checkboxes[i].setFont(new Font("Arial", Font.PLAIN, height / 30));
+                }
+                
+                // Ridimensiona e riposiziona il pulsante di conferma
+                confirm.setBounds(width / 10, height / 10 * 6, width / 5, height / 10);
+                confirm.setFont(new Font("Arial", Font.PLAIN, height / 30));
+                
+                // Ridimensiona e riposiziona il pulsante Indietro
+                back.setBounds(width / 10 * 7, height / 10 * 6, width / 5, height / 10);
+                back.setFont(new Font("Arial", Font.PLAIN, height / 30));
+                
+                // Ridimensiona e riposiziona il pulsante ESC
+                ESC.setBounds(width / 10 * 7, height / 10 * 8, width / 5, height / 10);
+                ESC.setFont(new Font("Arial", Font.PLAIN, height / 30));
+            }
+        });
+
         // Layout dei componenti
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -200,7 +232,7 @@ public class MenuSceltaSquadra extends JPanel {
         gbc.anchor = GridBagConstraints.LINE_END;
         add(ESC, gbc);
     }
-    
+
     /**
      * Genera un numero intero casuale tra due valori dati.
      * 
@@ -213,4 +245,5 @@ public class MenuSceltaSquadra extends JPanel {
         Random interoCasuale = new Random(); 
         return interoCasuale.nextInt((b - a) + 1) + a;
     }
+
 }
