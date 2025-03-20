@@ -115,9 +115,9 @@ public class MenuPrincipale extends JPanel {
 
                 // Riposiziona e ridimensiona il bottone START
                 int buttonStartWidth = width / 5;
-                int buttonStartHeight = height / 10;
+                int buttonStartHeight = height / 7;
                 int buttonStartX = (width - buttonStartWidth) / 2;
-                int buttonStartY = (height / 2) - buttonStartHeight - 20;
+                int buttonStartY = (height / 2) - (buttonStartHeight / 2);
                 buttonStart.setBounds(buttonStartX, buttonStartY, buttonStartWidth, buttonStartHeight);
                 buttonStart.setFont(new Font("Arial", Font.PLAIN, height / 20));
 

@@ -18,9 +18,9 @@ import javax.swing.border.*;
 import Lotta_Pokemon.*;
 
 /**
- * Classe che rappresenta il menu di selezione della squadra Pokémon da parte dell'utente.
- * L'utente può scegliere tra diversi Pokémon e confermare la sua selezione per iniziare la lotta.
- */
+* Classe che rappresenta il menu di selezione della squadra Pokémon da parte dell'utente.
+* L'utente può scegliere tra diversi Pokémon e confermare la sua selezione per iniziare la lotta.
+*/
 public class MenuSceltaSquadra extends JPanel {
     
     /** Il frame della finestra del menu di lotta */
@@ -55,16 +55,16 @@ public class MenuSceltaSquadra extends JPanel {
     
     /** Pulsante per uscire dal gioco e azzerare la leaderboard */
     private JButton ESC;
-
+    
     /** Set per memorizzare l'ordine di selezione dei Pokémon */
     private Set<JCheckBox> ordineSelezione;
-
+    
     /**
-     * Costruttore della classe MenuSceltaSquadra.
-     * 
-     * @param frame il frame della finestra che contiene il menu
-     * @param audioPlayer il gestore della musica per controllare l'audio di sottofondo
-     */
+    * Costruttore della classe MenuSceltaSquadra.
+    * 
+    * @param frame il frame della finestra che contiene il menu
+    * @param audioPlayer il gestore della musica per controllare l'audio di sottofondo
+    */
     
     public MenuSceltaSquadra(JFrame frame, AudioPlayer audioPlayer) {
         
@@ -75,8 +75,8 @@ public class MenuSceltaSquadra extends JPanel {
         // Creazione della squadra della CPU
         List<Pokemon> pokemonCPU = new ArrayList<>();
         pokemonCPU.add(new Charmander());
-		pokemonCPU.add(new Squirtle());
-		pokemonCPU.add(new Bulbasaur());
+        pokemonCPU.add(new Squirtle());
+        pokemonCPU.add(new Bulbasaur());
         
         // Etichetta per la selezione della squadra
         labelLotta = new JLabel("Scegli i Pokémon con cui lottare:");
@@ -122,8 +122,8 @@ public class MenuSceltaSquadra extends JPanel {
         confirm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {                  
-            	
-            	if (!ordineSelezione.isEmpty()) {
+                
+                if (!ordineSelezione.isEmpty()) {
                     
                     // Creazione della squadra dell'utente
                     List<Pokemon> pokemonUtente = new ArrayList<>();
@@ -209,7 +209,7 @@ public class MenuSceltaSquadra extends JPanel {
                 ESC.setFont(new Font("Arial", Font.PLAIN, height / 30));
             }
         });
-
+        
         // Layout dei componenti
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -232,18 +232,18 @@ public class MenuSceltaSquadra extends JPanel {
         gbc.anchor = GridBagConstraints.LINE_END;
         add(ESC, gbc);
     }
-
+    
     /**
-     * Genera un numero intero casuale tra due valori dati.
-     * 
-     * @param a valore minimo
-     * @param b valore massimo
-     * @return un numero intero casuale tra a e b
-     */
+    * Genera un numero intero casuale tra due valori dati.
+    * 
+    * @param a valore minimo
+    * @param b valore massimo
+    * @return un numero intero casuale tra a e b
+    */
     
     public int generaInteroCasuale(int a, int b) {
         Random interoCasuale = new Random(); 
         return interoCasuale.nextInt((b - a) + 1) + a;
     }
-
+    
 }

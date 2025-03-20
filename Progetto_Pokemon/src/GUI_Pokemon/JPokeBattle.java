@@ -30,7 +30,7 @@ public class JPokeBattle extends JFrame {
 		add(menuPrincipale, BorderLayout.CENTER);
 
 		// Imposta dimensioni e posizione della finestra
-		setSize(800, 500);
+		setSize(1000, 600);
 		setLocationRelativeTo(null);
 
 		// Imposta l'operazione di chiusura
