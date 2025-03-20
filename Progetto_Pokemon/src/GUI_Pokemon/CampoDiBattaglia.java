@@ -311,12 +311,6 @@ public class CampoDiBattaglia extends JPanel {
 		mossa3 = creaPulsanteMossa();
 		mossa4 = creaPulsanteMossa();
 
-		/* Posizioni nei quattro angoli */
-		mossa1.setBounds(10, 30, 180, 60); // Alto sinistra
-		mossa2.setBounds(200, 30, 180, 60); // Alto destra
-		mossa3.setBounds(10, 110, 180, 60); // Basso sinistra
-		mossa4.setBounds(200, 110, 180, 60); // Basso destra
-
 		/* Array di pulsanti per le mosse */
 		JButton[] pulsantiMosse = { mossa1, mossa2, mossa3, mossa4 };
 
@@ -385,7 +379,6 @@ public class CampoDiBattaglia extends JPanel {
 								if (listaMosseUtente.get(index).getColpito() == false) {
 									timerTask(2000,
 											() -> mostraMessaggio(pokemonUtente.getNome() + " evita l'attacco"));
-									System.out.println("evita");
 								} else {
 									/* Controllo se la mossa usata ha un effetto di tipo stato */
 									if (!listaMosseUtente.get(index).getEffetto().equals("")) {
@@ -812,6 +805,71 @@ public class CampoDiBattaglia extends JPanel {
 			}
 		});
 
+		pokemonButtons = new ArrayList<JButton>();
+
+		Border bordoPokemonCambiati = new LineBorder(Color.BLACK, 3);
+		
+		for (Pokemon i : listaPokemonUtente) {
+
+			pokemonButton = new JButton(i.getNome());
+			pokemonButton.setForeground(Color.WHITE);
+			pokemonButton.setBackground(Color.ORANGE);
+			pokemonButton.setBorder(bordoPokemonCambiati);
+			pokemonButton.setVisible(true);
+			pokemonButton.setFont(new Font("Arial", Font.BOLD, 14));
+	
+				if (pokemonUtente.esausto())
+				chiudiButton.setEnabled(false);
+	
+				if (i.equals(pokemonUtente) || i.esausto()) {
+					pokemonButton.setEnabled(false);
+				} else {
+					pokemonButton.setEnabled(true);
+				}
+			
+			pokemonButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					panelCambiaPokemon.setVisible(false);
+
+					next.setEnabled(false);
+
+					borsa.setVisible(true);
+					mosse.setVisible(true);
+					panelAreaMosse.setVisible(true);
+					buttonCambiaPokemon.setVisible(true);
+					chiudiButton.setVisible(true);
+
+					buttonCambiaPokemon.setEnabled(true);
+					borsa.setEnabled(true);
+
+					pokemonUtente = i;
+					labelPokemonUtente.setText(i.getNome());
+					listaMosseUtente = i.getMosse();
+					livelloPokemonUtente.setText("Liv " + i.getLivello());
+
+					/* Crea i nuovi pulsanti delle mosse */
+					for (Mossa m : listaMosseUtente) {
+						JButton mossa = creaPulsanteMossa();
+						mossa.setText(m.getNomeMossa());
+						panelAreaMosse.add(mossa);
+					}
+
+					mostraMessaggio("Coraggio " + i.getNome() + " SCELGO TE!");
+					aggiornaHealthBar(healthBarUtente, (int) i.getHp(), (int) i.getHpMax());
+
+					aggiornaStatoPulsanti();
+
+					panelAreaMosse.revalidate();
+					panelAreaMosse.repaint();
+				}
+			});
+		
+		pokemonButtons.add(pokemonButton);
+		panelCambiaPokemon.add(pokemonButton);
+		}
+
 		panelAreaMosse.add(buttonCambiaPokemon);
 
 		chiudiButton = new JButton("Chiudi");
@@ -872,7 +930,6 @@ public class CampoDiBattaglia extends JPanel {
 
 		panelLeaderboard.add(buttonChiudiLeaderboard);
 		panelLeaderboard.add(leaderboard);
-
 		frameLeaderboard.add(panelLeaderboard);
 
 		add(panelAreaMosse);
@@ -981,8 +1038,7 @@ public class CampoDiBattaglia extends JPanel {
 				int buttonCambiaPokemonHeight = panelAreaMosseHeight / 5;
 				int buttonCambiaPokemonX = (panelAreaMosseWidth / 2) - buttonCambiaPokemonWidth + 13;
 				int buttonCambiaPokemonY = (panelAreaMosseHeight - buttonCambiaPokemonHeight) - 10;
-				buttonCambiaPokemon.setBounds(buttonCambiaPokemonX, buttonCambiaPokemonY, buttonCambiaPokemonWidth,
-						buttonCambiaPokemonHeight);
+				buttonCambiaPokemon.setBounds(buttonCambiaPokemonX, buttonCambiaPokemonY, buttonCambiaPokemonWidth, buttonCambiaPokemonHeight);
 				buttonCambiaPokemon.setFont(new Font("Arial", Font.BOLD, height / 30));
 
 				// Bottone chiudi
@@ -1030,8 +1086,8 @@ public class CampoDiBattaglia extends JPanel {
 				mossa4.setFont(new Font("Arial", Font.BOLD, height / 40));
 
 				// Pulsanti dei pokemon sostituibili
-				int pokemonButtonWidth = panelCambiaPokemonWidth / 3;
-				int pokemonButtonHeight = panelCambiaPokemonHeight / 5;
+				int pokemonButtonWidth = width / 10;
+				int pokemonButtonHeight = height / 11;
 				int pokemonButtonX = 10;
 				int pokemonButtonY = 10;
 
@@ -1221,174 +1277,107 @@ public class CampoDiBattaglia extends JPanel {
 
 		panelCambiaPokemon.setVisible(true);
 
-		panelCambiaPokemon.removeAll(); /* Rimuove tutti i componenti precedenti */
-		panelCambiaPokemon.revalidate();
-		panelCambiaPokemon.repaint();
+		
 
-		Border bordoPokemonCambiati = new LineBorder(Color.BLACK, 3);
-
-		pokemonButtons = new ArrayList<>();
-
-		int x = 10;
-		int y = 10;
-
-		for (Pokemon i : listaPokemonUtente) {
-			pokemonButton = new JButton(i.getNome());
-			pokemonButton.setForeground(Color.WHITE);
-			pokemonButton.setBackground(Color.ORANGE);
-			pokemonButton.setBorder(bordoPokemonCambiati);
-			pokemonButton.setVisible(true);
-			pokemonButton.setFont(new Font("Arial", Font.BOLD, 14));
-			pokemonButton.setBounds(x, y, 150, 50);
-			pokemonButtons.add(pokemonButton);
-
-			/* Pulsante per chiudere il pannello di cambio Pokémon */
-
+		for(Pokemon i : listaPokemonUtente){			
 			if (pokemonUtente.esausto())
-				chiudiButton.setEnabled(false);
-
-			chiudiButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					panelCambiaPokemon.setVisible(false);
-					panelAreaMosse.setVisible(true);
-					mosse.setVisible(true);
-					borsa.setVisible(true);
-					buttonCambiaPokemon.setVisible(true);
-
-				}
-			});
-
-			panelCambiaPokemon.add(chiudiButton);
+			chiudiButton.setEnabled(false);
 
 			if (i.equals(pokemonUtente) || i.esausto()) {
 				pokemonButton.setEnabled(false);
 			} else {
 				pokemonButton.setEnabled(true);
 			}
+		}
 
-			pokemonButton.addActionListener(new ActionListener() {
+		/* Pulsante per chiudere il pannello di cambio Pokémon */
+		chiudiButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				panelCambiaPokemon.setVisible(false);
+				panelAreaMosse.setVisible(true);
+				mosse.setVisible(true);
+				borsa.setVisible(true);
+				buttonCambiaPokemon.setVisible(true);
+
+			}
+		});
+
+		panelCambiaPokemon.add(chiudiButton);
+		
+		/* Verifico se tutti i pokemon dell'utente sono esausti */
+		if (listaPokemonUtente.stream().allMatch(Pokemon::esausto)) {
+			mostraMessaggio("Tutti i tuoi Pokémon sono esausti.");
+			next.setEnabled(false);
+			chiudiButton.setEnabled(false);
+
+			for (Pokemon pokemon : listaPokemonCPU) {
+				pokemon.setHp(pokemon.getHpMax());
+				for (Mossa mossa : pokemon.getMosse()) {
+					mossa.setPP(mossa.getPPmax());
+				}
+			}
+
+			Timer timer = new Timer(4000, new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					panelCambiaPokemon.setVisible(false);
+					frame.dispose();
+					audioPlayer.stopMusic();
+					aggiornaLeaderboard();
 
-					next.setEnabled(false);
+					/* Frame LOSE */
 
-					borsa.setVisible(true);
-					mosse.setVisible(true);
-					panelAreaMosse.setVisible(true);
-					buttonCambiaPokemon.setVisible(true);
-					chiudiButton.setVisible(true);
+					frameLOSE = new JFrame();
+					frameLOSE.setSize(new Dimension(300, 200));
+					frameLOSE.setLocationRelativeTo(null);
+					frameLOSE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					frameLOSE.setVisible(true);
 
-					buttonCambiaPokemon.setEnabled(true);
-					borsa.setEnabled(true);
+					/* Panel LOSE */
 
-					pokemonUtente = i;
-					labelPokemonUtente.setText(i.getNome());
-					listaMosseUtente = i.getMosse();
-					livelloPokemonUtente.setText("Liv " + i.getLivello());
+					panelLOSE = new JPanel();
+					panelLOSE.setSize(300, 200);
+					panelLOSE.setLayout(null);
+					panelLOSE.setBackground(Color.BLACK);
+					frameLOSE.add(panelLOSE);
 
-					/* Crea i nuovi pulsanti delle mosse */
-					for (Mossa m : listaMosseUtente) {
-						JButton mossa = creaPulsanteMossa();
-						mossa.setText(m.getNomeMossa());
-						panelAreaMosse.add(mossa);
-					}
+					/* Label youLOSE */
 
-					mostraMessaggio("Coraggio " + i.getNome() + " SCELGO TE!");
-					aggiornaHealthBar(healthBarUtente, (int) i.getHp(), (int) i.getHpMax());
+					youLOSE = new JLabel("HAI PERSO");
+					youLOSE.setForeground(Color.RED);
+					youLOSE.setFont(new Font("Arial", Font.BOLD, 26));
+					youLOSE.setBounds(75, 40, 150, 80);
+					panelLOSE.add(youLOSE);
 
-					aggiornaStatoPulsanti();
+					/* Button menu */
 
-					panelAreaMosse.revalidate();
-					panelAreaMosse.repaint();
+					JButton menu = new JButton("menu");
+					menu.setForeground(Color.RED);
+					menu.setBackground(Color.WHITE);
+					menu.setFont(new Font("Arial", Font.BOLD, 11));
+					menu.setBounds(230, 130, 50, 20);
+
+					Border bordoMenu = new LineBorder(Color.RED, 2);
+					menu.setBorder(bordoMenu);
+
+					menu.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							frameLOSE.dispose();
+							frameLeaderboard.setVisible(true);
+						}
+					});
+
+					panelLOSE.add(menu);
+
+					frameLOSE.add(panelLOSE);
 				}
 			});
 
-			panelCambiaPokemon.add(pokemonButton);
-			/* Sposta i pulsanti in basso */
-			y += 60;
-
-			// Aggiorna il layout del pannello dopo aver aggiunto i pulsanti
-			panelCambiaPokemon.revalidate();
-			panelCambiaPokemon.repaint();
-
-			/* Verifico se tutti i pokemon dell'utente sono esausti */
-			if (listaPokemonUtente.stream().allMatch(Pokemon::esausto)) {
-				mostraMessaggio("Tutti i tuoi Pokémon sono esausti.");
-				next.setEnabled(false);
-				chiudiButton.setEnabled(false);
-
-				for (Pokemon pokemon : listaPokemonCPU) {
-					pokemon.setHp(pokemon.getHpMax());
-					for (Mossa mossa : pokemon.getMosse()) {
-						mossa.setPP(mossa.getPPmax());
-					}
-				}
-
-				Timer timer = new Timer(4000, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-
-						frame.dispose();
-						audioPlayer.stopMusic();
-						aggiornaLeaderboard();
-
-						/* Frame LOSE */
-
-						frameLOSE = new JFrame();
-						frameLOSE.setSize(new Dimension(300, 200));
-						frameLOSE.setLocationRelativeTo(null);
-						frameLOSE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-						frameLOSE.setVisible(true);
-
-						/* Panel LOSE */
-
-						panelLOSE = new JPanel();
-						panelLOSE.setSize(300, 200);
-						panelLOSE.setLayout(null);
-						panelLOSE.setBackground(Color.BLACK);
-						frameLOSE.add(panelLOSE);
-
-						/* Label youLOSE */
-
-						youLOSE = new JLabel("HAI PERSO");
-						youLOSE.setForeground(Color.RED);
-						youLOSE.setFont(new Font("Arial", Font.BOLD, 26));
-						youLOSE.setBounds(75, 40, 150, 80);
-						panelLOSE.add(youLOSE);
-
-						/* Button menu */
-
-						JButton menu = new JButton("menu");
-						menu.setForeground(Color.RED);
-						menu.setBackground(Color.WHITE);
-						menu.setFont(new Font("Arial", Font.BOLD, 11));
-						menu.setBounds(230, 130, 50, 20);
-
-						Border bordoMenu = new LineBorder(Color.RED, 2);
-						menu.setBorder(bordoMenu);
-
-						menu.addActionListener(new ActionListener() {
-							@Override
-							public void actionPerformed(ActionEvent e) {
-								frameLOSE.dispose();
-								frameLeaderboard.setVisible(true);
-							}
-						});
-
-						panelLOSE.add(menu);
-
-						frameLOSE.add(panelLOSE);
-					}
-				});
-
-				timer.setRepeats(false);
-				timer.start();
-
-			}
+			timer.setRepeats(false);
+			timer.start();
 
 		}
 
