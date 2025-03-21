@@ -22,9 +22,6 @@ public class MenuPrincipale extends JPanel {
     /** Bottone per uscire dal gioco */
     private JButton buttonEsc;
 
-    /** Finestra del menu di lotta */
-    private JFrame menuLotta;
-
     /** Pannello per la scelta della squadra */
     private MenuSceltaSquadra menuSceltaSquadra;
 
@@ -145,14 +142,12 @@ public class MenuPrincipale extends JPanel {
         buttonStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                menuLotta = new JFrame("Menù di Lotta");
-                menuSceltaSquadra = new MenuSceltaSquadra(menuLotta, audioPlayer);
-                menuLotta.add(menuSceltaSquadra);
-                menuLotta.setSize(new Dimension(1000, 600));
-                menuLotta.setLocationRelativeTo(null);
-                menuLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                menuLotta.setVisible(true);
-           
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(MenuPrincipale.this);
+                frame.getContentPane().remove(MenuPrincipale.this); // Rimuove il pannello corrente
+                menuSceltaSquadra = new MenuSceltaSquadra(frame, audioPlayer);
+                frame.add(menuSceltaSquadra); // Aggiunge il nuovo pannello
+                frame.revalidate(); // Aggiorna il layout
+                frame.repaint(); // Ridisegna il frame
             }
         });
 

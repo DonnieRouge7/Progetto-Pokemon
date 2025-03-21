@@ -23,9 +23,6 @@ import Lotta_Pokemon.*;
 */
 public class MenuSceltaSquadra extends JPanel {
     
-    /** Il frame della finestra del menu di lotta */
-    private JFrame frameMenuLotta;
-    
     /** Il pannello che rappresenta il campo di battaglia */
     private CampoDiBattaglia campoDiBattaglia;
     
@@ -75,9 +72,9 @@ public class MenuSceltaSquadra extends JPanel {
         // Creazione della squadra della CPU
         List<Pokemon> pokemonCPU = new ArrayList<>();
         pokemonCPU.add(new Charmander());
-        pokemonCPU.add(new Squirtle());
+       /* pokemonCPU.add(new Squirtle());
         pokemonCPU.add(new Bulbasaur());
-        
+       */ 
         // Etichetta per la selezione della squadra
         labelLotta = new JLabel("Scegli i Pokémon con cui lottare:");
         labelLotta.setFont(new Font("Arial", Font.PLAIN, 30));
@@ -136,14 +133,23 @@ public class MenuSceltaSquadra extends JPanel {
                     }
                     
                     // Creazione della finestra di lotta
-                    frameMenuLotta = new JFrame("Lotta");
-                    campoDiBattaglia = new CampoDiBattaglia(frameMenuLotta, pokemonUtente, pokemonCPU);
-                    frameMenuLotta.add(campoDiBattaglia);
-                    frameMenuLotta.setSize(new Dimension(1000, 600));
-                    frameMenuLotta.setLocationRelativeTo(null);
-                    frameMenuLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frameMenuLotta.setVisible(true);
                     
+                    JFrame frameMenuLotta = new JFrame("Pokémon Fight!");
+                    frameMenuLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frameMenuLotta.setSize(1000, 600);
+                    frameMenuLotta.setLocationRelativeTo(null);
+                    campoDiBattaglia = new CampoDiBattaglia(frame, frameMenuLotta, pokemonUtente, pokemonCPU);
+                    frameMenuLotta.add(campoDiBattaglia);
+                    frameMenuLotta.setVisible(true);
+                    frame.setVisible(false);
+                    
+             /*        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(MenuSceltaSquadra.this);
+                    frame.getContentPane().remove(MenuSceltaSquadra.this); // Rimuove il pannello corrente
+                    campoDiBattaglia = new CampoDiBattaglia(frame, pokemonUtente, pokemonCPU);
+                    frame.add(campoDiBattaglia); // Aggiunge il nuovo pannello
+                    frame.revalidate(); // Aggiorna il layout
+                    frame.repaint(); // Ridisegna il frame
+            */    
                     // Ferma la musica attuale
                     audioPlayer.stopMusic();
                     
@@ -162,7 +168,10 @@ public class MenuSceltaSquadra extends JPanel {
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.dispose();
+                frame.remove(MenuSceltaSquadra.this);
+                frame.add(new MenuPrincipale());
+                frame.revalidate(); // Aggiorna il layout
+                frame.repaint(); // Ridisegna il frame
             }
         });
         

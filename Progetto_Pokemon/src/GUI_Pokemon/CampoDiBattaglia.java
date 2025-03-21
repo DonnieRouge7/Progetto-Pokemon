@@ -20,8 +20,8 @@ import java.util.ArrayList;
 
 public class CampoDiBattaglia extends JPanel {
 
-	/** Il frame principale della finestra di gioco */
-	private JFrame frame;
+	/** Il frameMenuLotta principale della finestra di gioco */
+	private JFrame frameMenuLotta;
 
 	/** Il gestore della musica di sottofondo */
 	private AudioPlayer audioPlayer;
@@ -173,14 +173,15 @@ public class CampoDiBattaglia extends JPanel {
 	/**
 	 * Costruttore della classe CampoDiBattaglia
 	 * 
-	 * @param frame          il frame principale dove avviene la lotta
+	 * @param frameMenuSceltaSquadra il frame principale dove avviene la scelta della squadra
+	 * @param frameMenuLotta il frame principale dove avviene la lotta
 	 * @param pokemonUtente; la lista dei pokemon dell'utente
 	 * @param pokemonCPU;    la lista dei pokemon della CPU
 	 */
 
-	CampoDiBattaglia(JFrame frame, List<Pokemon> listaPokemonUtente, List<Pokemon> listaPokemonCPU) {
+	CampoDiBattaglia(JFrame frameMenuSceltaSquadra, JFrame frameMenuLotta, List<Pokemon> listaPokemonUtente, List<Pokemon> listaPokemonCPU) {
 
-		this.frame = frame;
+		this.frameMenuLotta = frameMenuLotta;
 		this.listaPokemonUtente = listaPokemonUtente;
 		this.listaPokemonCPU = listaPokemonCPU;
 		this.serieVittorieList = LeaderboardManager.caricaLeaderboard();
@@ -808,7 +809,7 @@ public class CampoDiBattaglia extends JPanel {
 		pokemonButtons = new ArrayList<JButton>();
 
 		Border bordoPokemonCambiati = new LineBorder(Color.BLACK, 3);
-		
+
 		for (Pokemon i : listaPokemonUtente) {
 
 			pokemonButton = new JButton(i.getNome());
@@ -817,16 +818,16 @@ public class CampoDiBattaglia extends JPanel {
 			pokemonButton.setBorder(bordoPokemonCambiati);
 			pokemonButton.setVisible(true);
 			pokemonButton.setFont(new Font("Arial", Font.BOLD, 14));
-	
-				if (pokemonUtente.esausto())
+
+			if (pokemonUtente.esausto())
 				chiudiButton.setEnabled(false);
-	
-				if (i.equals(pokemonUtente) || i.esausto()) {
-					pokemonButton.setEnabled(false);
-				} else {
-					pokemonButton.setEnabled(true);
-				}
-			
+
+			if (i.equals(pokemonUtente) || i.esausto()) {
+				pokemonButton.setEnabled(false);
+			} else {
+				pokemonButton.setEnabled(true);
+			}
+
 			pokemonButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -865,9 +866,9 @@ public class CampoDiBattaglia extends JPanel {
 					panelAreaMosse.repaint();
 				}
 			});
-		
-		pokemonButtons.add(pokemonButton);
-		panelCambiaPokemon.add(pokemonButton);
+
+			pokemonButtons.add(pokemonButton);
+			panelCambiaPokemon.add(pokemonButton);
 		}
 
 		panelAreaMosse.add(buttonCambiaPokemon);
@@ -911,11 +912,12 @@ public class CampoDiBattaglia extends JPanel {
 		leaderboard.setFont(new Font("Arial", Font.BOLD, 14));
 		leaderboard.setBounds(5, 40, 150, 200);
 
-		/* Button chiudi frame leaderboard */
+		/* Button chiudi frameMenuLotta leaderboard */
 		buttonChiudiLeaderboard = new JButton("Chiudi");
 		buttonChiudiLeaderboard.setForeground(Color.WHITE);
 		buttonChiudiLeaderboard.setBackground(Color.BLACK);
 		buttonChiudiLeaderboard.setFont(new Font("Arial", Font.BOLD, 11));
+		buttonChiudiLeaderboard.setBounds(60, 200, 80, 30);
 
 		Border bordoButtonChiudiLeaderboard = new LineBorder(Color.WHITE, 2);
 		buttonChiudiLeaderboard.setBorder(bordoButtonChiudiLeaderboard);
@@ -923,8 +925,11 @@ public class CampoDiBattaglia extends JPanel {
 		buttonChiudiLeaderboard.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				frameLeaderboard.dispose();
 				audioPlayer.stopMusic();
+			 	frameMenuLotta.setVisible(false);
+				frameMenuSceltaSquadra.setVisible(true);
 			}
 		});
 
@@ -1038,7 +1043,8 @@ public class CampoDiBattaglia extends JPanel {
 				int buttonCambiaPokemonHeight = panelAreaMosseHeight / 5;
 				int buttonCambiaPokemonX = (panelAreaMosseWidth / 2) - buttonCambiaPokemonWidth + 13;
 				int buttonCambiaPokemonY = (panelAreaMosseHeight - buttonCambiaPokemonHeight) - 10;
-				buttonCambiaPokemon.setBounds(buttonCambiaPokemonX, buttonCambiaPokemonY, buttonCambiaPokemonWidth, buttonCambiaPokemonHeight);
+				buttonCambiaPokemon.setBounds(buttonCambiaPokemonX, buttonCambiaPokemonY, buttonCambiaPokemonWidth,
+						buttonCambiaPokemonHeight);
 				buttonCambiaPokemon.setFont(new Font("Arial", Font.BOLD, height / 30));
 
 				// Bottone chiudi
@@ -1205,7 +1211,7 @@ public class CampoDiBattaglia extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					frame.dispose();
+				 frameMenuLotta.setVisible(false);
 					audioPlayer.stopMusic();
 
 					/* Frame WIN */
@@ -1249,6 +1255,7 @@ public class CampoDiBattaglia extends JPanel {
 							frameWIN.dispose();
 							aggiornaLeaderboard();
 							frameLeaderboard.setVisible(true);
+
 						}
 					});
 
@@ -1277,11 +1284,9 @@ public class CampoDiBattaglia extends JPanel {
 
 		panelCambiaPokemon.setVisible(true);
 
-		
-
-		for(Pokemon i : listaPokemonUtente){			
+		for (Pokemon i : listaPokemonUtente) {
 			if (pokemonUtente.esausto())
-			chiudiButton.setEnabled(false);
+				chiudiButton.setEnabled(false);
 
 			if (i.equals(pokemonUtente) || i.esausto()) {
 				pokemonButton.setEnabled(false);
@@ -1305,7 +1310,7 @@ public class CampoDiBattaglia extends JPanel {
 		});
 
 		panelCambiaPokemon.add(chiudiButton);
-		
+
 		/* Verifico se tutti i pokemon dell'utente sono esausti */
 		if (listaPokemonUtente.stream().allMatch(Pokemon::esausto)) {
 			mostraMessaggio("Tutti i tuoi Pokémon sono esausti.");
@@ -1323,7 +1328,7 @@ public class CampoDiBattaglia extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					frame.dispose();
+				 frameMenuLotta.setVisible(false);
 					audioPlayer.stopMusic();
 					aggiornaLeaderboard();
 
