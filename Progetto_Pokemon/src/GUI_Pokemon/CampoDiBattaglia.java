@@ -347,10 +347,7 @@ public class CampoDiBattaglia extends JPanel {
 								pulsante.setEnabled(false);
 							}
 
-							/*
-							 * Disabilito i pulsanti non cliccabili durante l'esecuzione dell'attacco (next,
-							 * borsa, cambiaPokemon)
-							 */
+							/* Disabilito i pulsanti non cliccabili durante l'esecuzione dell'attacco (next, borsa, cambiaPokemon) */
 							next.setEnabled(false);
 							borsa.setEnabled(false);
 							buttonCambiaPokemon.setEnabled(false);
@@ -424,9 +421,7 @@ public class CampoDiBattaglia extends JPanel {
 									} else {
 										/* Aggiorna la healthBar della CPU */
 										aggiornaHealthBar(healthBarCPU, (int) pokemonCPU.getHp(),
-												(int) pokemonCPU.getHpMax());
-										/* Abilita il pulsante next */
-										timerTask(4000, () -> next.setEnabled(true));
+												(int) pokemonCPU.getHpMax());							
 									}
 								}
 
@@ -434,9 +429,7 @@ public class CampoDiBattaglia extends JPanel {
 								Timer timer = new Timer(4000, new ActionListener() {
 									@Override
 									public void actionPerformed(ActionEvent e) {
-										SwingUtilities.invokeLater(() -> {
-
-											next.setEnabled(false);
+										SwingUtilities.invokeLater(() -> {											
 
 											int indiceMossaCPU = attaccoCasuale(); /* Salva l'indice della mossa */
 											mossaCPU = listaMosseCPU.get(indiceMossaCPU); /* Recupera la mossa scelta */
@@ -495,8 +488,7 @@ public class CampoDiBattaglia extends JPanel {
 															pulsante.setVisible(false);
 														}
 
-														panelAreaMosse.setVisible(false);
-														next.setEnabled(false);
+														panelAreaMosse.setVisible(false);														
 
 														/* Timer per far vedere il messaggio di esaustione */
 														timerTask(3000, () -> {
@@ -559,8 +551,7 @@ public class CampoDiBattaglia extends JPanel {
 									/* Verifico se l'attacco della CPU è andato a segno */
 									if (mossaCPU.getColpito() == false) {
 										timerTask(2000,
-												() -> mostraMessaggio(pokemonUtente.getNome() + " evita l'attacco"));
-										System.out.println("evita");
+												() -> mostraMessaggio(pokemonUtente.getNome() + " evita l'attacco"));										
 									} else {
 										/* Controllo se la mossa usata ha un effetto di tipo stato */
 										if (!mossaCPU.getEffetto().equals("")) {
@@ -592,8 +583,7 @@ public class CampoDiBattaglia extends JPanel {
 												pulsante.setVisible(false);
 											}
 
-											panelAreaMosse.setVisible(false);
-											next.setEnabled(false);
+											panelAreaMosse.setVisible(false);											
 
 											/* Timer per far vedere il messaggio di esaustione */
 											timerTask(3000, () -> {
@@ -629,7 +619,7 @@ public class CampoDiBattaglia extends JPanel {
 								Timer timer = new Timer(4000, new ActionListener() {
 									@Override
 									public void actionPerformed(ActionEvent e) {
-										SwingUtilities.invokeLater(() -> {
+										SwingUtilities.invokeLater(() -> {											
 
 											/* il pokemon dell'utente attacca */
 											pokemonUtente.usaMossa(pokemonUtente, pokemonCPU,
@@ -652,8 +642,7 @@ public class CampoDiBattaglia extends JPanel {
 											/* Verifico se l'attacco è andato a segno */
 											if (listaMosseUtente.get(index).getColpito() == false) {
 												timerTask(2000, () -> {
-													mostraMessaggio(pokemonCPU.getNome() + " evita l'attacco");
-													System.out.println("evita");
+													mostraMessaggio(pokemonCPU.getNome() + " evita l'attacco");													
 													next.setEnabled(true);
 												});
 

@@ -136,7 +136,7 @@ public class MenuSceltaSquadra extends JPanel {
                     
                     JFrame frameMenuLotta = new JFrame("Pokémon Fight!");
                     frameMenuLotta.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frameMenuLotta.setSize(1000, 600);
+                    frameMenuLotta.setSize(frame.getSize());
                     frameMenuLotta.setLocationRelativeTo(null);
                     campoDiBattaglia = new CampoDiBattaglia(frame, frameMenuLotta, pokemonUtente, pokemonCPU);
                     frameMenuLotta.add(campoDiBattaglia);
