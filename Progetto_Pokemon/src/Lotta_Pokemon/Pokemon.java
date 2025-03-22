@@ -75,7 +75,6 @@ public class Pokemon {
 	 * @param attaccoSpeciale Attacco speciale del Pokemon.
 	 * @param difesaSpeciale  Difesa speciale del Pokemon.
 	 * @param velocita        Velocità del Pokemon.
-	 * @param elusione        Percentuale di elusione del Pokemon.
 	 */
 
 	public Pokemon(String codice, int tipo1, int tipo2, String nome, int xp, int livello, double hp, double hpMax,
@@ -408,7 +407,8 @@ public class Pokemon {
 			setDifesa(difesa + 3);
 			setDifesaSpeciale(difesaSpeciale + 3);
 			setVelocita(velocita + 3);
-			setElusione(elusione + 3);
+			setElusione(elusione + 0.33);
+			setPrecisione(precisione + 0.33);
 			setHpMax(hpMax + 3);
 			return true;
 		}

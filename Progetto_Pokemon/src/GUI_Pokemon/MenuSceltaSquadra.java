@@ -142,14 +142,7 @@ public class MenuSceltaSquadra extends JPanel {
                     frameMenuLotta.add(campoDiBattaglia);
                     frameMenuLotta.setVisible(true);
                     frame.setVisible(false);
-                    
-             /*        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(MenuSceltaSquadra.this);
-                    frame.getContentPane().remove(MenuSceltaSquadra.this); // Rimuove il pannello corrente
-                    campoDiBattaglia = new CampoDiBattaglia(frame, pokemonUtente, pokemonCPU);
-                    frame.add(campoDiBattaglia); // Aggiunge il nuovo pannello
-                    frame.revalidate(); // Aggiorna il layout
-                    frame.repaint(); // Ridisegna il frame
-            */    
+                       
                     // Ferma la musica attuale
                     audioPlayer.stopMusic();
                     

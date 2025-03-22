@@ -158,8 +158,11 @@ public class CampoDiBattaglia extends JPanel {
 	/** Etichetta per la leaderboard */
 	private JLabel labelLaderboard;
 
-	/** Pulsante per chiudere la finestra della leaderboard */
-	private JButton buttonChiudiLeaderboard;
+	/** Pulsante per continuare le lotte dopo aver vinto */
+	private JButton buttonContinua;
+
+	/** Pulsante per tornare al menu dopo aver perso una lotta */
+	private JButton buttonMenu;
 
 	/** Lista delle serie di vittorie dell'utente */
 	private List<Integer> serieVittorieList;
@@ -357,7 +360,7 @@ public class CampoDiBattaglia extends JPanel {
 
 								/* Primo attacco: attaccante */
 								pokemonUtente.usaMossa(pokemonUtente, pokemonCPU, listaMosseUtente.get(index));
-								System.out.println(pokemonUtente.getElusione());
+								System.out.println(pokemonCPU.getElusione());
 
 								/* Verifico se la mossa non ha esaurito i PP */
 								if (listaMosseUtente.get(index).noPP()) {
@@ -624,6 +627,7 @@ public class CampoDiBattaglia extends JPanel {
 											/* il pokemon dell'utente attacca */
 											pokemonUtente.usaMossa(pokemonUtente, pokemonCPU,
 													listaMosseUtente.get(index));
+													System.out.println(pokemonCPU.getElusione());
 
 											/* Verifico se la mossa non ha esaurito i PP */
 											if (listaMosseUtente.get(index).noPP()) {
@@ -901,28 +905,49 @@ public class CampoDiBattaglia extends JPanel {
 		leaderboard.setFont(new Font("Arial", Font.BOLD, 14));
 		leaderboard.setBounds(5, 40, 150, 200);
 
-		/* Button chiudi frameMenuLotta leaderboard */
-		buttonChiudiLeaderboard = new JButton("Chiudi");
-		buttonChiudiLeaderboard.setForeground(Color.WHITE);
-		buttonChiudiLeaderboard.setBackground(Color.BLACK);
-		buttonChiudiLeaderboard.setFont(new Font("Arial", Font.BOLD, 11));
-		buttonChiudiLeaderboard.setBounds(60, 200, 80, 30);
+		/* Button continua le lotte */
+		buttonContinua = new JButton("Continua");
+		buttonContinua.setForeground(Color.WHITE);
+		buttonContinua.setBackground(Color.BLACK);
+		buttonContinua.setFont(new Font("Arial", Font.BOLD, 11));
+		buttonContinua.setBounds(10, 200, 80, 30);
 
-		Border bordoButtonChiudiLeaderboard = new LineBorder(Color.WHITE, 2);
-		buttonChiudiLeaderboard.setBorder(bordoButtonChiudiLeaderboard);
+		Border bordoButtonContinua = new LineBorder(Color.WHITE, 2);
+		buttonContinua.setBorder(bordoButtonContinua);
 
-		buttonChiudiLeaderboard.addActionListener(new ActionListener() {
+		buttonContinua.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 				frameLeaderboard.dispose();
 				audioPlayer.stopMusic();
-			 	frameMenuLotta.setVisible(false);
+			 	CampoDiBattaglia campoDiBattaglia = new CampoDiBattaglia(frameMenuSceltaSquadra, frameMenuLotta, listaPokemonUtente, listaPokemonCPU);
+				frameMenuLotta.remove(CampoDiBattaglia.this);
+				frameMenuLotta.add(campoDiBattaglia);
+				frameMenuLotta.setVisible(true);
+			}
+		});
+
+		/* Button torna al menu */
+		buttonMenu = new JButton("Menu");
+		buttonMenu.setForeground(buttonContinua.getForeground());
+		buttonMenu.setBackground(buttonContinua.getBackground());
+		buttonMenu.setFont(buttonContinua.getFont());
+		buttonMenu.setBounds(95, 200, 80, 30);
+		buttonMenu.setBorder(buttonContinua.getBorder());
+
+		buttonMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e){
+				frameLeaderboard.dispose();
+				audioPlayer.stopMusic();
+				frameMenuLotta.dispose();
 				frameMenuSceltaSquadra.setVisible(true);
 			}
 		});
 
-		panelLeaderboard.add(buttonChiudiLeaderboard);
+		panelLeaderboard.add(buttonMenu);
+		panelLeaderboard.add(buttonContinua);
 		panelLeaderboard.add(leaderboard);
 		frameLeaderboard.add(panelLeaderboard);
 
@@ -1167,16 +1192,20 @@ public class CampoDiBattaglia extends JPanel {
 			Pikachu pikachu = new Pikachu();
 
 			boolean pidgeyPresente = false;
-			boolean pikachuPresente = false;
 
 			/* Controlliamo quali Pokémon sono già presenti nella lista */
 			for (Pokemon p : listaPokemonCPU) {
 				if (p.getNome().equals(pidgey.getNome())) {
 					pidgeyPresente = true;
 				}
-				if (p.getNome().equals(pikachu.getNome())) {
-					pikachuPresente = true;
-				}
+			}
+
+			/*
+			 * Pikachu viene aggiunto solo **nella lotta successiva**, se Pidgey è già
+			 * presente
+			 */
+			if (pidgeyPresente) {
+				listaPokemonCPU.add(pikachu);
 			}
 
 			/* Prima aggiungiamo Pidgey se non è presente */
@@ -1184,16 +1213,12 @@ public class CampoDiBattaglia extends JPanel {
 				listaPokemonCPU.add(pidgey);
 			}
 
-			/*
-			 * Pikachu viene aggiunto solo **nella lotta successiva**, se Pidgey è già
-			 * presente
-			 */
-			else if (!pikachuPresente) {
-				listaPokemonCPU.add(pikachu);
-			}
-
 			/* Aumenta il livello della squadra CPU */
 			aumentaLivelloCPU();
+
+			for(Pokemon p:listaPokemonUtente){
+				p.setHp(p.getHpMax());
+			}
 
 			/* Timer per chiudere la finestra di sconfitta */
 			Timer timer = new Timer(4000, new ActionListener() {
@@ -1241,6 +1266,7 @@ public class CampoDiBattaglia extends JPanel {
 					menu.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							buttonMenu.setEnabled(false);
 							frameWIN.dispose();
 							aggiornaLeaderboard();
 							frameLeaderboard.setVisible(true);
@@ -1359,6 +1385,7 @@ public class CampoDiBattaglia extends JPanel {
 					menu.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
+							buttonContinua.setEnabled(false);
 							frameLOSE.dispose();
 							frameLeaderboard.setVisible(true);
 						}
@@ -1485,7 +1512,8 @@ public class CampoDiBattaglia extends JPanel {
 			p.setAttaccoSpeciale(p.getAttaccoSpeciale() + 3);
 			p.setDifesaSpeciale(p.getDifesaSpeciale() + 3);
 			p.setVelocita(p.getVelocita() + 3);
-			p.setElusione(p.getElusione() + 3);
+			p.setElusione(p.getElusione() + 0.33);
+			p.setPrecisione(p.getPrecisione() + 0.33);
 			p.setHpMax(p.getHpMax() + 3);
 			p.setHp(p.getHpMax());
 		}
