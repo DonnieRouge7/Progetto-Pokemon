@@ -634,9 +634,7 @@ public class CampoDiBattaglia extends JPanel {
 										SwingUtilities.invokeLater(() -> {											
 
 											/* il pokemon dell'utente attacca */
-											pokemonUtente.usaMossa(pokemonUtente, pokemonCPU,
-													listaMosseUtente.get(index));
-													System.out.println(pokemonCPU.getElusione());
+											pokemonUtente.usaMossa(pokemonUtente, pokemonCPU, listaMosseUtente.get(index));													
 
 											/* Verifico se la mossa non ha esaurito i PP */
 											if (listaMosseUtente.get(index).noPP()) {
@@ -1144,7 +1142,7 @@ public class CampoDiBattaglia extends JPanel {
 
 	/**
 	 * Metodo per mostrare a piacimento un qualsiasi messaggio nell'area predisposta
-	 * 
+	 *
 	 * @param messaggio desiderato
 	 */
 	public void mostraMessaggio(String messaggio) {
@@ -1195,7 +1193,7 @@ public class CampoDiBattaglia extends JPanel {
 														 */
 
 			/* Se arriva qui significa che tutti i Pokémon sono esausti */
-			mostraMessaggio("L'avversario non ha più Pokémon disponibili!");
+			mostraMessaggio("L'avversario ha esaurito i Pokemon!");
 			panelAreaMosse.setVisible(false);
 			serieVittorie ++;
 		

@@ -141,11 +141,10 @@ public class LeaderboardManager {
 
     /**
      * Per ordinare la leaderboard in ordine decrescente e salvare i primi 10 record
+     * @param serieVittorieList rappresenta la lista delle vittorie da ordinare in ordine descrescente
      */
     public static void ordinaLeaderboard(List<Integer> serieVittorieList) {
-        // System.out.println("Lista prima dell'ordinamento: " + serieVittorieList);
         serieVittorieList.sort((a, b) -> Integer.compare(b, a)); // Ordina in ordine decrescente
-        System.out.println("Lista dopo l'ordinamento: " + serieVittorieList);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
             for (int i = 0; i < Math.min(serieVittorieList.size(), 10); i++) {
                 writer.write(String.valueOf(serieVittorieList.get(i)));
