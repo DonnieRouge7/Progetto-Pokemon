@@ -48,10 +48,5 @@ public class JPokeBattle extends JFrame {
 
 	public static void main(String[] args) {
 		new JPokeBattle();
-
-		// Registra l'hook di shutdown
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			LeaderboardManager.shutdown();
-		}));
 	}
 }

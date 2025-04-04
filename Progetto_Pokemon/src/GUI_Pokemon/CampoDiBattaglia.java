@@ -199,8 +199,17 @@ public class CampoDiBattaglia extends JPanel {
 		audioPlayer.playMusic(audioURL.getPath());
 
 		if (!listaPokemonUtente.isEmpty() && !listaPokemonCPU.isEmpty()) { /* Controllo se le liste non sono vuote */
+			if(listaPokemonUtente.get(0).esausto()){
+				for (Pokemon pokemon : listaPokemonUtente) {
+					if(!pokemon.esausto()){
+						this.pokemonUtente = pokemon; /* Seleziono il primo Pokémon dell'utente che non è KO */
+						break;
+					}
+				}
+			}
 			this.pokemonUtente = listaPokemonUtente.get(0); /* Seleziono il primo Pokémon dell'utente */
 			this.pokemonCPU = listaPokemonCPU.get(pokemonCasuale());
+			
 			/*
 			 * Primo Pokémon della CPU selezionato
 			 * casualemente tra quelli disponibili nella sua
@@ -812,9 +821,6 @@ public class CampoDiBattaglia extends JPanel {
 			pokemonButton.setVisible(true);
 			pokemonButton.setFont(new Font("Arial", Font.BOLD, 14));
 
-			if (pokemonUtente.esausto())
-				chiudiButton.setEnabled(false);
-
 			if (i.equals(pokemonUtente) || i.esausto()) {
 				pokemonButton.setEnabled(false);
 			} else {
@@ -871,6 +877,7 @@ public class CampoDiBattaglia extends JPanel {
 		chiudiButton.setBackground(Color.RED);
 		chiudiButton.setBorder(new LineBorder(Color.BLACK, 3));
 		chiudiButton.setVisible(true);
+		chiudiButton.setEnabled(true);
 
 		panelCambiaPokemon.add(chiudiButton);
 
@@ -918,13 +925,23 @@ public class CampoDiBattaglia extends JPanel {
 		buttonContinua.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				frameLeaderboard.dispose();
 				audioPlayer.stopMusic();
-			 	CampoDiBattaglia campoDiBattaglia = new CampoDiBattaglia(frameMenuSceltaSquadra, frameMenuLotta, listaPokemonUtente, listaPokemonCPU);
-				frameMenuLotta.remove(CampoDiBattaglia.this);
-				frameMenuLotta.add(campoDiBattaglia);
+				
+				// Aggiorna l'interfaccia
+				aggiornaHealthBar(healthBarUtente, (int)pokemonUtente.getHp(), (int)pokemonUtente.getHpMax());
+				aggiornaHealthBar(healthBarCPU, (int)pokemonCPU.getHp(), (int)pokemonCPU.getHpMax());
+				labelPokemonUtente.setText(pokemonUtente.getNome());
+				labelPokemonCPU.setText(pokemonCPU.getNome());
+				livelloPokemonUtente.setText("Liv " + pokemonUtente.getLivello());
+				livelloPokemonCPU.setText("Liv " + pokemonCPU.getLivello());
+				mostraMessaggio("INIZIA LA LOTTA!");
+				
+				// Rendi visibile il campo di battaglia
 				frameMenuLotta.setVisible(true);
+				panelAreaMosse.setVisible(true);
+				java.net.URL audioURL = getClass().getClassLoader().getResource("assets/pokemonBattleMusic.wav");
+				audioPlayer.playMusic(audioURL.getPath());
 			}
 		});
 
@@ -941,8 +958,8 @@ public class CampoDiBattaglia extends JPanel {
 			public void actionPerformed(ActionEvent e){
 				frameLeaderboard.dispose();
 				audioPlayer.stopMusic();
-				frameMenuLotta.dispose();
 				frameMenuSceltaSquadra.setVisible(true);
+				frameMenuLotta.dispose();
 			}
 		});
 
@@ -1152,7 +1169,6 @@ public class CampoDiBattaglia extends JPanel {
 	 * Metodo per cambiare automaticamente i pokemon della CPU
 	 */
 	public void cambiaPokemonCPU() {
-		serieVittorie++; /* Aumenta il contatore delle vittorie */
 		if (!listaPokemonCPU.isEmpty()) {
 			int startIndex = indicePokemonCPU; /* Salva l'indice di partenza */
 
@@ -1181,8 +1197,10 @@ public class CampoDiBattaglia extends JPanel {
 			/* Se arriva qui significa che tutti i Pokémon sono esausti */
 			mostraMessaggio("L'avversario non ha più Pokémon disponibili!");
 			panelAreaMosse.setVisible(false);
-			serieVittorieList.add(serieVittorie); /* Aggiunge la serie di vittorie alla lista */
-			LeaderboardManager.salvaLeaderboard(serieVittorie); /* Salva la leaderboard */
+			serieVittorie ++;
+		
+			serieVittorieList = LeaderboardManager.caricaLeaderboard(); /* Legge la leaderboard */
+			aggiornaLeaderboard(serieVittorieList);
 
 			/*
 			 * Aggiunta Pokemon alla squadra della CPU quando viene sconfitta (se non già
@@ -1215,10 +1233,6 @@ public class CampoDiBattaglia extends JPanel {
 
 			/* Aumenta il livello della squadra CPU */
 			aumentaLivelloCPU();
-
-			for(Pokemon p:listaPokemonUtente){
-				p.setHp(p.getHpMax());
-			}
 
 			/* Timer per chiudere la finestra di sconfitta */
 			Timer timer = new Timer(4000, new ActionListener() {
@@ -1268,7 +1282,6 @@ public class CampoDiBattaglia extends JPanel {
 						public void actionPerformed(ActionEvent e) {
 							buttonMenu.setEnabled(false);
 							frameWIN.dispose();
-							aggiornaLeaderboard();
 							frameLeaderboard.setVisible(true);
 
 						}
@@ -1299,10 +1312,13 @@ public class CampoDiBattaglia extends JPanel {
 
 		panelCambiaPokemon.setVisible(true);
 
+		if (pokemonUtente.esausto()) {
+			chiudiButton.setEnabled(false);
+		}else{
+			chiudiButton.setEnabled(true);
+		}
+				 
 		for (Pokemon i : listaPokemonUtente) {
-			if (pokemonUtente.esausto())
-				chiudiButton.setEnabled(false);
-
 			if (i.equals(pokemonUtente) || i.esausto()) {
 				pokemonButton.setEnabled(false);
 			} else {
@@ -1328,9 +1344,14 @@ public class CampoDiBattaglia extends JPanel {
 
 		/* Verifico se tutti i pokemon dell'utente sono esausti */
 		if (listaPokemonUtente.stream().allMatch(Pokemon::esausto)) {
+			resetCPU();
 			mostraMessaggio("Tutti i tuoi Pokémon sono esausti.");
 			next.setEnabled(false);
 			chiudiButton.setEnabled(false);
+			
+			LeaderboardManager.salvaLeaderboard(serieVittorie); /* Salva la leaderboard */
+			serieVittorieList = LeaderboardManager.caricaLeaderboard(); /* Legge la leaderboard */
+			aggiornaLeaderboard(serieVittorieList);
 
 			for (Pokemon pokemon : listaPokemonCPU) {
 				pokemon.setHp(pokemon.getHpMax());
@@ -1345,7 +1366,6 @@ public class CampoDiBattaglia extends JPanel {
 
 				 frameMenuLotta.setVisible(false);
 					audioPlayer.stopMusic();
-					aggiornaLeaderboard();
 
 					/* Frame LOSE */
 
@@ -1386,6 +1406,7 @@ public class CampoDiBattaglia extends JPanel {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							buttonContinua.setEnabled(false);
+							buttonMenu.setEnabled(true);
 							frameLOSE.dispose();
 							frameLeaderboard.setVisible(true);
 						}
@@ -1405,21 +1426,6 @@ public class CampoDiBattaglia extends JPanel {
 		/* Rinfresca il pannello dopo le modifiche */
 		panelCambiaPokemon.revalidate();
 		panelCambiaPokemon.repaint();
-	}
-
-	/**
-	 * Metodo per aggiorna la leaderboard con gli ultimi score
-	 */
-	private void aggiornaLeaderboard() {
-		StringBuilder sb = new StringBuilder();
-		int posizione = 1;
-		for (int vittorie : serieVittorieList) {
-			if (posizione > 10)
-				break; /* Mostra solo le prime 10 posizioni */
-			sb.append(posizione).append(") ").append("Serie di vittorie: ").append(vittorie).append("\n");
-			posizione++;
-		}
-		leaderboard.setText(sb.toString());
 	}
 
 	/**
@@ -1576,4 +1582,27 @@ public class CampoDiBattaglia extends JPanel {
 		}
 	}
 
+	/**
+	 * Metodo per aggiorna la leaderboard con gli ultimi score
+	 */
+	private void aggiornaLeaderboard(List<Integer> serieVittorieList) {
+		StringBuilder sb = new StringBuilder();
+		int posizione = 1;
+		for (int vittorie : serieVittorieList) {
+			if (posizione > 10)
+				break; /* Mostra solo le prime 10 posizioni */
+			sb.append(posizione).append(") ").append("Serie di vittorie: ").append(vittorie).append("\n");
+			posizione++;
+		}
+		leaderboard.setText(sb.toString());
+	}
+
+	public void resetCPU(){
+		// Reset della CPU
+		listaPokemonCPU.clear();
+        listaPokemonCPU.add(new Charmander());
+       /* pokemonCPU.add(new Squirtle());
+        pokemonCPU.add(new Bulbasaur());
+       */ 
+	}
 }
