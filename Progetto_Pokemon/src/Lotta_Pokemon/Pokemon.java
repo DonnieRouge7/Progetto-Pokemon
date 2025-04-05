@@ -410,6 +410,7 @@ public class Pokemon {
 			setElusione(elusione + 0.33);
 			setPrecisione(precisione + 0.33);
 			setHpMax(hpMax + 3);
+			setHp(hp + 3);
 			return true;
 		}
 		return false;

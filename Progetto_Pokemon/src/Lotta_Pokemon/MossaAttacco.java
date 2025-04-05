@@ -85,7 +85,6 @@ public class MossaAttacco extends Mossa {
 
         danno = Math.max(danno, 0); // Assicura che il danno non sia negativo
         dif.setHp(dif.getHp() - danno);
-        System.out.println("danno: " + danno);
     }
 
     /**

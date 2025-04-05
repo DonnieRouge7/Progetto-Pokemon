@@ -367,9 +367,8 @@ public class CampoDiBattaglia extends JPanel {
 							/* Controllo la velocità dei pokemon per stabilire chi attacca per primo */
 							if (pokemonUtente.getVelocita() >= pokemonCPU.getVelocita()) {
 
-								/* Primo attacco: attaccante */
-								pokemonUtente.usaMossa(pokemonUtente, pokemonCPU, listaMosseUtente.get(index));
-								System.out.println(pokemonCPU.getElusione());
+								/* Primo attacco: pokemon Utente */
+								pokemonUtente.usaMossa(pokemonUtente, pokemonCPU, listaMosseUtente.get(index));							
 
 								/* Verifico se la mossa non ha esaurito i PP */
 								if (listaMosseUtente.get(index).noPP()) {
@@ -388,7 +387,7 @@ public class CampoDiBattaglia extends JPanel {
 								/* Verifico se l'attacco è andato a segno */
 								if (listaMosseUtente.get(index).getColpito() == false) {
 									timerTask(2000,
-											() -> mostraMessaggio(pokemonUtente.getNome() + " evita l'attacco"));
+											() -> mostraMessaggio(pokemonCPU.getNome() + " evita l'attacco"));
 								} else {
 									/* Controllo se la mossa usata ha un effetto di tipo stato */
 									if (!listaMosseUtente.get(index).getEffetto().equals("")) {
@@ -1599,8 +1598,7 @@ public class CampoDiBattaglia extends JPanel {
 		// Reset della CPU
 		listaPokemonCPU.clear();
         listaPokemonCPU.add(new Charmander());
-       /* pokemonCPU.add(new Squirtle());
-        pokemonCPU.add(new Bulbasaur());
-       */ 
+		listaPokemonCPU.add(new Squirtle());
+        listaPokemonCPU.add(new Bulbasaur());
 	}
 }
